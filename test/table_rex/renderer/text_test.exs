@@ -1,6 +1,5 @@
 defmodule TableRex.Renderer.TextTest do
   use ExUnit.Case, async: true
-  alias TableRex.Table
 
   setup do
     {:ok, table_rex} = TableRex.start_link
@@ -479,10 +478,10 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & horizontal style: all, header_separator_symbol: =", %{table_rex: table_rex} do
+  test "render with no title or header & horizontal style: all, top_frame_symbol: =", %{table_rex: table_rex} do
     TableRex.set_title(table_rex, nil)
     TableRex.set_header(table_rex, [])
-    rendered = TableRex.render(table_rex, horizontal_style: :all, header_separator_symbol: "=")
+    rendered = TableRex.render(table_rex, horizontal_style: :all, top_frame_symbol: "=")
     assert rendered == """
     +================+======================+======+
     |    Konflict    |       Cyanide        | 1999 |
@@ -497,6 +496,22 @@ defmodule TableRex.Renderer.TextTest do
   test "render with title but no header & horizontal style: all, header_separator_symbol: =", %{table_rex: table_rex} do
     TableRex.set_header(table_rex, [])
     rendered = TableRex.render(table_rex, horizontal_style: :all, header_separator_symbol: "=")
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    |    Konflict    |       Cyanide        | 1999 |
+    +----------------+----------------------+------+
+    | Keaton & Hive  |      The Plague      | 2003 |
+    +----------------+----------------------+------+
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "render with title but no header & horizontal style: all, title_separator_symbol: =", %{table_rex: table_rex} do
+    TableRex.set_header(table_rex, [])
+    rendered = TableRex.render(table_rex, horizontal_style: :all, title_separator_symbol: "=")
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
