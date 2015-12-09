@@ -191,10 +191,7 @@ defmodule TableRex.Renderer.Text do
   defp render_cell(%Table{} = table, %Meta{} = meta, {%Cell{} = cell, col_index}) do
     col_width = Meta.col_width(meta, col_index)
     col_padding = Table.get_column_meta(table, col_index, :padding)
-    cell_align = Map.get(cell, :align)
-    if cell_align == nil do
-      cell_align = Table.get_column_meta(table, col_index, :align)
-    end
+    cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
     do_render_cell(cell.value, col_width, col_padding, align: cell_align)
   end
 
