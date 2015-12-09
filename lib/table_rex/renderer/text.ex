@@ -8,39 +8,46 @@ defmodule TableRex.Renderer.Text do
 
   @behaviour TableRex.Renderer
 
-  @horizontal_styles [:all, :frame, :header, :off]
+  # Available styling options.
+  @horizontal_styles [:all, :header, :frame, :off]
   @vertical_styles [:all, :frame, :off]
 
+  # Which horizontal/vertical styles render a specific separator.
   @render_horizontal_frame_styles [:all, :frame, :header]
   @render_vertical_frame_styles [:all, :frame]
   @render_column_separators_styles [:all]
   @render_row_separators_styles [:all]
-  @render_vertical_styling [:all, :frame]
 
+  @doc """
+  Provides a level of sane defaults for the Text rendering module.
+  """
   def default_options do
     %{
-      horizontal_style:    :header,
-      vertical_style:      :all,
-      top_frame_symbol:    "-",
-      intersection_symbol: "+",
-      horizontal_symbol:   "-",
-      vertical_symbol:     "|",
-      title_line_symbol:   "-",
-      header_line_symbol:  "-",
-      bottom_frame_symbol: "-"
+      horizontal_style:        :header,
+      vertical_style:          :all,
+      horizontal_symbol:       "-",
+      vertical_symbol:         "|",
+      intersection_symbol:     "+",
+      top_frame_symbol:        "-",
+      title_separator_symbol:  "-",
+      header_separator_symbol: "-",
+      bottom_frame_symbol:     "-",
     }
   end
 
+  @doc """
+  Implementation of the TableRex.Renderer behaviour.
+  """
   def render(table = %Table{}, opts) do
     {col_widths, row_heights} = max_dimensions(table)
 
+    # Calculations that would otherwise be carried out multiple times are done once
+    # and their results are stored in %Meta{} which is passed around.
     render_horizontal_frame? = opts[:horizontal_style] in @render_horizontal_frame_styles
     render_vertical_frame? = opts[:vertical_style] in @render_vertical_frame_styles
     render_column_separators? = opts[:vertical_style] in @render_column_separators_styles
     render_row_separators? = opts[:horizontal_style] in @render_row_separators_styles
-    vertical_styling? = opts[:vertical_style] in @render_vertical_styling
-
-    table_width = table_width(col_widths, vertical_styling?: vertical_styling?)
+    table_width = table_width(col_widths, vertical_frame?: render_vertical_frame?)
     intersections = intersections(table_width, col_widths, vertical_style: opts[:vertical_style])
 
     meta = %Meta{
@@ -52,15 +59,14 @@ defmodule TableRex.Renderer.Text do
       render_vertical_frame?: render_vertical_frame?,
       render_column_separators?: render_column_separators?,
       render_row_separators?: render_row_separators?,
-      vertical_styling?: vertical_styling?
     }
 
     {table, meta, opts, []}
     |> render_top_frame
     |> render_title
-    |> render_intersected_line(opts[:title_line_symbol], opts[:intersection_symbol])
+    |> render_title_separator
     |> render_header
-    |> render_intersected_line(opts[:header_line_symbol], opts[:intersection_symbol])
+    |> render_header_separator
     |> render_rows
     |> render_bottom_frame
     |> render_to_string
@@ -70,11 +76,15 @@ defmodule TableRex.Renderer.Text do
     {table, meta, opts, rendered}
   end
 
+  defp render_top_frame({%Table{title: title} = table, meta, opts, rendered}) when is_binary(title) do
+    intersections = if meta.render_vertical_frame?, do: [0, meta.table_width - 1], else: []
+    line = render_line(meta.table_width, intersections, opts[:top_frame_symbol], opts[:intersection_symbol])
+    {table, meta, opts, [line | rendered]}
+  end
+
   defp render_top_frame({table, meta, opts, rendered}) do
-    intersections = if meta.vertical_styling?, do: [0, meta.table_width - 1], else: []
-    line = render_horizontal_separator(meta.table_width, intersections, opts[:top_frame_symbol], opts[:intersection_symbol])
-    rendered = [line | rendered]
-    {table, meta, opts, rendered}
+    line = render_line(meta.table_width, meta.intersections, opts[:top_frame_symbol], opts[:intersection_symbol])
+    {table, meta, opts, [line | rendered]}
   end
 
   defp render_title({%Table{title: nil} = table, meta, opts, rendered}) do
@@ -87,30 +97,25 @@ defmodule TableRex.Renderer.Text do
     if meta.render_vertical_frame? do
       line = line |> frame_with(opts[:vertical_symbol])
     end
-    rendered = [line | rendered]
+    {table, meta, opts, [line | rendered]}
+  end
+
+  defp render_title_separator({%Table{title: nil} = table, meta, opts, rendered}) do
     {table, meta, opts, rendered}
   end
 
-  defp render_intersected_line({%Table{title: nil} = table, meta, opts, rendered}, _symbol, _intersection_symbol) do
-    rendered = ["" | rendered]
-    {table, meta, opts, rendered}
+  defp render_title_separator({table, meta, %{horizontal_style: horizontal_style} = opts, rendered}) when horizontal_style in [:all, :header] do
+    line = render_line(meta.table_width, meta.intersections, opts[:title_separator_symbol], opts[:intersection_symbol])
+    {table, meta, opts, [line | rendered]}
   end
 
-  defp render_intersected_line({table, meta, %{horizontal_style: horizontal_style} = opts, rendered}, _symbol, _intersection_symbol) when horizontal_style in [:off, :frame] do
-    inner_width = Meta.inner_width(meta)
-    line = String.duplicate(" ", inner_width)
-    if meta.render_vertical_frame? do
-      line = line |> frame_with(opts[:vertical_symbol])
-    end
-    rendered = [line | rendered]
-    {table, meta, opts, rendered}
+  defp render_title_separator({table, %Meta{render_vertical_frame?: true} = meta, opts, rendered}) do
+    line = render_line(meta.table_width, [0, meta.table_width - 1], " ", opts[:vertical_symbol])
+    {table, meta, opts, [line | rendered]}
   end
 
-  defp render_intersected_line({table, meta, opts, rendered}, symbol, intersection_symbol) do
-    intersections = if meta.vertical_styling?, do: meta.intersections, else: []
-    line = render_horizontal_separator(meta.table_width, intersections, symbol, intersection_symbol)
-    rendered = [line | rendered]
-    {table, meta, opts, rendered}
+  defp render_title_separator({table, %Meta{render_vertical_frame?: false} = meta, opts, rendered}) do
+    {table, meta, opts, ["" | rendered]}
   end
 
   defp render_header({%Table{header_row: []} = table, meta, opts, rendered}) do
@@ -124,8 +129,25 @@ defmodule TableRex.Renderer.Text do
     if meta.render_vertical_frame? do
       line = line |> frame_with(opts[:vertical_symbol])
     end
-    rendered = [line | rendered]
+    {table, meta, opts, [line | rendered]}
+  end
+
+  defp render_header_separator({%Table{header_row: []} = table, meta, opts, rendered}) do
     {table, meta, opts, rendered}
+  end
+
+  defp render_header_separator({table, meta, %{horizontal_style: horizontal_style} = opts, rendered}) when horizontal_style in [:all, :header] do
+    line = render_line(meta.table_width, meta.intersections, opts[:header_separator_symbol], opts[:intersection_symbol])
+    {table, meta, opts, [line | rendered]}
+  end
+
+  defp render_header_separator({table, %Meta{render_vertical_frame?: true} = meta, opts, rendered}) do
+    line = render_line(meta.table_width, [0, meta.table_width - 1], " ", opts[:vertical_symbol])
+    {table, meta, opts, [line | rendered]}
+  end
+
+  defp render_header_separator({table, %Meta{render_vertical_frame?: false} = meta, opts, rendered}) do
+    {table, meta, opts, ["" | rendered]}
   end
 
   defp render_rows({%Table{rows: rows} = table, meta, opts, rendered}) do
@@ -135,7 +157,7 @@ defmodule TableRex.Renderer.Text do
       lines = Enum.map(lines, &frame_with(&1, opts[:vertical_symbol]))
     end
     if meta.render_row_separators? do
-      {_, _, _, [row_separator | _]} = render_intersected_line({table, meta, opts, []}, opts[:horizontal_symbol], opts[:intersection_symbol])
+      row_separator = render_line(meta.table_width, meta.intersections, opts[:horizontal_symbol], opts[:intersection_symbol])
       lines = Enum.intersperse(lines, row_separator)
     end
     rendered = lines ++ rendered
@@ -147,13 +169,11 @@ defmodule TableRex.Renderer.Text do
   end
 
   defp render_bottom_frame({table, meta, opts, rendered}) do
-    intersections = if meta.vertical_styling?, do: meta.intersections, else: []
-    line = render_horizontal_separator(meta.table_width, intersections, opts[:bottom_frame_symbol], opts[:intersection_symbol])
-    rendered = [line | rendered]
-    {table, meta, opts, rendered}
+    line = render_line(meta.table_width, meta.intersections, opts[:bottom_frame_symbol], opts[:intersection_symbol])
+    {table, meta, opts, [line | rendered]}
   end
 
-  defp render_horizontal_separator(table_width, intersections, separator_symbol, intersection_symbol) do
+  defp render_line(table_width, intersections, separator_symbol, intersection_symbol) do
     for n <- 0..table_width - 1 do
       if n in intersections, do: intersection_symbol, else: separator_symbol
     end
@@ -201,6 +221,13 @@ defmodule TableRex.Renderer.Text do
     String.duplicate(" ", pre_value) <> value <> String.duplicate(" ", post_value)
   end
 
+  defp intersections(_table_width, _col_widths, vertical_style: :off), do: []
+
+  defp intersections(table_width, _col_widths, vertical_style: :frame) do
+    [0, table_width - 1]
+    |> Enum.into(HashSet.new)
+  end
+
   defp intersections(table_width, col_widths,  vertical_style: :all) do
     col_widths = ordered_col_widths(col_widths)
     inner_intersections = Enum.reduce(col_widths, [0], fn(x, [acc_h | _] = acc) ->
@@ -209,13 +236,6 @@ defmodule TableRex.Renderer.Text do
     [0, table_width - 1] ++ inner_intersections
     |> Enum.into(HashSet.new)
   end
-
-  defp intersections(table_width, _col_widths, vertical_style: :frame) do
-    [0, table_width - 1]
-    |> Enum.into(HashSet.new)
-  end
-
-  defp intersections(_table_width, _col_widths, vertical_style: :off), do: []
 
   defp max_dimensions(%Table{} = table) do
     [table.header_row | table.rows]
@@ -244,15 +264,13 @@ defmodule TableRex.Renderer.Text do
     {width + (padding * 2), height}
   end
 
-  defp table_width(%{} = col_widths, vertical_styling?: vertical_styling?) do
+  defp table_width(%{} = col_widths, vertical_frame?: vertical_frame?) do
     width = col_widths
      |> Dict.values
-     # Add one for each in-between column.
      |> Enum.intersperse(1)
      |> Enum.sum
 
-    if vertical_styling? do
-      # Add two for the outer frame.
+    if vertical_frame? do
       width = width + 2
     end
 

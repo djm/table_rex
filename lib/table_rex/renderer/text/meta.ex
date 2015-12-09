@@ -14,20 +14,18 @@ defmodule TableRex.Renderer.Text.Meta do
       render_horizontal_frame?: false,
       render_vertical_frame?: false,
       render_column_separators?: false,
-      render_row_separators?: false,
-      vertical_styling?: false
+      render_row_separators?: false
      }
   end
-
 
   @doc """
   Retreives the "inner width" of the table, which is the full width minus any frame.
   """
-  def inner_width(%Meta{table_width: table_width, vertical_styling?: true}) do
+  def inner_width(%Meta{table_width: table_width, render_vertical_frame?: true}) do
     table_width - 2
   end
 
-  def inner_width(%Meta{table_width: table_width, vertical_styling?: false}) do
+  def inner_width(%Meta{table_width: table_width, render_vertical_frame?: false}) do
     table_width
   end
 
