@@ -32,4 +32,8 @@ defmodule TableRex.Table do
   def has_rows?(%Table{rows: []}), do: false
   def has_rows?(%Table{rows: rows}) when is_list(rows), do: true
 
+  @spec has_header?(Table.t) :: boolean
+  def has_header?(%Table{header_row: []}), do: false
+  def has_header?(%Table{header_row: header_row}) when is_list(header_row), do: true
+
 end

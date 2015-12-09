@@ -7,7 +7,7 @@ defmodule TableRex.TableTest do
     {:ok, table_rex} = TableRex.start_link
     TableRex.set_column_meta(table_rex, 0, :align, :left)
     table = TableRex.get_table(table_rex)
-    {:ok, table_rex: table_rex, table: table}
+    {:ok, table: table}
   end
 
   test "get_column returns correct column struct", %{table: table} do
@@ -21,10 +21,22 @@ defmodule TableRex.TableTest do
     assert Table.get_column_meta(table, 2, :padding) == 1
   end
 
-  test "has_rows returns correct response", %{table_rex: table_rex} do
-    assert TableRex.get_table(table_rex) |> Table.has_rows? == false
-    TableRex.add_row(table_rex, ["Some", "Row"])
-    assert TableRex.get_table(table_rex) |> Table.has_rows? == true
+  test "has_rows? returns correct response", _setup do
+    table = %Table{}
+    assert table |> Table.has_rows? == false
+    table = %Table{rows: [["Exile", "Silver Spirit", "2003"]]}
+    assert table |> Table.has_rows? == true
+    table = %Table{rows: []}
+    assert table |> Table.has_rows? == false
+  end
+
+  test "has_header? returns correct response", _setup do
+    table = %Table{}
+    assert table |> Table.has_header? == false
+    table = %Table{header_row: ["Artist", "Track", "Year"]}
+    assert table |> Table.has_header? == true
+    table = %Table{header_row: []}
+    assert table |> Table.has_header? == false
   end
 
 end
