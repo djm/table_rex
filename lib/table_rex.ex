@@ -125,10 +125,7 @@ defmodule TableRex do
   Asks the server whether a header row has been set, returns a boolean.
   """
   def has_header?(agent) do
-    #TODO update to Table.has_header
-    Agent.get(agent, fn table_data ->
-      table_data.header_row != []
-    end)
+    Agent.get(agent, &Table.has_header?/1)
   end
 
   @doc """
