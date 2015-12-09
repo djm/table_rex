@@ -1,4 +1,4 @@
-<img src="http://i.imgur.com/ipa4UVa.png" width="400" style="margin-bottom:1rem;" />
+<img src="http://i.imgur.com/ipa4UVa.png" width="500" />
 
 **An Elixir app which generates tables for display**
 
@@ -27,15 +27,19 @@ The package is [available on Hex](https://hex.pm/packages/tablerex), therefore:
 
   1. Add `table_rex` to your list of dependencies in `mix.exs`:
 
+```elixir
         def deps do
           [{:table_rex, "~> 0.0.1"}]
         end
+```
 
 2. Start `table_rex` by adding it to `application/0` in `mix.exs`:
 
+```elixir
         def application do
           [applications: [:logger, :table_rex]]
         end
+```
 
 ##Quick Start
         
