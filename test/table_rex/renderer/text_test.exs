@@ -589,7 +589,36 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "default render with & alignment", %{table_rex: table_rex} do
+  test "default render with alignment", %{table_rex: table_rex} do
+    TableRex.set_column_meta(table_rex, 0, :align, :left)
+    TableRex.set_column_meta(table_rex, 1, :align, :right)
+    rendered = TableRex.render(table_rex)
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         |                Track | Year |
+    +----------------+----------------------+------+
+    | Konflict       |              Cyanide | 1999 |
+    | Keaton & Hive  |           The Plague | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+    TableRex.clear_all_column_meta(table_rex)
+    rendered = TableRex.render(table_rex)
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    |     Artist     |        Track         | Year |
+    +----------------+----------------------+------+
+    |    Konflict    |       Cyanide        | 1999 |
+    | Keaton & Hive  |      The Plague      | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+  test "default render with alignment", %{table_rex: table_rex} do
     TableRex.set_column_meta(table_rex, 0, :align, :left)
     TableRex.set_column_meta(table_rex, 1, :align, :right)
     rendered = TableRex.render(table_rex)

@@ -90,9 +90,8 @@ defmodule TableRex do
   Removes column meta for all columns, effectively resetting
   column meta back to the default options across the board.
   """
-  def clear_column_meta(agent) do
-    #TODO: test me
-    Agent.update{agent, &Map.put(&1, :columns, %{})}
+  def clear_all_column_meta(agent) do
+    Agent.update(agent, &Map.put(&1, :columns, %{}))
   end
 
   @doc """
