@@ -61,15 +61,18 @@ defmodule TableRex.Renderer.Text do
       render_row_separators?: render_row_separators?,
     }
 
-    {table, meta, opts, []}
-    |> render_top_frame
-    |> render_title
-    |> render_title_separator
-    |> render_header
-    |> render_header_separator
-    |> render_rows
-    |> render_bottom_frame
-    |> render_to_string
+    rendered =
+      {table, meta, opts, []}
+      |> render_top_frame
+      |> render_title
+      |> render_title_separator
+      |> render_header
+      |> render_header_separator
+      |> render_rows
+      |> render_bottom_frame
+      |> render_to_string
+
+    {:ok, rendered}
   end
 
   defp render_top_frame({table, %Meta{render_horizontal_frame?: false} = meta, opts, rendered}) do

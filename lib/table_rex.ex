@@ -4,6 +4,7 @@ defmodule TableRex do
   """
   alias TableRex.Cell
   alias TableRex.Column
+  alias TableRex.Renderer
   alias TableRex.Table
 
   @column_fields %Column{} |> Map.from_struct |> Map.keys
@@ -29,6 +30,7 @@ defmodule TableRex do
   @doc """
   Sets an optional table title.
   """
+  @spec set_title(Agent.agent, String.t | nil) :: :ok
   def set_title(agent, ""), do: set_title(agent, nil)
   def set_title(agent, title) when is_binary(title) or is_nil(title) do
     Agent.update(agent, &Map.put(&1, :title, title))
@@ -37,6 +39,7 @@ defmodule TableRex do
   @doc """
   Sets an optional header row.
   """
+  @spec set_header(Agent.agent, list | nil) :: :ok
   def set_header(agent, nil), do: set_header(agent, [])
   def set_header(agent, header_row) when is_list(header_row) do
     new_header_row = Enum.map(header_row, &Cell.to_cell(&1))
@@ -46,6 +49,7 @@ defmodule TableRex do
   @doc """
   Set the column meta for the passed column index.
   """
+  @spec set_column_meta(Agent.agent, integer, atom, any) :: :ok
   def set_column_meta(agent, col_index, key, value) when is_number(col_index) and key in @column_fields do
     update_fun = fn table_data ->
       col = Table.get_column(table_data, col_index) |> Map.update!(key, fn _ -> value end)
@@ -53,7 +57,6 @@ defmodule TableRex do
       %{table_data | columns: new_columns}
     end
     Agent.update(agent, update_fun)
-
   end
 
   def set_column_meta(_agent, _col_index, key, _value) do
@@ -65,6 +68,7 @@ defmodule TableRex do
   @doc """
   Adds a single row to the table.
   """
+  @spec add_row(Agent.agent, list) :: :ok
   def add_row(agent, row) when is_list(row) do
     new_row = Enum.map(row, &Cell.to_cell(&1))
     Agent.update(agent, fn table_data ->
@@ -75,6 +79,7 @@ defmodule TableRex do
   @doc """
   Adds multiple rows to the table.
   """
+  @spec add_rows(Agent.agent, list) :: :ok
   def add_rows(agent, rows) when is_list(rows) do
     rows = rows
      |> Enum.reverse
@@ -90,6 +95,7 @@ defmodule TableRex do
   Removes column meta for all columns, effectively resetting
   column meta back to the default options across the board.
   """
+  @spec clear_all_column_meta(Agent.agent) :: :ok
   def clear_all_column_meta(agent) do
     Agent.update(agent, &Map.put(&1, :columns, %{}))
   end
@@ -97,6 +103,7 @@ defmodule TableRex do
   @doc """
   Removes all row data from the table, keeping everything else.
   """
+  @spec clear_rows(Agent.agent) :: :ok
   def clear_rows(agent) do
     Agent.update(agent, &Map.put(&1, :rows, []))
   end
@@ -104,6 +111,7 @@ defmodule TableRex do
   @doc """
   Returns the table back to default empty state.
   """
+  @spec reset(Agent.agent) :: :ok
   def reset(agent) do
     Agent.update(agent, fn _table_data ->
       %Table{}
@@ -116,6 +124,7 @@ defmodule TableRex do
   Returns the current server state. Useful
   for copying to a new process.
   """
+  @spec get_table(Agent.agent) :: Table.t
   def get_table(agent) do
     Agent.get(agent, &(&1))
   end
@@ -123,6 +132,7 @@ defmodule TableRex do
   @doc """
   Asks the server whether a header row has been set, returns a boolean.
   """
+  @spec has_header?(Agent.agent) :: boolean
   def has_header?(agent) do
     Agent.get(agent, &Table.has_header?/1)
   end
@@ -130,6 +140,7 @@ defmodule TableRex do
   @doc """
   Asks the server whether any rows have been set, returns a boolen.
   """
+  @spec has_rows?(Agent.agent) :: boolean
   def has_rows?(agent) do
     Agent.get(agent, &Table.has_rows?/1)
   end
@@ -137,11 +148,15 @@ defmodule TableRex do
   @doc """
   Shortcut function to render the current table state to string.
   """
+  @spec render(Agent.agent, list) :: Renderer.render_return
   def render(agent, opts \\ [])
-  def render(agent, opts) do
+
+  def render(agent, opts) when is_list(opts) do
     get_table(agent) |> TableRex.Rendering.render(opts)
   end
-  def render(agent, renderer, opts) do
+
+  @spec render(Agent.agent, module, list) :: Renderer.render_return
+  def render(agent, renderer, opts) when is_atom(renderer) and is_list(opts) do
     get_table(agent) |> TableRex.Rendering.render(renderer, opts)
   end
 
