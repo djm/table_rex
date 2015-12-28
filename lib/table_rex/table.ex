@@ -48,7 +48,7 @@ defmodule TableRex.Table do
   Sets column level information such as padding and alignment.
   """
   @spec set_column_meta(Table.t, integer | atom, Keyword.t) :: Table.t
-  def set_column_meta(%Table{} = table, col_index, col_meta) when is_number(col_index) and is_list(col_meta) do
+  def set_column_meta(%Table{} = table, col_index, col_meta) when is_integer(col_index) and is_list(col_meta) do
     col_meta = col_meta |> Enum.into(%{})
     col = get_column(table, col_index) |> Map.merge(col_meta)
     new_columns = Map.put(table.columns, col_index, col)
@@ -64,6 +64,19 @@ defmodule TableRex.Table do
       Map.put(acc, col_index, new_col)
     end)
     %Table{table | columns: new_columns}
+  end
+
+  @doc """
+  Sets cell level information such as alignment.
+  """
+  @spec set_cell_meta(Table.t, integer, integer, Keyword.t) :: Table.t
+  def set_cell_meta(%Table{} = table, col_index, row_index, cell_meta) when is_integer(col_index) and is_integer(row_index) and is_list(cell_meta) do
+    cell_meta = cell_meta |> Enum.into(%{})
+    inverse_row_index = -(row_index + 1)
+    rows = List.update_at(table.rows, inverse_row_index, fn(row) ->
+      List.update_at(row, col_index, &Map.merge(&1, cell_meta))
+    end)
+    %Table{table | rows: rows}
   end
 
   @doc """
@@ -107,7 +120,7 @@ defmodule TableRex.Table do
 
   # Retrieval API
 
-  defp get_column(%Table{} = table, col_index) when is_number(col_index) do
+  defp get_column(%Table{} = table, col_index) when is_integer(col_index) do
     Dict.get(table.columns, col_index, table.default_column)
   end
 
@@ -116,7 +129,7 @@ defmodule TableRex.Table do
   If no value has been set, default values are returned.
   """
   @spec get_column_meta(Table.t, integer, atom) :: any
-  def get_column_meta(%Table{} = table, col_index, key) when is_number(col_index) and is_atom(key) do
+  def get_column_meta(%Table{} = table, col_index, key) when is_integer(col_index) and is_atom(key) do
     get_column(table, col_index)
     |> Map.fetch!(key)
   end

@@ -212,6 +212,31 @@ defmodule TableRex.TableTest do
     assert Table.get_column_meta(table, 1, :align) == :left
   end
 
+  test "setting cell meta", %{table: table} do
+    rows = [
+      ["Dom & Roland", "Thunder", 1998],
+      ["Calyx", "Downpour", 2001]
+    ]
+    table =
+      table
+      |> Table.add_rows(rows)
+      |> Table.set_cell_meta(0, 0, align: :right)
+      |> Table.set_cell_meta(1, 1, align: :left)
+
+    assert table.rows == [
+      [
+        %Cell{value: "Calyx", align: nil},
+        %Cell{value: "Downpour", align: :left},
+        %Cell{value: "2001", align: nil}
+      ],
+      [
+        %Cell{value: "Dom & Roland", align: :right},
+        %Cell{value: "Thunder", align: nil},
+        %Cell{value: "1998", align: nil}
+      ]
+    ]
+  end
+
   test "clearing rows", %{table: table} do
     title = "Moving Shadow Releases"
     header_row = ["Artist", "Track", "Year"]

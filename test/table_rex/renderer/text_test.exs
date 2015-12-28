@@ -783,4 +783,24 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
+  test "default render with cell level alignment", %{table: table} do
+    {:ok, rendered} =
+      table
+    |> Table.set_column_meta(:all, align: :left)
+    |> Table.set_cell_meta(0, 0, align: :right)
+    |> Table.set_cell_meta(1, 1, align: :right)
+    |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    |       Konflict | Cyanide              | 1999 |
+    | Keaton & Hive  |           The Plague | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
  end
