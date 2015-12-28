@@ -4,8 +4,8 @@
 
 Currently supports output in:
 
-* customisable ASCII format.
-* more coming soon..
+* in customisable ASCII format.
+* with your own renderer.
 
 ####Features
 

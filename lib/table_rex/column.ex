@@ -1,6 +1,6 @@
 defmodule TableRex.Column do
   @moduledoc """
-  Defines a struct that represents a column's metadate
+  Defines a struct that represents a column's metadata
   """
 
   defstruct align: :center, padding: 1

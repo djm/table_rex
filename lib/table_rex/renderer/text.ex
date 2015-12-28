@@ -41,8 +41,8 @@ defmodule TableRex.Renderer.Text do
   def render(table = %Table{}, opts) do
     {col_widths, row_heights} = max_dimensions(table)
 
-    # Calculations that would otherwise be carried out multiple times are done once
-    # and their results are stored in %Meta{} which is passed around.
+    # Calculations that would otherwise be carried out multiple times are done once and their
+    # results are stored in the %Meta{} struct which is then passed through the pipeline.
     render_horizontal_frame? = opts[:horizontal_style] in @render_horizontal_frame_styles
     render_vertical_frame? = opts[:vertical_style] in @render_vertical_frame_styles
     render_column_separators? = opts[:vertical_style] in @render_column_separators_styles
@@ -270,11 +270,7 @@ defmodule TableRex.Renderer.Text do
      |> Enum.intersperse(1)
      |> Enum.sum
 
-    if vertical_frame? do
-      width = width + 2
-    end
-
-    width
+    if vertical_frame?, do: width + 2, else: width
   end
 
   defp ordered_col_widths(%{} = col_widths) do

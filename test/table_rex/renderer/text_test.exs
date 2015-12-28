@@ -1,20 +1,25 @@
 defmodule TableRex.Renderer.TextTest do
   use ExUnit.Case, async: true
+  alias TableRex.Table
 
   setup do
-    {:ok, table_rex} = TableRex.start_link
-    TableRex.set_title(table_rex, "Renegade Hardware Releases")
-    TableRex.set_header(table_rex, ["Artist", "Track", "Year"])
-    TableRex.add_rows(table_rex, [
+    title = "Renegade Hardware Releases"
+    header = ["Artist", "Track", "Year"]
+    rows = [
       ["Konflict", "Cyanide", 1999],
       ["Keaton & Hive", "The Plague", 2003],
       ["Vicious Circle", "Welcome To Shanktown", 2007],
-    ])
-    {:ok, table_rex: table_rex}
+    ]
+    table =
+      Table.new
+      |> Table.set_title(title)
+      |> Table.set_header(header)
+      |> Table.add_rows(rows)
+    {:ok, table: table}
   end
 
-  test "default render", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex)
+  test "default render", %{table: table} do
+    {:ok, rendered} = Table.render(table)
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -28,9 +33,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "default render without title", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, "")
-    {:ok, rendered} = TableRex.render(table_rex)
+  test "default render without title", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title("")
+      |> Table.render
     assert rendered == """
     +----------------+----------------------+------+
     |     Artist     |        Track         | Year |
@@ -42,10 +49,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "default render without title & header", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, "")
-    TableRex.set_header(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex)
+  test "default render without title & header", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title("")
+      |> Table.set_header(nil)
+      |> Table.render
     assert rendered == """
     +----------------+----------------------+------+
     |    Konflict    |       Cyanide        | 1999 |
@@ -55,9 +64,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "default render with title but no header", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex)
+  test "default render with title but no header", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header(nil)
+      |> Table.render
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -69,8 +80,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with vertical style: frame", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, vertical_style: :frame)
+  test "render with vertical style: frame", %{table: table} do
+    {:ok, rendered} = Table.render(table, vertical_style: :frame)
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -84,9 +95,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & vertical style: frame", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, "")
-    {:ok, rendered} = TableRex.render(table_rex, vertical_style: :frame)
+  test "render with no title & vertical style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title("")
+      |> Table.render(vertical_style: :frame)
     assert rendered == """
     +----------------------------------------------+
     |     Artist              Track           Year |
@@ -98,10 +111,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & vertical style: frame", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, "")
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, vertical_style: :frame)
+  test "render with no title or header & vertical style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title("")
+      |> Table.set_header([])
+      |> Table.render(vertical_style: :frame)
     assert rendered == """
     +----------------------------------------------+
     |    Konflict            Cyanide          1999 |
@@ -111,9 +126,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but no header & vertical style: frame", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, vertical_style: :frame)
+  test "render with title but no header & vertical style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(vertical_style: :frame)
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -125,8 +142,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with vertical style: off", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, vertical_style: :off)
+  test "render with vertical style: off", %{table: table} do
+    {:ok, rendered} = Table.render(table, vertical_style: :off)
     assert rendered == """
     ----------------------------------------------
               Renegade Hardware Releases
@@ -140,9 +157,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & vertical style: off", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex, vertical_style: :off)
+  test "render with no title & vertical style: off", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.render(vertical_style: :off)
     assert rendered == """
     ----------------------------------------------
          Artist              Track           Year
@@ -154,10 +173,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & vertical style: off", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, vertical_style: :off)
+  test "render with no title or header & vertical style: off", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.set_header([])
+      |> Table.render(vertical_style: :off)
     assert rendered == """
     ----------------------------------------------
         Konflict            Cyanide          1999
@@ -167,9 +188,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but no header & vertical style: off", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, vertical_style: :off)
+  test "render with title but no header & vertical style: off", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(vertical_style: :off)
     assert rendered == """
     ----------------------------------------------
               Renegade Hardware Releases
@@ -181,8 +204,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with horizontal style: off, vertical style: frame", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :frame)
+  test "render with horizontal style: off, vertical style: frame", %{table: table} do
+    {:ok, rendered} = Table.render(table, horizontal_style: :off, vertical_style: :frame)
     assert rendered == """
     |          Renegade Hardware Releases          |
     |                                              |
@@ -194,9 +217,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & horizontal style: off, vertical style: frame", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :frame)
+  test "render with no title & horizontal style: off, vertical style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.render(horizontal_style: :off, vertical_style: :frame)
     assert rendered == """
     |     Artist              Track           Year |
     |                                              |
@@ -206,10 +231,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & horizontal style: off, vertical style: frame", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :frame)
+  test "render with no title or header & horizontal style: off, vertical style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :off, vertical_style: :frame)
     assert rendered == """
     |    Konflict            Cyanide          1999 |
     | Keaton & Hive         The Plague        2003 |
@@ -217,9 +244,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but not header & horizontal style: off, vertical style: frame", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :frame)
+  test "render with title but not header & horizontal style: off, vertical style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :off, vertical_style: :frame)
     assert rendered == """
     |          Renegade Hardware Releases          |
     |                                              |
@@ -229,8 +258,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with horizontal style: off, vertical style: all", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :all)
+  test "render with horizontal style: off, vertical style: all", %{table: table} do
+    {:ok, rendered} = Table.render(table, horizontal_style: :off, vertical_style: :all)
     assert rendered == """
     |          Renegade Hardware Releases          |
     |                                              |
@@ -242,9 +271,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & horizontal style: off, vertical style: all", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :all)
+  test "render with no title & horizontal style: off, vertical style: all", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.render(horizontal_style: :off, vertical_style: :all)
     assert rendered == """
     |     Artist     |        Track         | Year |
     |                                              |
@@ -254,10 +285,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & horizontal style: off, vertical style: all", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :all)
+  test "render with no title or header & horizontal style: off, vertical style: all", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :off, vertical_style: :all)
     assert rendered == """
     |    Konflict    |       Cyanide        | 1999 |
     | Keaton & Hive  |      The Plague      | 2003 |
@@ -265,9 +298,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but no header & horizontal style: off, vertical style: all", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :all)
+  test "render with title but no header & horizontal style: off, vertical style: all", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :off, vertical_style: :all)
     assert rendered == """
     |          Renegade Hardware Releases          |
     |                                              |
@@ -277,8 +312,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with horizontal style: off, vertical style: off", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :off)
+  test "render with horizontal style: off, vertical style: off", %{table: table} do
+    {:ok, rendered} = Table.render(table, horizontal_style: :off, vertical_style: :off)
     assert rendered == """
               Renegade Hardware Releases
 
@@ -290,9 +325,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & horizontal style: off, vertical style: off", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :off)
+  test "render with no title & horizontal style: off, vertical style: off", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.render(horizontal_style: :off, vertical_style: :off)
     assert rendered == """
          Artist              Track           Year
 
@@ -302,10 +339,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & horizontal style: off, vertical style: off", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :off)
+  test "render with no title or header & horizontal style: off, vertical style: off", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :off, vertical_style: :off)
     assert rendered == """
         Konflict            Cyanide          1999
      Keaton & Hive         The Plague        2003
@@ -313,9 +352,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but no header & horizontal style: off, vertical style: off", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :off)
+  test "render with title but no header & horizontal style: off, vertical style: off", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :off, vertical_style: :off)
     assert rendered == """
               Renegade Hardware Releases
 
@@ -325,8 +366,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with horizontal style: frame", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :frame)
+  test "render with horizontal style: frame", %{table: table} do
+    {:ok, rendered} = Table.render(table, horizontal_style: :frame)
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -340,9 +381,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & horizontal style: frame", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :frame)
+  test "render with no title & horizontal style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.render(horizontal_style: :frame)
     assert rendered == """
     +----------------+----------------------+------+
     |     Artist     |        Track         | Year |
@@ -354,10 +397,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with not title or header & horizontal style: frame", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :frame)
+  test "render with not title or header & horizontal style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :frame)
     assert rendered == """
     +----------------+----------------------+------+
     |    Konflict    |       Cyanide        | 1999 |
@@ -367,9 +412,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but no header & horizontal style: frame", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :frame)
+  test "render with title but no header & horizontal style: frame", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :frame)
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -381,8 +428,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with horizontal style: all", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all)
+  test "render with horizontal style: all", %{table: table} do
+    {:ok, rendered} = Table.render(table, horizontal_style: :all)
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -398,9 +445,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & horizontal style: all", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all)
+  test "render with no title & horizontal style: all", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.render(horizontal_style: :all)
     assert rendered == """
     +----------------+----------------------+------+
     |     Artist     |        Track         | Year |
@@ -414,10 +463,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & horizontal style: all", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all)
+  test "render with no title or header & horizontal style: all", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :all)
     assert rendered == """
     +----------------+----------------------+------+
     |    Konflict    |       Cyanide        | 1999 |
@@ -429,9 +480,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but not header & horizontal style: all", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all)
+  test "render with title but not header & horizontal style: all", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :all)
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -445,8 +498,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with horizontal style: all, header_separator_symbol: =", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, header_separator_symbol: "=")
+  test "render with horizontal style: all, header_separator_symbol: =", %{table: table} do
+    {:ok, rendered} = Table.render(table, horizontal_style: :all, header_separator_symbol: "=")
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -462,9 +515,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & horizontal style: all, header_separator_symbol: =", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, header_separator_symbol: "=")
+  test "render with no title & horizontal style: all, header_separator_symbol: =", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
     assert rendered == """
     +----------------+----------------------+------+
     |     Artist     |        Track         | Year |
@@ -478,10 +533,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & horizontal style: all, top_frame_symbol: =", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, top_frame_symbol: "=")
+  test "render with no title or header & horizontal style: all, top_frame_symbol: =", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :all, top_frame_symbol: "=")
     assert rendered == """
     +================+======================+======+
     |    Konflict    |       Cyanide        | 1999 |
@@ -493,9 +550,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but no header & horizontal style: all, header_separator_symbol: =", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, header_separator_symbol: "=")
+  test "render with title but no header & horizontal style: all, header_separator_symbol: =", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -509,9 +568,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but no header & horizontal style: all, title_separator_symbol: =", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, title_separator_symbol: "=")
+  test "render with title but no header & horizontal style: all, title_separator_symbol: =", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :all, title_separator_symbol: "=")
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -525,8 +586,8 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with horizontal style: all, title_separator_symbol & header_horizontal_symbol: =", %{table_rex: table_rex} do
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, title_separator_symbol: "=", header_separator_symbol: "=")
+  test "render with horizontal style: all, title_separator_symbol & header_horizontal_symbol: =", %{table: table} do
+    {:ok, rendered} = Table.render(table, horizontal_style: :all, title_separator_symbol: "=", header_separator_symbol: "=")
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -542,9 +603,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title & horizontal style: all, title_separator_symbol & header_horizontal_symbol: =", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, title_separator_symbol: "=", header_separator_symbol: "=")
+  test "render with no title & horizontal style: all, title_separator_symbol & header_horizontal_symbol: =", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.render(horizontal_style: :all, title_separator_symbol: "=", header_separator_symbol: "=")
     assert rendered == """
     +----------------+----------------------+------+
     |     Artist     |        Track         | Year |
@@ -558,10 +621,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with no title or header & horizontal style: all, title_separator_symbol & header_horizontal_symbol: =", %{table_rex: table_rex} do
-    TableRex.set_title(table_rex, nil)
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, title_separator_symbol: "=", header_separator_symbol: "=")
+  test "render with no title or header & horizontal style: all, title_separator_symbol & header_horizontal_symbol: =", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_title(nil)
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :all, title_separator_symbol: "=", header_separator_symbol: "=")
     assert rendered == """
     +----------------+----------------------+------+
     |    Konflict    |       Cyanide        | 1999 |
@@ -573,9 +638,11 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "render with title but no header & horizontal style: all, title_separator_symbol & header_horizontal_symbol: =", %{table_rex: table_rex} do
-    TableRex.set_header(table_rex, [])
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :all, title_separator_symbol: "=", header_separator_symbol: "=")
+  test "render with title but no header & horizontal style: all, title_separator_symbol & header_horizontal_symbol: =", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_header([])
+      |> Table.render(horizontal_style: :all, title_separator_symbol: "=", header_separator_symbol: "=")
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -589,10 +656,12 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "default render with alignment", %{table_rex: table_rex} do
-    TableRex.set_column_meta(table_rex, 0, :align, :left)
-    TableRex.set_column_meta(table_rex, 1, :align, :right)
-    {:ok, rendered} = TableRex.render(table_rex)
+  test "default render with alignment", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_column_meta(0, align: :left)
+      |> Table.set_column_meta(1, align: :right)
+      |> Table.render
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -604,8 +673,10 @@ defmodule TableRex.Renderer.TextTest do
     | Vicious Circle | Welcome To Shanktown | 2007 |
     +----------------+----------------------+------+
     """
-    TableRex.clear_all_column_meta(table_rex)
-    {:ok, rendered} = TableRex.render(table_rex)
+    {:ok, rendered} =
+      table
+      |> Table.clear_all_column_meta
+      |> Table.render
     assert rendered == """
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
@@ -619,11 +690,13 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "default render with added padding", %{table_rex: table_rex} do
-    TableRex.set_column_meta(table_rex, 0, :padding, 3)
-    TableRex.set_column_meta(table_rex, 1, :padding, 3)
-    TableRex.set_column_meta(table_rex, 2, :padding, 3)
-    {:ok, rendered} = TableRex.render(table_rex)
+  test "default render with added padding", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_column_meta(0, padding: 3)
+      |> Table.set_column_meta(1, padding: 3)
+      |> Table.set_column_meta(2, padding: 3)
+      |> Table.render
     assert rendered == """
     +----------------------------------------------------------+
     |                Renegade Hardware Releases                |
@@ -637,11 +710,31 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "minimal render (zero padding)", %{table_rex: table_rex} do
-    TableRex.set_column_meta(table_rex, 0, :padding, 0)
-    TableRex.set_column_meta(table_rex, 1, :padding, 0)
-    TableRex.set_column_meta(table_rex, 2, :padding, 0)
-    {:ok, rendered} = TableRex.render(table_rex, horizontal_style: :off, vertical_style: :off)
+  test "default render with added padding & alignment", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_column_meta(0, padding: 3, align: :left)
+      |> Table.set_column_meta(1, padding: 3, align: :right)
+      |> Table.set_column_meta(2, padding: 3, align: :right)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------------------+
+    |                Renegade Hardware Releases                |
+    +--------------------+--------------------------+----------+
+    |   Artist           |                  Track   |   Year   |
+    +--------------------+--------------------------+----------+
+    |   Konflict         |                Cyanide   |   1999   |
+    |   Keaton & Hive    |             The Plague   |   2003   |
+    |   Vicious Circle   |   Welcome To Shanktown   |   2007   |
+    +--------------------+--------------------------+----------+
+    """
+  end
+
+  test "minimal render (zero padding)", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_column_meta(:all, padding: 0)
+      |> Table.render(horizontal_style: :off, vertical_style: :off)
     assert rendered == """
            Renegade Hardware Releases
 
@@ -650,6 +743,43 @@ defmodule TableRex.Renderer.TextTest do
        Konflict          Cyanide        1999
     Keaton & Hive       The Plague      2003
     Vicious Circle Welcome To Shanktown 2007
+    """
+  end
+
+  test "default render with set column meta across all columns", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_column_meta(:all, align: :left)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with set column meta across all columns and specific column override", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_column_meta(:all, align: :left)
+      |> Table.set_column_meta(1, align: :right)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         |                Track | Year |
+    +----------------+----------------------+------+
+    | Konflict       |              Cyanide | 1999 |
+    | Keaton & Hive  |           The Plague | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
     """
   end
 
