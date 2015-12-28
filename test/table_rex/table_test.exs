@@ -264,12 +264,6 @@ defmodule TableRex.TableTest do
     ]
   end
 
-  test "get_column returns correct column struct", %{table: table} do
-    table = Table.set_column_meta(table, 0, align: :left)
-    assert Table.get_column(table, 0) == %Column{align: :left}
-    assert Table.get_column(table, 1) == %Column{}
-  end
-
   test "get_column_meta returns correct values and defaults", %{table: table} do
     table = Table.set_column_meta(table, 0, align: :left)
     assert Table.get_column_meta(table, 0, :align) == :left

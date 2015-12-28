@@ -27,7 +27,7 @@ defmodule TableRex.Table do
   Sets a string as the optional table title.
   Set to `nil` or `""` to remove an already set title from renders.
   """
-  @spec set_title(Table.t, String.t | nil) :: :ok
+  @spec set_title(Table.t, String.t | nil) :: Table.t
   def set_title(%Table{} = table, ""), do: set_title(table, nil)
   def set_title(%Table{} = table, title) when is_binary(title) or is_nil(title) do
     %Table{table | title: title}
@@ -37,7 +37,7 @@ defmodule TableRex.Table do
   Sets a list as the optional header row.
   Set to `nil` or `[]` to remove an already set header from renders.
   """
-  @spec set_header(Table.t, list | nil) :: :ok
+  @spec set_header(Table.t, list | nil) :: Table.t
   def set_header(%Table{} = table, nil), do: set_header(table, [])
   def set_header(%Table{} = table, header_row) when is_list(header_row) do
     new_header_row = Enum.map(header_row, &Cell.to_cell(&1))
@@ -47,7 +47,7 @@ defmodule TableRex.Table do
   @doc """
   Sets column level information such as padding and alignment.
   """
-  @spec set_column_meta(Table.t, integer | atom, Keyword.t) :: :ok
+  @spec set_column_meta(Table.t, integer | atom, Keyword.t) :: Table.t
   def set_column_meta(%Table{} = table, col_index, col_meta) when is_number(col_index) and is_list(col_meta) do
     col_meta = col_meta |> Enum.into(%{})
     col = get_column(table, col_index) |> Map.merge(col_meta)
@@ -69,7 +69,7 @@ defmodule TableRex.Table do
   @doc """
   Adds a single row to the table.
   """
-  @spec add_row(Table.t, list) :: :ok
+  @spec add_row(Table.t, list) :: Table.t
   def add_row(%Table{} = table, row) when is_list(row) do
     new_row = Enum.map(row, &Cell.to_cell(&1))
     %Table{table | rows: [new_row | table.rows]}
@@ -78,7 +78,7 @@ defmodule TableRex.Table do
   @doc """
   Adds multiple rows to the table.
   """
-  @spec add_rows(Table.t, list) :: :ok
+  @spec add_rows(Table.t, list) :: Table.t
   def add_rows(%Table{} = table, rows) when is_list(rows) do
     rows = rows
      |> Enum.reverse
@@ -92,7 +92,7 @@ defmodule TableRex.Table do
   Removes column meta for all columns, effectively resetting
   column meta back to the default options across the board.
   """
-  @spec clear_all_column_meta(Table.t) :: :ok
+  @spec clear_all_column_meta(Table.t) :: Table.t
   def clear_all_column_meta(%Table{} = table) do
     %Table{table | columns: %{}}
   end
@@ -100,19 +100,14 @@ defmodule TableRex.Table do
   @doc """
   Removes all row data from the table, keeping everything else.
   """
-  @spec clear_rows(Table.t) :: :ok
+  @spec clear_rows(Table.t) :: Table.t
   def clear_rows(%Table{} = table) do
     %Table{table | rows: []}
   end
 
   # Retrieval API
 
-  @doc """
-  Retreives the column struct containing column meta at a given col_index.
-  If one does not exist, a default %TableRex.Column{} is returned.
-  """
-  @spec get_column(Table.t, integer) :: Column.t
-  def get_column(%Table{} = table, col_index) when is_number(col_index) do
+  defp get_column(%Table{} = table, col_index) when is_number(col_index) do
     Dict.get(table.columns, col_index, table.default_column)
   end
 
