@@ -1,0 +1,14 @@
+language: elixir
+elixir:
+  - 1.1.1
+otp_release:
+  - 18.1
+sudo: false # To use faster container based build environment
+script:
+  - mix test
+after_script:
+  - mix deps.get --only docs
+  - MIX_ENV=docs mix inch.report
+notifications:
+  recipients:
+    - mail@djm.org.uk
