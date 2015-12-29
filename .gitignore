@@ -1,6 +1,8 @@
+# Elixir/Erlang
 /_build
 /cover
 /deps
 /doc
+/docs
 erl_crash.dump
 *.ez

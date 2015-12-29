@@ -1,5 +1,8 @@
 <img src="http://i.imgur.com/ipa4UVa.png" width="500" />
 
+[![Build Status](https://travis-ci.org/djm/table_rex.svg?branch=master)](https://travis-ci.org/djm/table_rex)
+ [![Inline docs](http://inch-ci.org/github/djm/table_rex.svg)](http://inch-ci.org/github/djm/table_rex)
+
 **An Elixir app which generates text-based tables for display**
 
 Currently supports output:
