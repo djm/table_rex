@@ -122,7 +122,10 @@ rows
 
 ##Run the tests
 
-From the project directory:
+We have an extensive test suite which helps showcase project usage. For example: the [quick render functions](https://github.com/djm/table_rex/blob/master/test/table_rex_test.exs),
+[table manipulation API](https://github.com/djm/table_rex/blob/master/test/table_rex/table_test.exs) or [the text renderer module](https://github.com/djm/table_rex/blob/master/test/table_rex/renderer/text_test.exs).
+
+To run the test suite, from the project directory, do:
 
 ```bash
 mix test
