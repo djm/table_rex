@@ -18,7 +18,7 @@ Currently supports output:
 * Works well with the Agent module to allow for easy sharing of state.
 * Clients can supply their own rendering modules and still take advantage of the table manipulation API.
 
-<sup>1</sup> The text renderer supports these features, other may not or might not need to.
+<sup>1</sup> The text renderer supports these features, others may not or might not need to.
 
 ####Stability
 
