@@ -66,24 +66,25 @@ rows = [
 rows
 |> TableRex.quick_render!
 |> IO.puts
+```
 
+```
 +-----------------+---------------+-------------------+------+
 |    Konflict     |    Cyanide    | Renegade Hardware | 1999 |
 | Marcus Intalex  |  Temperance   |      Soul:r       | 2004 |
 |  Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
 +-----------------+---------------+-------------------+------+
-
-:ok
 ```
 
 ###TableRex.quick_render!/2
 
 ```elixir
-
 rows
 |> TableRex.quick_render!(header)
 |> IO.puts
+```
 
+```
 +----------------+---------------+-------------------+------+
 |     Artist     |     Track     |       Label       | Year |
 +----------------+---------------+-------------------+------+
@@ -91,18 +92,17 @@ rows
 | Marcus Intalex |  Temperance   |      Soul:r       | 2004 |
 | Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
 +----------------+---------------+-------------------+------+
-
-:ok
 ```
 
 ###TableRex.quick_render!/3
 
 ```elixir
-
 rows 
 |> TableRex.quick_render!(header, title)
 |> IO.puts
+```
 
+```
 +-----------------------------------------------------------+
 |                   Drum & Bass Releases                    |
 +----------------+---------------+-------------------+------+
@@ -112,8 +112,6 @@ rows
 | Marcus Intalex |  Temperance   |      Soul:r       | 2004 |
 | Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
 +----------------+---------------+-------------------+------+
-
-:ok
 ```
         
 ##Run the tests
