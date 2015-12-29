@@ -32,7 +32,7 @@ See the quick start below or check out the [full API docs at HexDocs](https://he
 
 ## Installation
 
-The package is [available on Hex](https://hex.pm/packages/tablerex), therefore:
+The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
 
 **Add** `table_rex` to your list of dependencies in `mix.exs`:
 
