@@ -62,7 +62,7 @@ header = ["Artist", "Track", "Label", "Year"]
 rows = [
   ["Konflict", "Cyanide", "Renegade Hardware", 1999],
   ["Marcus Intalex", "Temperance", "Soul:r", 2004], 
-  ["Kryptic Minds", "The Forgotten", "Defcom Records", 2007],
+  ["Kryptic Minds", "The Forgotten", "Defcom Records", 2007]
 ]
 ```
 
