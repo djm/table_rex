@@ -15,7 +15,8 @@ defmodule TableRex.Mixfile do
       docs: [
         logo: "assets/logo.png",
         extras: ["README.md"]
-      ]
+      ],
+      package: package
     ]
   end
 
@@ -31,8 +32,6 @@ defmodule TableRex.Mixfile do
   defp package do
     [maintainers: ["Darian Moody"],
      licenses: ["MIT"],
-     links: [
-       {"GitHub", "https://github.com/djm/table_rex"}
-     ]]
+     links: %{"GitHub" => "https://github.com/djm/table_rex"}]
   end
 end
