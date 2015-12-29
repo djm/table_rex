@@ -51,7 +51,7 @@ Use the `TableRex.quick_render` and `TableRex.quick_render!` functions; for thos
 Given this data:
 
 ```elixir
-Title = "Drum & Bass Releases"
+title = "Drum & Bass Releases"
 header = ["Artist", "Track", "Label", "Year"]
 rows = [
   ["Konflict", "Cyanide", "Renegade Hardware", 1999],
