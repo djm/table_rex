@@ -20,9 +20,15 @@ Currently supports output:
 
 <sup>1</sup> The text renderer supports these features, other may not or might not need to.
 
+####Stability
+
+This software is pre-v1 and therefore the public API *may* change; any breaking changes will be clearly
+denoted in the [CHANGELOG](CHANGELOG). After v1, the API will be stable.
+
 ####Documenation
 
 See the quick start below or check out the [full API docs at HexDocs](https://hexdocs.pm/table_rex/).
+
 
 ## Installation
 
@@ -32,7 +38,7 @@ The package is [available on Hex](https://hex.pm/packages/tablerex), therefore:
 
 ```elixir
 def deps do
-  [{:table_rex, "~> 0.0.1"}]
+  [{:table_rex, "~> 0.1.0"}]
 end
 ```
 

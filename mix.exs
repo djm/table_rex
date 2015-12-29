@@ -6,7 +6,7 @@ defmodule TableRex.Mixfile do
       app: :table_rex,
       name: "table_rex",
       source_url: "https://github.com/djm/table_rex",
-      version: "0.0.1",
+      version: "0.1.0",
       elixir: "~> 1.1",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
