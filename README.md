@@ -23,7 +23,7 @@ Currently supports output:
 ####Stability
 
 This software is pre-v1 and therefore the public API *may* change; any breaking changes will be clearly
-denoted in the [CHANGELOG](CHANGELOG). After v1, the API will be stable.
+denoted in the [CHANGELOG](CHANGELOG.md). After v1, the API will be stable.
 
 ####Documenation
 
@@ -61,7 +61,7 @@ title = "Drum & Bass Releases"
 header = ["Artist", "Track", "Label", "Year"]
 rows = [
   ["Konflict", "Cyanide", "Renegade Hardware", 1999],
-  ["Marcus Intalex", "Temperance", "Soul:r", 2004], 
+  ["Marcus Intalex", "Temperance", "Soul:r", 2004],
   ["Kryptic Minds", "The Forgotten", "Defcom Records", 2007]
 ]
 ```
@@ -103,7 +103,7 @@ rows
 ###TableRex.quick_render!/3
 
 ```elixir
-rows 
+rows
 |> TableRex.quick_render!(header, title)
 |> IO.puts
 ```
@@ -119,7 +119,7 @@ rows
 | Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
 +----------------+---------------+-------------------+------+
 ```
-        
+
 ##Run the tests
 
 From the project directory:
@@ -127,8 +127,8 @@ From the project directory:
 ```bash
 mix test
 ```
-        
-        
+
+
 ##Roadmap/Contributing
 
 We use the Github Issues tracker.
