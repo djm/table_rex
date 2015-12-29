@@ -45,6 +45,28 @@ end
 ```
 
 ##Quick Start
+
+###TableRex.quick_render!/1
+
+For those that just want a table quickly.
+
+```elixir
+rows = [
+  ["Konflict", "Cyanide", "Renegade Hardware", 1999],
+  ["Marcus Intalex", "Temperance", "Soul:r", 2004], 
+  ["Kryptic Minds", "The Forgotten", "Defcom Records", 2007],
+]
+TableRex.quick_render!(rows)
+|> IO.puts
+```
+
+```bash
++-----------------+---------------+-------------------+------+
+|    Konflict     |    Cyanide    | Renegade Hardware | 1999 |
+| Marcus Intalex  |  Temperance   |      Soul:r       | 2004 |
+|  Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
++-----------------+---------------+-------------------+------+
+```
         
 ##Run the tests
 
@@ -59,9 +81,9 @@ mix test
 
 We use the Github Issues tracker.
 
-If you have found something wrong, raise an issue.
+If you have found something wrong, please raise an issue.
 
-If you want to contribute, check the issues to see where you can help.
+If you'd like to contribute, check the issues to see where you can help.
 
 Contributions are welcome from anyone at any time but if the piece of work is significant in size, please raise an issue first.
 
