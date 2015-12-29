@@ -46,26 +46,74 @@ end
 
 ##Quick Start
 
-###TableRex.quick_render!/1
+Use the `TableRex.quick_render` and `TableRex.quick_render!` functions; for those that just want a table quickly.
 
-For those that just want a table quickly.
+Given this data:
 
 ```elixir
+Title = "Drum & Bass Releases"
+header = ["Artist", "Track", "Label", "Year"]
 rows = [
   ["Konflict", "Cyanide", "Renegade Hardware", 1999],
   ["Marcus Intalex", "Temperance", "Soul:r", 2004], 
   ["Kryptic Minds", "The Forgotten", "Defcom Records", 2007],
 ]
-TableRex.quick_render!(rows)
-|> IO.puts
 ```
 
-```bash
+###TableRex.quick_render!/1
+
+```elixir
+rows
+|> TableRex.quick_render!
+|> IO.puts
+
 +-----------------+---------------+-------------------+------+
 |    Konflict     |    Cyanide    | Renegade Hardware | 1999 |
 | Marcus Intalex  |  Temperance   |      Soul:r       | 2004 |
 |  Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
 +-----------------+---------------+-------------------+------+
+
+:ok
+```
+
+###TableRex.quick_render!/2
+
+```elixir
+
+rows
+|> TableRex.quick_render!(header)
+|> IO.puts
+
++----------------+---------------+-------------------+------+
+|     Artist     |     Track     |       Label       | Year |
++----------------+---------------+-------------------+------+
+|    Konflict    |    Cyanide    | Renegade Hardware | 1999 |
+| Marcus Intalex |  Temperance   |      Soul:r       | 2004 |
+| Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
++----------------+---------------+-------------------+------+
+
+:ok
+```
+
+###TableRex.quick_render!/3
+
+```elixir
+
+rows 
+|> TableRex.quick_render!(header, title)
+|> IO.puts
+
++-----------------------------------------------------------+
+|                   Drum & Bass Releases                    |
++----------------+---------------+-------------------+------+
+|     Artist     |     Track     |       Label       | Year |
++----------------+---------------+-------------------+------+
+|    Konflict    |    Cyanide    | Renegade Hardware | 1999 |
+| Marcus Intalex |  Temperance   |      Soul:r       | 2004 |
+| Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
++----------------+---------------+-------------------+------+
+
+:ok
 ```
         
 ##Run the tests
