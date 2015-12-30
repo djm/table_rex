@@ -1,5 +1,16 @@
 # Changelog
 
+##v0.4.0
+
+**No breaking changes**
+
+Added `TableRex.Table.set_header_meta/2` which allows a user
+to set the cell-level attributes (namely, alignment) of a
+header cell. Header cells can now be aligned individually,
+separately from the default which is picked up from the column.
+
+See issue [#3](https://github.com/djm/table_rex/issues/3).
+
 ##v0.3.0
 
 **No breaking changes**
