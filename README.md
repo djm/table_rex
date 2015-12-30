@@ -135,7 +135,6 @@ To run the test suite, from the project directory, do:
 mix test
 ```
 
-
 ##Roadmap/Contributing
 
 We use the Github Issues tracker.
@@ -149,3 +148,10 @@ Contributions are welcome from anyone at any time but if the piece of work is si
 ##License
 
 MIT. See the [full license](LICENSE).
+
+
+##Thanks
+
+* Ryanz720, for the [original T-Rex image](https://commons.wikimedia.org/wiki/File:Trex_Roar.jpg).
+
+* Everyone in #elixir-lang on freenode, for answering the endless questions.
