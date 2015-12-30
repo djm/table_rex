@@ -7,15 +7,12 @@ defmodule TableRex.Mixfile do
       name: "table_rex",
       source_url: "https://github.com/djm/table_rex",
       description: "Generate configurable text-based tables for display (ASCII & more)",
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.1",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps,
-      docs: [
-        logo: "assets/logo.png",
-        extras: ["README.md"]
-      ],
+      docs: docs,
       package: package
     ]
   end
@@ -27,8 +24,11 @@ defmodule TableRex.Mixfile do
   defp deps do
     [{:earmark, "~> 0.1", only: :docs},
      {:ex_doc, "~> 0.11", only: :docs},
-     {:inch_ex, only: :docs}
-    ]
+     {:inch_ex, only: :docs}]
+  end
+
+  defp docs do
+    [logo: "assets/logo.png"]
   end
 
   defp package do

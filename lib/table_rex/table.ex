@@ -150,29 +150,36 @@ defmodule TableRex.Table do
 
   # Rendering API
 
-  #TODO: doc
-  @spec render(Table.t) :: Renderer.render_return
-  def render(%Table{} = table) do
-    render(table, @default_renderer, [])
-  end
+  @doc """
+  Renders the current table state to string, ready for display via `IO.puts/2` or other means.
 
+  At least one row must have been added before rendering.
+
+  Returns `{:ok, rendered_string}` on success and `{:error, reason}` on failure.
+  """
   @spec render(Table.t, list) :: Renderer.render_return
-  def render(%Table{} = table, opts) when is_list(opts) do
-    render(table, @default_renderer, opts)
-  end
-
-  @spec render(Table.t, module) :: Renderer.render_return
-  def render(%Table{} = table, renderer) when is_atom(renderer) do
-    render(table, renderer, [])
-  end
-
-  @spec render(Table.t, module, list) :: Renderer.render_return
-  def render(%Table{} = table, renderer, opts) when is_atom(renderer) and is_list(opts) do
-    render_opts = Dict.merge(renderer.default_options, opts)
+  def render(%Table{} = table, opts \\ []) when is_list(opts) do
+    {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
+    opts = Dict.merge(renderer.default_options, opts)
     if Table.has_rows?(table) do
-      renderer.render(table, render_opts)
+      renderer.render(table, opts)
     else
       {:error, "Table must have at least one row before being rendered"}
     end
   end
-end 
+
+  @doc """
+  Renders the current table state to string, ready for display via `IO.puts/2` or other means.
+
+  At least one row must have been added before rendering.
+
+  Returns the rendered string on success, or raises `TableRex.Error` on failure.
+  """
+  @spec render!(Table.t, list) :: String.t | no_return
+  def render!(%Table{} = table, opts \\ []) when is_list(opts) do
+    case render(table, opts) do
+      {:ok, rendered_string} -> rendered_string
+      {:error, reason} -> raise TableRex.Error, message: reason
+    end
+  end
+end

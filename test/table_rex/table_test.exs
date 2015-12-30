@@ -297,7 +297,7 @@ defmodule TableRex.TableTest do
   end
 
   test "has_rows? returns correct response", _setup do
-    table = %Table{}
+    table = Table.new
     assert table |> Table.has_rows? == false
     table = %Table{rows: [["Exile", "Silver Spirit", "2003"]]}
     assert table |> Table.has_rows? == true
@@ -306,7 +306,7 @@ defmodule TableRex.TableTest do
   end
 
   test "has_header? returns correct response", _setup do
-    table = %Table{}
+    table = Table.new
     assert table |> Table.has_header? == false
     table = %Table{header_row: ["Artist", "Track", "Year"]}
     assert table |> Table.has_header? == true
@@ -332,9 +332,19 @@ defmodule TableRex.TableTest do
 
   end
 
-  test "render/2 calls Renderer correctly" do
-    table = %Table{rows: [%Cell{}]}
-    {:ok, _} = Table.render(table, TestRenderer)
+  test "render/2 default runs" do
+    {:ok, rendered} =
+      Table.new
+      |> Table.add_row(["a"])
+      |> Table.render
+    assert is_binary(rendered)
+  end
+
+  test "render/2 calls correctly" do
+    {:ok, _} =
+      Table.new
+      |> Table.add_row(["a"])
+      |> Table.render(renderer: TestRenderer)
     expected_opts = %{
       horizontal_style: :header,
       vertical_style: :all,
@@ -343,24 +353,40 @@ defmodule TableRex.TableTest do
     assert_received {:rendering, _table, ^expected_opts}
   end
 
-  test "render/3 calls Renderer correctly" do
-    table = %Table{rows: [%Cell{}]}
-    opts = [horizontal_symbol: "~", renderer_specific_option: false]
-    {:ok, _} = Table.render(table, TestRenderer, opts)
+  test "render/2 errors when not enough rows" do
+    {:error, reason} =
+      Table.new
+      |> Table.render(renderer: TestRenderer)
+    assert reason == "Table must have at least one row before being rendered"
+    refute_received {:rendering, _, _}
+  end
+
+  test "render!/2 default runs" do
+    rendered =
+      Table.new
+      |> Table.add_row(["a"])
+      |> Table.render!
+    assert is_binary(rendered)
+  end
+
+  test "render!/2 calls correctly" do
+    rendered =
+      Table.new
+      |> Table.add_row(["a"])
+      |> Table.render!(renderer: TestRenderer)
     expected_opts = %{
       horizontal_style: :header,
       vertical_style: :all,
-      horizontal_symbol: "~",
-      renderer_specific_option: false
+      renderer_specific_option: true
     }
     assert_received {:rendering, _table, ^expected_opts}
   end
 
-  test "table without rows fails render" do
-    table = %Table{}
-    {:error, reason} = Table.render(table, TestRenderer)
-    assert reason == "Table must have at least one row before being rendered"
-    refute_received {:rendering, _, _}
+  test "render/2 raises an error on failure" do
+    assert_raise TableRex.Error, fn ->
+      Table.new
+      |> Table.render!
+    end
   end
 
 end
