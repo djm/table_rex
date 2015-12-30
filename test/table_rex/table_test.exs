@@ -237,9 +237,23 @@ defmodule TableRex.TableTest do
     ]
   end
 
+  test "setting header cell meta", %{table: table} do
+    header = ["Artist", "Track", "Year"]
+    table =
+      table
+      |> Table.set_header(header)
+      |> Table.set_header_meta(0, align: :left)
+      |> Table.set_header_meta(1, align: :right)
+    assert table.header_row == [
+        %Cell{value: "Artist", align: :left},
+        %Cell{value: "Track", align: :right},
+        %Cell{value: "Year", align: nil}
+    ]
+  end
+
   test "clearing rows", %{table: table} do
     title = "Moving Shadow Releases"
-    header_row = ["Artist", "Track", "Year"]
+    header = ["Artist", "Track", "Year"]
     rows = [
       ["Blame", "Neptune", 1996],
       ["Rob & Dom", "Distorted Dreams", 1997]
@@ -247,7 +261,7 @@ defmodule TableRex.TableTest do
     table =
       table
       |> Table.set_title(title)
-      |> Table.set_header(header_row)
+      |> Table.set_header(header)
       |> Table.add_rows(rows)
       |> Table.clear_rows
     assert table.title == title

@@ -80,6 +80,16 @@ defmodule TableRex.Table do
   end
 
   @doc """
+  Sets cell level information for the header cells.
+  """
+  @spec set_header_meta(Table.t, integer, Keyword.t) :: Table.t
+  def set_header_meta(%Table{} = table, col_index, cell_meta) when is_integer(col_index) and is_list(cell_meta) do
+    cell_meta = cell_meta |> Enum.into(%{})
+    header_row = List.update_at(table.header_row, col_index, &Map.merge(&1, cell_meta))
+    %Table{table | header_row: header_row}
+  end
+
+  @doc """
   Adds a single row to the table.
   """
   @spec add_row(Table.t, list) :: Table.t
