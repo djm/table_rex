@@ -134,7 +134,7 @@ defmodule TableRex.Table do
     Dict.get(table.columns, col_index, table.default_column)
   end
 
-  @doc"""
+  @doc """
   Retreives the value of a column meta option at the specified col_index.
   If no value has been set, default values are returned.
   """
@@ -144,14 +144,14 @@ defmodule TableRex.Table do
     |> Map.fetch!(key)
   end
 
-  @doc"""
+  @doc """
   Returns a boolean detailing if the passed table has any row data set.
   """
   @spec has_rows?(Table.t) :: boolean
   def has_rows?(%Table{rows: []}), do: false
   def has_rows?(%Table{rows: rows}) when is_list(rows), do: true
 
-  @doc"""
+  @doc """
   Returns a boolean detailing if the passed table has a header row set.
   """
   @spec has_header?(Table.t) :: boolean
