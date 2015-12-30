@@ -22,7 +22,7 @@ defmodule TableRex.Mixfile do
   end
 
   defp deps do
-    [{:earmark, "~> 0.1", only: :docs},
+    [{:earmark, "~> 0.2", only: :docs},
      {:ex_doc, "~> 0.11", only: :docs},
      {:inch_ex, only: :docs}]
   end
