@@ -1,5 +1,13 @@
 # Changelog
 
+##v0.3.0
+
+**No breaking changes**
+
+Simply an update to bump the version due to an oversight as the generated
+docs for older version contained documentation for uncommited files which
+were not part of the package. This has been remedied as of this version.
+
 ##v0.2.0
 
 **Breaking changes**
