@@ -124,6 +124,129 @@ rows
 +----------------+---------------+-------------------+------+
 ```
 
+###Utilising TableRex.Table for deeper customisation
+
+These examples all use: `alias TableRex.Table` to shorten the namespace.
+
+**Set alignment & padding for specific columns or column ranges:**
+
+```elixir
+Table.new
+|> Table.add_rows(rows)
+|> Table.set_header(header)
+|> Table.set_column_meta(0, align: :right, padding: 5)
+|> Table.set_column_meta(1..2, align: :left)
+|> Table.render!
+|> IO.puts
+```
+
+```
++------------------------+---------------+-------------------+------+
+|             Artist     | Track         | Label             | Year |
++------------------------+---------------+-------------------+------+
+|           Konflict     | Cyanide       | Renegade Hardware | 1999 |
+|     Marcus Intalex     | Temperance    | Soul:r            | 2004 |
+|      Kryptic Minds     | The Forgotten | Defcom Records    | 2007 |
++------------------------+---------------+-------------------+------+
+```
+
+**Change the table styling:**
+
+```elixir
+Table.new
+|> Table.add_rows(rows)
+|> Table.set_header(header)
+|> Table.render!(header_separator_symbol: "=", horizontal_style: :all)
+|> IO.puts
+```
+
+```
++----------------+---------------+-------------------+------+
+|     Artist     |     Track     |       Label       | Year |
++================+===============+===================+======+
+|    Konflict    |    Cyanide    | Renegade Hardware | 1999 |
++----------------+---------------+-------------------+------+
+| Marcus Intalex |  Temperance   |      Soul:r       | 2004 |
++----------------+---------------+-------------------+------+
+| Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
++----------------+---------------+-------------------+------+
+```
+
+*Available render options:*
+
+`horizontal_style`: one of `:off`, `:frame` (just the outside frame), `:header` (frame + header seperators), `:all` (frame + header + row seperators).
+`vertical_style`: one of `:off`, `:frame` (just the outside frame) or `:all` (frame + column separators).
+`horizonal_symbol`: used for drawing horizontal row separators. Default: `-`.
+`vertical_symbol`: used for drawing vertical separators. Default: `-`.
+`intersection_symbol`: used to draw the symbol where horizontal and vertical seperators intersect. Default: `+`.
+`top_frame_symbol`: used to draw the frame's top horizontal separator. Default: `-`.
+`title_separator_symbol`:  used to draw the horizontal separator under the (optional) title. Default: `-`.
+`header_separator_symbol`: used to draw the horizontal separator under the (optional) header. Default: `-`.
+`bottom_frame_symbol`: used to draw the frame's bottom horizontal separator. Default: `-`.
+``
+
+**Set cell level meta (including for the header cells):**
+
+```elixir
+Table.new
+|> Table.add_rows(rows)
+|> Table.set_header(header)
+|> Table.set_header_meta(0, align: :left)
+|> Table.set_cell_meta(2, 1, align: :right)
+|> Table.render!
+|> IO.puts
+```
+
+```
++----------------+---------------+-------------------+------+
+| Artist         |     Track     |       Label       | Year |
++----------------+---------------+-------------------+------+
+|    Konflict    |    Cyanide    | Renegade Hardware | 1999 |
+| Marcus Intalex |  Temperance   |            Soul:r | 2004 |
+| Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
++----------------+---------------+-------------------+------+
+```
+
+*NB:*
+
+* in `set_header_meta` the `0` referred to the first cell of the header which was aligned left.
+* in `set_cell_meta`, the `2` referred to the `Label` column, and the `1` referred to the row index. The cell was aligned right.
+
+**Change/pass in your own renderer module:**
+
+The default renderer is `TableRex.Renderer.Text`.
+
+Custom renderer modules must be behaviours of `TableRex.Renderer`.
+
+```elixir
+Table.new
+|> Table.add_rows(rows)
+|> Table.set_header(header)
+|> Table.render!(renderer: YourCustom.Renderer.Module)
+```
+
+**Go mad:**
+
+```elixir
+Table.new
+|> Table.add_rows(rows)
+|> Table.set_header(header)
+|> Table.render!(horizontal_style: :all, vertical_style: :all, top_frame_symbol: "*", header_separator_symbol: "=", horizontal_symbol: "~", vertical_symbol: "!")
+|> IO.puts
+```
+
+```
++****************+***************+*******************+******+
+!     Artist     !     Track     !       Label       ! Year !
++================+===============+===================+======+
+!    Konflict    !    Cyanide    ! Renegade Hardware ! 1999 !
++~~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~~~~~+~~~~~~+
+! Marcus Intalex !  Temperance   !      Soul:r       ! 2004 !
++~~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~~~~~+~~~~~~+
+! Kryptic Minds  ! The Forgotten !  Defcom Records   ! 2007 !
++----------------+---------------+-------------------+------+
+```
+
 ##Run the tests
 
 We have an extensive test suite which helps showcase project usage. For example: the [quick render functions](https://github.com/djm/table_rex/blob/master/test/table_rex_test.exs),

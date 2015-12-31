@@ -1,5 +1,20 @@
 # Changelog
 
+##v0.5.0
+
+**No breaking changes**
+
+`TableRex.Table.set_column_meta` now supports applying the column
+meta to a range of columns as so:
+
+```elixir
+TableRex.Table.set_column_meta(table, 0..3, align: :right)
+```
+
+This would right-align columns 0 through 3.
+
+It is different to using the `:all` atom as it allows for a subset.
+
 ##v0.4.0
 
 **No breaking changes**
