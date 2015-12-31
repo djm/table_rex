@@ -693,9 +693,7 @@ defmodule TableRex.Renderer.TextTest do
   test "default render with added padding", %{table: table} do
     {:ok, rendered} =
       table
-      |> Table.set_column_meta(0, padding: 3)
-      |> Table.set_column_meta(1, padding: 3)
-      |> Table.set_column_meta(2, padding: 3)
+      |> Table.set_column_meta(:all, padding: 3)
       |> Table.render
     assert rendered == """
     +----------------------------------------------------------+
@@ -714,8 +712,7 @@ defmodule TableRex.Renderer.TextTest do
     {:ok, rendered} =
       table
       |> Table.set_column_meta(0, padding: 3, align: :left)
-      |> Table.set_column_meta(1, padding: 3, align: :right)
-      |> Table.set_column_meta(2, padding: 3, align: :right)
+      |> Table.set_column_meta(1..2, padding: 3, align: :right)
       |> Table.render
     assert rendered == """
     +----------------------------------------------------------+

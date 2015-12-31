@@ -178,7 +178,7 @@ defmodule TableRex.TableTest do
     assert table.header_row == []
   end
 
-  test "setting column meta for specific columns", %{table: table} do
+  test "setting column meta for a specific column", %{table: table} do
     assert table.columns == %{}
     table = Table.set_column_meta(table, 0, align: :right)
     assert table.columns == %{
@@ -189,6 +189,22 @@ defmodule TableRex.TableTest do
     assert table.columns == %{
       0 => %Column{align: :left, padding: 2},
       1 => %Column{align: :right}
+    }
+  end
+
+  test "setting column meta across specific columns", %{table: table} do
+    table = Table.set_column_meta(table, 0..2, align: :right)
+    assert table.columns == %{
+      0 => %Column{align: :right},
+      1 => %Column{align: :right},
+      2 => %Column{align: :right}
+    }
+    table = Table.set_column_meta(table, 1..3, padding: 2)
+    assert table.columns == %{
+      0 => %Column{align: :right},
+      1 => %Column{align: :right, padding: 2},
+      2 => %Column{align: :right, padding: 2},
+      3 => %Column{padding: 2}
     }
   end
 

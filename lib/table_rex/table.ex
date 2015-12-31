@@ -47,12 +47,16 @@ defmodule TableRex.Table do
   @doc """
   Sets column level information such as padding and alignment.
   """
-  @spec set_column_meta(Table.t, integer | atom, Keyword.t) :: Table.t
+  @spec set_column_meta(Table.t, integer | Range.t | atom, Keyword.t) :: Table.t
   def set_column_meta(%Table{} = table, col_index, col_meta) when is_integer(col_index) and is_list(col_meta) do
     col_meta = col_meta |> Enum.into(%{})
     col = get_column(table, col_index) |> Map.merge(col_meta)
     new_columns = Map.put(table.columns, col_index, col)
     %Table{table | columns: new_columns}
+  end
+
+  def set_column_meta(%Table{} = table, %Range{} = col_range, col_meta) when is_list(col_meta) do
+    Enum.reduce(col_range, table, &set_column_meta(&2, &1, col_meta))
   end
 
   def set_column_meta(%Table{} = table, :all, col_meta) when is_list(col_meta) do
