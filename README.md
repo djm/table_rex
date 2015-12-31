@@ -17,7 +17,7 @@ Currently supports output:
 * Support for table titles & alignable headers.
 * Support for column & cell level alignment (center, left, right).
 * Automatic cell padding but also the option to set padding per column<sup>1</sup>.
-* Frame the table with various vertical & horizonal styles<sup>1</sup>.
+* Frame the table with various vertical & horizontal styles<sup>1</sup>.
 * Style the table how you wish with custom separators<sup>1</sup>.
 * Works well with the Agent module to allow for easy sharing of state.
 * Clients can supply their own rendering modules and still take advantage of the table manipulation API.
@@ -176,7 +176,7 @@ Table.new
 
 `horizontal_style`: one of `:off`, `:frame` (just the outside frame), `:header` (frame + header seperators), `:all` (frame + header + row seperators).  
 `vertical_style`: one of `:off`, `:frame` (just the outside frame) or `:all` (frame + column separators).  
-`horizonal_symbol`: used for drawing horizontal row separators. Default: `-`.  
+`horizontal_symbol`: used for drawing horizontal row separators. Default: `-`.  
 `vertical_symbol`: used for drawing vertical separators. Default: `-`.  
 `intersection_symbol`: used to draw the symbol where horizontal and vertical seperators intersect. Default: `+`.  
 `top_frame_symbol`: used to draw the frame's top horizontal separator. Default: `-`.  
