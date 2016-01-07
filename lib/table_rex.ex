@@ -12,10 +12,7 @@ defmodule TableRex do
   """
   @spec quick_render(list, list, String.t | nil) :: Renderer.render_return
   def quick_render(rows, header \\ [], title \\ nil) when is_list(rows) and is_list(header) do
-    Table.new
-    |> Table.add_rows(rows)
-    |> Table.set_header(header)
-    |> Table.set_title(title)
+    Table.new(rows, header, title)
     |> Table.render
   end
 

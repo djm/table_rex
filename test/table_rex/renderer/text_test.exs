@@ -10,11 +10,7 @@ defmodule TableRex.Renderer.TextTest do
       ["Keaton & Hive", "The Plague", 2003],
       ["Vicious Circle", "Welcome To Shanktown", 2007],
     ]
-    table =
-      Table.new
-      |> Table.set_title(title)
-      |> Table.set_header(header)
-      |> Table.add_rows(rows)
+    table = Table.new(rows, header, title)
     {:ok, table: table}
   end
 

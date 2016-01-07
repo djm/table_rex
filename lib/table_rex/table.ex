@@ -14,11 +14,24 @@ defmodule TableRex.Table do
   @default_renderer Renderer.Text
 
   @doc """
-  Creates a new table.
+  Creates a new blank table.
+
+  The table created will not be able to be rendered until it has some row data.
   """
   @spec new() :: Table.t
   def new do
     %Table{}
+  end
+
+  @doc """
+  Creates a new table with an initial set of rows and an optional header and title.
+  """
+  @spec new(list, list, String.t) :: Table.t
+  def new(rows, header_row \\ [], title \\ nil) when is_list(rows) and is_list(header_row) do
+    new
+    |> set_title(title)
+    |> set_header(header_row)
+    |> add_rows(rows)
   end
 
   # Mutation API

@@ -1,5 +1,28 @@
 # Changelog
 
+##v0.6.0
+
+**No breaking changes**
+
+`Table.new/0` has been supplemented with `Table.new/3` which takes `rows` and
+an optional `header` and `title`. This change was made as when the data is known
+upfront it was quite verbose doing:
+
+```elixir
+Table.new
+|> Table.add_rows(rows)
+|> Table.set_header(header)
+|> Table.set_title(title)
+|> Table.render
+```
+
+The following can now be used instead:
+
+```
+Table.new(rows, header, title)
+|> Table.render
+```
+
 ##v0.5.0
 
 **No breaking changes**

@@ -131,11 +131,9 @@ These examples all use: `alias TableRex.Table` to shorten the namespace.
 **Set alignment & padding for specific columns or column ranges:**
 
 ```elixir
-Table.new
-|> Table.add_rows(rows)
-|> Table.set_header(header)
-|> Table.set_column_meta(0, align: :right, padding: 5)
-|> Table.set_column_meta(1..2, align: :left)
+Table.new(rows, header)
+|> Table.set_column_meta(0, align: :right, padding: 5) # `0` is the column index.
+|> Table.set_column_meta(1..2, align: :left) # `1..2` is a range of column indexes.
 |> Table.render!
 |> IO.puts
 ```
@@ -153,9 +151,7 @@ Table.new
 **Change the table styling:**
 
 ```elixir
-Table.new
-|> Table.add_rows(rows)
-|> Table.set_header(header)
+Table.new(rows, header)
 |> Table.render!(header_separator_symbol: "=", horizontal_style: :all)
 |> IO.puts
 ```
@@ -187,9 +183,7 @@ Table.new
 **Set cell level meta (including for the header cells):**
 
 ```elixir
-Table.new
-|> Table.add_rows(rows)
-|> Table.set_header(header)
+Table.new(rows, header)
 |> Table.set_header_meta(0, align: :left)
 |> Table.set_cell_meta(2, 1, align: :right)
 |> Table.render!
@@ -218,18 +212,14 @@ The default renderer is `TableRex.Renderer.Text`.
 Custom renderer modules must be behaviours of `TableRex.Renderer`.
 
 ```elixir
-Table.new
-|> Table.add_rows(rows)
-|> Table.set_header(header)
+Table.new(rows, header)
 |> Table.render!(renderer: YourCustom.Renderer.Module)
 ```
 
 **Go mad:**
 
 ```elixir
-Table.new
-|> Table.add_rows(rows)
-|> Table.set_header(header)
+Table.new(rows, header)
 |> Table.render!(horizontal_style: :all, top_frame_symbol: "*", header_separator_symbol: "=", horizontal_symbol: "~", vertical_symbol: "!")
 |> IO.puts
 ```

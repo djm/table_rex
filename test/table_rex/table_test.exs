@@ -9,6 +9,57 @@ defmodule TableRex.TableTest do
     {:ok, table: table}
   end
 
+  test "new with no arguments", _ do
+    assert Table.new == %Table{}
+  end
+
+  test "new with initial rows", _ do
+    rows = [["Dom & Roland", "Thunder", 1998]]
+    assert Table.new(rows) == %Table{
+      rows: [[
+        %Cell{value: "Dom & Roland"},
+        %Cell{value: "Thunder"},
+        %Cell{value: "1998"}
+      ]]
+    }
+  end
+
+  test "new with initial rows and header", _ do
+    rows = [["Dom & Roland", "Thunder", 1998]]
+    header = ["Artist", "Track", "Year"]
+    assert Table.new(rows, header) == %Table{
+      header_row: [
+        %Cell{value: "Artist"},
+        %Cell{value: "Track"},
+        %Cell{value: "Year"}
+      ],
+      rows: [[
+        %Cell{value: "Dom & Roland"},
+        %Cell{value: "Thunder"},
+        %Cell{value: "1998"}
+      ]]
+    }
+  end
+
+  test "new with initial rows, header and title", _ do
+    title = "Dom & Roland Releases"
+    rows = [["Dom & Roland", "Thunder", 1998]]
+    header = ["Artist", "Track", "Year"]
+    assert Table.new(rows, header, title) == %Table{
+      title: "Dom & Roland Releases",
+      header_row: [
+        %Cell{value: "Artist"},
+        %Cell{value: "Track"},
+        %Cell{value: "Year"}
+      ],
+      rows: [[
+              %Cell{value: "Dom & Roland"},
+              %Cell{value: "Thunder"},
+              %Cell{value: "1998"}
+            ]]
+    }
+  end
+
   test "adding a single row with values", %{table: table} do
     row = ["Dom & Roland", "Thunder", 1998]
     table = Table.add_row(table, row)
@@ -400,10 +451,9 @@ defmodule TableRex.TableTest do
   end
 
   test "render!/2 calls correctly" do
-    rendered =
-      Table.new
-      |> Table.add_row(["a"])
-      |> Table.render!(renderer: TestRenderer)
+    Table.new
+    |> Table.add_row(["a"])
+    |> Table.render!(renderer: TestRenderer)
     expected_opts = %{
       horizontal_style: :header,
       vertical_style: :all,
