@@ -73,8 +73,7 @@ rows = [
 ###TableRex.quick_render!/1
 
 ```elixir
-rows
-|> TableRex.quick_render!
+TableRex.quick_render!(rows)
 |> IO.puts
 ```
 
@@ -89,8 +88,7 @@ rows
 ###TableRex.quick_render!/2
 
 ```elixir
-rows
-|> TableRex.quick_render!(header)
+TableRex.quick_render!(rows, header)
 |> IO.puts
 ```
 
@@ -107,8 +105,7 @@ rows
 ###TableRex.quick_render!/3
 
 ```elixir
-rows
-|> TableRex.quick_render!(header, title)
+TableRex.quick_render!(rows, header, title)
 |> IO.puts
 ```
 
