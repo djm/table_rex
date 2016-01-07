@@ -42,7 +42,7 @@ The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
 
 ```elixir
 def deps do
-  [{:table_rex, "~> 0.4.0"}]
+  [{:table_rex, "~> 0.6.0"}]
 end
 ```
 
@@ -170,15 +170,15 @@ Table.new(rows, header)
 
 *Available render options:*
 
-`horizontal_style`: one of `:off`, `:frame` (just the outside frame), `:header` (frame + header seperators), `:all` (frame + header + row seperators).  
-`vertical_style`: one of `:off`, `:frame` (just the outside frame) or `:all` (frame + column separators).  
-`horizontal_symbol`: used for drawing horizontal row separators. Default: `-`.  
-`vertical_symbol`: used for drawing vertical separators. Default: `-`.  
-`intersection_symbol`: used to draw the symbol where horizontal and vertical seperators intersect. Default: `+`.  
-`top_frame_symbol`: used to draw the frame's top horizontal separator. Default: `-`.  
-`title_separator_symbol`:  used to draw the horizontal separator under the (optional) title. Default: `-`.  
-`header_separator_symbol`: used to draw the horizontal separator under the (optional) header. Default: `-`.  
-`bottom_frame_symbol`: used to draw the frame's bottom horizontal separator. Default: `-`.  
+`horizontal_style`: one of `:off`, `:frame` (just the outside frame), `:header` (frame + header seperators), `:all` (frame + header + row seperators).
+`vertical_style`: one of `:off`, `:frame` (just the outside frame) or `:all` (frame + column separators).
+`horizontal_symbol`: used for drawing horizontal row separators. Default: `-`.
+`vertical_symbol`: used for drawing vertical separators. Default: `-`.
+`intersection_symbol`: used to draw the symbol where horizontal and vertical seperators intersect. Default: `+`.
+`top_frame_symbol`: used to draw the frame's top horizontal separator. Default: `-`.
+`title_separator_symbol`:  used to draw the horizontal separator under the (optional) title. Default: `-`.
+`header_separator_symbol`: used to draw the horizontal separator under the (optional) header. Default: `-`.
+`bottom_frame_symbol`: used to draw the frame's bottom horizontal separator. Default: `-`.
 
 **Set cell level meta (including for the header cells):**
 
