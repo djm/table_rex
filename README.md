@@ -167,15 +167,15 @@ Table.new(rows, header)
 
 *Available render options:*
 
-* `horizontal_style`: one of `:off`, `:frame` (just the outside frame), `:header` (frame + header seperators), `:all` (frame + header + row seperators).  
+* `horizontal_style`: one of `:off`, `:frame` (just the outside frame), `:header` (frame + header seperators), `:all` (frame + header + row seperators).
 * `vertical_style`: one of `:off`, `:frame` (just the outside frame) or `:all` (frame + column separators).
-* `horizontal_symbol`: used for drawing horizontal row separators. Default: `-`.
-* `vertical_symbol`: used for drawing vertical separators. Default: `-`.
-* `intersection_symbol`: used to draw the symbol where horizontal and vertical seperators intersect. Default: `+`.
-* `top_frame_symbol`: used to draw the frame's top horizontal separator. Default: `-`.
-* `title_separator_symbol`:  used to draw the horizontal separator under the (optional) title. Default: `-`.
-* `header_separator_symbol`: used to draw the horizontal separator under the (optional) header. Default: `-`.
-* `bottom_frame_symbol`: used to draw the frame's bottom horizontal separator. Default: `-`.
+* `horizontal_symbol`: used for drawing horizontal row separators.
+* `vertical_symbol`: used for drawing vertical separators.
+* `intersection_symbol`: used to draw the symbol where horizontal and vertical seperators intersect.
+* `top_frame_symbol`: used to draw the frame's top horizontal separator.
+* `title_separator_symbol`:  used to draw the horizontal separator under the (optional) title.
+* `header_separator_symbol`: used to draw the horizontal separator under the (optional) header.
+* `bottom_frame_symbol`: used to draw the frame's bottom horizontal separator.
 
 **Set cell level meta (including for the header cells):**
 
