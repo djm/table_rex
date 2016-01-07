@@ -1,6 +1,8 @@
 defmodule TableRex.TableRexTest do
   use ExUnit.Case, async: true
 
+  doctest TableRex
+
   test "quick_render with title, header and rows" do
     {:ok, rendered} = TableRex.quick_render(
       [

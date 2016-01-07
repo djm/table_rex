@@ -4,6 +4,8 @@ defmodule TableRex.TableTest do
   alias TableRex.Column
   alias TableRex.Table
 
+  doctest Table
+
   setup do
     table = Table.new
     {:ok, table: table}

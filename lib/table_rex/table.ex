@@ -1,6 +1,10 @@
 defmodule TableRex.Table do
   @moduledoc """
-  Defines a struct that represents a table and provides functions for working with it
+  A set of functions for working with tables.
+
+  The `Table` is represented internally as a struct though the
+  fields are private and must not be accessed directly. Instead,
+  use the functions in this module.
   """
   alias TableRex.Cell
   alias TableRex.Column
@@ -17,6 +21,12 @@ defmodule TableRex.Table do
   Creates a new blank table.
 
   The table created will not be able to be rendered until it has some row data.
+
+  ## Examples
+
+      iex> Table.new
+      %TableRex.Table{}
+
   """
   @spec new() :: Table.t
   def new do

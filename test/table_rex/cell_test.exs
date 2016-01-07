@@ -2,6 +2,8 @@ defmodule TableRex.CellTest do
   use ExUnit.Case, async: true
   alias TableRex.Cell
 
+  doctest Cell
+
   test "default struct" do
     assert %Cell{} == %Cell{
       value: "",
