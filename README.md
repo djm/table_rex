@@ -6,6 +6,8 @@
 
 **An Elixir app which generates text-based tables for display**
 
+<img src="https://raw.githubusercontent.com/djm/table_rex/master/assets/examples.gif" width="500" alt="Layout Examples" />
+
 Currently supports output:
 
 * in customisable ASCII format.
@@ -23,8 +25,6 @@ Currently supports output:
 * Clients can supply their own rendering modules and still take advantage of the table manipulation API.
 
 <sup>1</sup> The text renderer supports these features, others may not or might not need to.
-
-<img src="https://raw.githubusercontent.com/djm/table_rex/master/assets/examples.gif" width="500" alt="Layout Examples" />
 
 ####Documenation
 
