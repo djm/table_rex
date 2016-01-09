@@ -2,7 +2,7 @@
 
 [![Hex.pm](https://img.shields.io/hexpm/v/table_rex.svg)](https://hex.pm/packages/table_rex)
 [![Build Status](https://travis-ci.org/djm/table_rex.svg?branch=master)](https://travis-ci.org/djm/table_rex)
-[![Inline docs](http://inch-ci.org/github/djm/table_rex.svg)](http://inch-ci.org/github/djm/table_rex)
+[![Docs on HexDocs](http://inch-ci.org/github/djm/table_rex.svg)](https://hexdocs.pm/table_rex/)
 
 **An Elixir app which generates text-based tables for display**
 
@@ -24,14 +24,16 @@ Currently supports output:
 
 <sup>1</sup> The text renderer supports these features, others may not or might not need to.
 
-####Stability
-
-This software is pre-v1 and therefore the public API *may* change; any breaking changes will be clearly
-denoted in the [CHANGELOG](CHANGELOG.md). After v1, the API will be stable.
+<img src="https://raw.githubusercontent.com/djm/table_rex/master/assets/examples.gif" width="500" alt="Layout Examples" />
 
 ####Documenation
 
 See the quick start below or check out the [full API docs at HexDocs](https://hexdocs.pm/table_rex/).
+
+####Stability
+
+This software is pre-v1 and therefore the public API *may* change; any breaking changes will be clearly
+denoted in the [CHANGELOG](CHANGELOG.md). After v1, the API will be stable.
 
 
 ## Installation
