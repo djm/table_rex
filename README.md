@@ -9,7 +9,7 @@
 Currently supports output:
 
 * in customisable ASCII format.
-* with your own renderer.
+* with your own renderer module.
 
 ####Features
 
@@ -42,7 +42,7 @@ The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
 
 ```elixir
 def deps do
-  [{:table_rex, "~> 0.6.0"}]
+  [{:table_rex, "~> 0.7.0"}]
 end
 ```
 
@@ -78,11 +78,11 @@ TableRex.quick_render!(rows)
 ```
 
 ```
-+-----------------+---------------+-------------------+------+
-|    Konflict     |    Cyanide    | Renegade Hardware | 1999 |
-| Marcus Intalex  |  Temperance   |      Soul:r       | 2004 |
-|  Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
-+-----------------+---------------+-------------------+------+
++----------------+---------------+-------------------+------+
+| Konflict       | Cyanide       | Renegade Hardware | 1999 |
+| Marcus Intalex | Temperance    | Soul:r            | 2004 |
+| Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
++----------------+---------------+-------------------+------+
 ```
 
 ###TableRex.quick_render!/2
@@ -94,11 +94,11 @@ TableRex.quick_render!(rows, header)
 
 ```
 +----------------+---------------+-------------------+------+
-|     Artist     |     Track     |       Label       | Year |
+| Artist         | Track         | Label             | Year |
 +----------------+---------------+-------------------+------+
-|    Konflict    |    Cyanide    | Renegade Hardware | 1999 |
-| Marcus Intalex |  Temperance   |      Soul:r       | 2004 |
-| Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
+| Konflict       | Cyanide       | Renegade Hardware | 1999 |
+| Marcus Intalex | Temperance    | Soul:r            | 2004 |
+| Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
 +----------------+---------------+-------------------+------+
 ```
 
@@ -113,11 +113,11 @@ TableRex.quick_render!(rows, header, title)
 +-----------------------------------------------------------+
 |                   Drum & Bass Releases                    |
 +----------------+---------------+-------------------+------+
-|     Artist     |     Track     |       Label       | Year |
+| Artist         | Track         | Label             | Year |
 +----------------+---------------+-------------------+------+
-|    Konflict    |    Cyanide    | Renegade Hardware | 1999 |
-| Marcus Intalex |  Temperance   |      Soul:r       | 2004 |
-| Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
+| Konflict       | Cyanide       | Renegade Hardware | 1999 |
+| Marcus Intalex | Temperance    | Soul:r            | 2004 |
+| Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
 +----------------+---------------+-------------------+------+
 ```
 
@@ -130,7 +130,7 @@ These examples all use: `alias TableRex.Table` to shorten the namespace.
 ```elixir
 Table.new(rows, header)
 |> Table.set_column_meta(0, align: :right, padding: 5) # `0` is the column index.
-|> Table.set_column_meta(1..2, align: :left) # `1..2` is a range of column indexes.
+|> Table.set_column_meta(1..2, align: :center) # `1..2` is a range of column indexes. :all also works.
 |> Table.render!
 |> IO.puts
 ```
@@ -139,9 +139,9 @@ Table.new(rows, header)
 +------------------------+---------------+-------------------+------+
 |             Artist     | Track         | Label             | Year |
 +------------------------+---------------+-------------------+------+
-|           Konflict     | Cyanide       | Renegade Hardware | 1999 |
-|     Marcus Intalex     | Temperance    | Soul:r            | 2004 |
-|      Kryptic Minds     | The Forgotten | Defcom Records    | 2007 |
+|           Konflict     |    Cyanide    | Renegade Hardware | 1999 |
+|     Marcus Intalex     |  Temperance   |      Soul:r       | 2004 |
+|      Kryptic Minds     | The Forgotten |  Defcom Records   | 2007 |
 +------------------------+---------------+-------------------+------+
 ```
 
@@ -149,6 +149,7 @@ Table.new(rows, header)
 
 ```elixir
 Table.new(rows, header)
+|> Table.set_column_meta(:all, align: :center)
 |> Table.render!(header_separator_symbol: "=", horizontal_style: :all)
 |> IO.puts
 ```
@@ -167,40 +168,35 @@ Table.new(rows, header)
 
 *Available render options:*
 
-* `horizontal_style`: one of `:off`, `:frame` (just the outside frame), `:header` (frame + header seperators), `:all` (frame + header + row seperators).
-* `vertical_style`: one of `:off`, `:frame` (just the outside frame) or `:all` (frame + column separators).
-* `horizontal_symbol`: used for drawing horizontal row separators.
-* `vertical_symbol`: used for drawing vertical separators.
-* `intersection_symbol`: used to draw the symbol where horizontal and vertical seperators intersect.
-* `top_frame_symbol`: used to draw the frame's top horizontal separator.
-* `title_separator_symbol`:  used to draw the horizontal separator under the (optional) title.
-* `header_separator_symbol`: used to draw the horizontal separator under the (optional) header.
-* `bottom_frame_symbol`: used to draw the frame's bottom horizontal separator.
+* `horizontal_style`: one of `:off`, `:frame`, `:header` or `:all`.
+* `vertical_style`: one of `:off`, `:frame` or `:all`.
+* `horizontal_symbol`: draws horizontal row separators.
+* `vertical_symbol`: draws vertical separators.
+* `intersection_symbol`: draws the symbol where horizontal and vertical seperators intersect.
+* `top_frame_symbol`: draws the frame's top horizontal separator.
+* `title_separator_symbol`:  draws the horizontal separator under the title.
+* `header_separator_symbol`: draws to draw the horizontal separator under the header.
+* `bottom_frame_symbol`: draws the frame's bottom horizontal separator.
 
 **Set cell level meta (including for the header cells):**
 
 ```elixir
 Table.new(rows, header)
-|> Table.set_header_meta(0, align: :left)
-|> Table.set_cell_meta(2, 1, align: :right)
+|> Table.set_header_meta(0..4, align: :center) # row index(es)
+|> Table.set_cell_meta(2, 1, align: :right) # column index, row index.
 |> Table.render!
 |> IO.puts
 ```
 
 ```
 +----------------+---------------+-------------------+------+
-| Artist         |     Track     |       Label       | Year |
+|     Artist     |     Track     |       Label       | Year |
 +----------------+---------------+-------------------+------+
-|    Konflict    |    Cyanide    | Renegade Hardware | 1999 |
-| Marcus Intalex |  Temperance   |            Soul:r | 2004 |
-| Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
+| Konflict       | Cyanide       | Renegade Hardware | 1999 |
+| Marcus Intalex | Temperance    |            Soul:r | 2004 |
+| Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
 +----------------+---------------+-------------------+------+
 ```
-
-*NB:*
-
-* in `set_header_meta` the `0` referred to the first cell of the header which was aligned left.
-* in `set_cell_meta`, the `2` referred to the `Label` column, and the `1` referred to the row index. The cell was aligned right.
 
 **Change/pass in your own renderer module:**
 
@@ -223,13 +219,13 @@ Table.new(rows, header)
 
 ```
 +****************+***************+*******************+******+
-!     Artist     !     Track     !       Label       ! Year !
+! Artist         ! Track         ! Label             ! Year !
 +================+===============+===================+======+
-!    Konflict    !    Cyanide    ! Renegade Hardware ! 1999 !
+! Konflict       ! Cyanide       ! Renegade Hardware ! 1999 !
 +~~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~~~~~+~~~~~~+
-! Marcus Intalex !  Temperance   !      Soul:r       ! 2004 !
+! Marcus Intalex ! Temperance    ! Soul:r            ! 2004 !
 +~~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~~~~~+~~~~~~+
-! Kryptic Minds  ! The Forgotten !  Defcom Records   ! 2007 !
+! Kryptic Minds  ! The Forgotten ! Defcom Records    ! 2007 !
 +----------------+---------------+-------------------+------+
 ```
 
@@ -257,7 +253,6 @@ Contributions are welcome from anyone at any time but if the piece of work is si
 ##License
 
 MIT. See the [full license](LICENSE).
-
 
 ##Thanks
 

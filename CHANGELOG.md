@@ -1,5 +1,46 @@
 # Changelog
 
+##v0.7.0
+
+**Breaking changes**
+
+The default alignment for columns is now `:left` rather than `:center`.
+
+This could be a breaking change for your project as if you had not explicitly
+set columns to be of a certain alignment then your tables will now be output
+with columns aligned to the left rather than centered as before. This change
+was made as it's much more likely that a LTR language user is going to want
+left aligned columns, especially with the multiline cell support which will
+land soon.
+
+If you wish to remain using center-aligned columns then you can manipulate
+your table struct by calling:
+
+```elixir
+Table.set_column_meta(table, :all, align: :center)
+```
+
+Other changes:
+
+`Table.set_column_meta` and `Table.set_header_meta` now can also take their
+column index(es) argument as an enumerable. Previously `set_header_meta` could
+not do this and `set_column_meta` could only be provided a range.
+
+Example usage:
+
+```elixir
+Table.set_column_meta(table, 0, align: :right) # aligns column 0 to the right.
+Table.set_column_meta(table, 0..4, align: :right) # aligns column 0 through 4 to the right.
+Table.set_column_meta(table, [0, 3, 5], align: :right) # aligns column 0, 3 & 5 to the right.
+Table.set_column_meta(table, :all, align: :right) # aligns all current and future columns to the right.
+```
+
+```elixir
+Table.set_header_meta(table, 0, align: :right) # aligns header cell 0 to the right.
+Table.set_header_meta(table, 0..4, align: :right) # aligns header cells 0 through 4 to the right.
+Table.set_header_meta(table, [0, 3, 5], align: :right) # aligns header cells 0, 3 & 5 to the right.
+```
+
 ##v0.6.0
 
 **No breaking changes**

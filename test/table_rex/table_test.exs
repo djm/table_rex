@@ -269,20 +269,21 @@ defmodule TableRex.TableTest do
   end
 
   test "setting column meta across all columns", %{table: table} do
-    assert Table.get_column_meta(table, 0, :align) == :center
-    assert Table.get_column_meta(table, 1, :align) == :center
+    assert Table.get_column_meta(table, 0, :align) == :left
+    assert Table.get_column_meta(table, 1, :align) == :left
     table = Table.set_column_meta(table, :all, align: :right)
     assert Table.get_column_meta(table, 0, :align) == :right
     assert Table.get_column_meta(table, 1, :align) == :right
     table = Table.set_column_meta(table, :all, align: :left)
     assert Table.get_column_meta(table, 0, :align) == :left
     assert Table.get_column_meta(table, 1, :align) == :left
+    assert Table.get_column_meta(table, 2, :align) == :left
   end
 
   test "overriding column meta across all columns", %{table: table} do
     table = Table.set_column_meta(table, 0, align: :right)
     assert Table.get_column_meta(table, 0, :align) == :right
-    assert Table.get_column_meta(table, 1, :align) == :center
+    assert Table.get_column_meta(table, 1, :align) == :left
     table = Table.set_column_meta(table, :all, align: :left)
     assert Table.get_column_meta(table, 0, :align) == :left
     assert Table.get_column_meta(table, 1, :align) == :left
@@ -399,9 +400,9 @@ defmodule TableRex.TableTest do
   end
 
   test "get_column_meta returns correct values and defaults", %{table: table} do
-    table = Table.set_column_meta(table, 0, align: :left)
-    assert Table.get_column_meta(table, 0, :align) == :left
-    assert Table.get_column_meta(table, 1, :align) == :center
+    table = Table.set_column_meta(table, 0, align: :right)
+    assert Table.get_column_meta(table, 0, :align) == :right
+    assert Table.get_column_meta(table, 1, :align) == :left
     assert Table.get_column_meta(table, 2, :padding) == 1
   end
 

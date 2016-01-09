@@ -3,7 +3,7 @@ defmodule TableRex.Column do
   Defines a struct that represents a column's metadata
   """
 
-  defstruct align: :center, padding: 1
+  defstruct align: :left, padding: 1
 
   @type t :: %__MODULE__{}
 

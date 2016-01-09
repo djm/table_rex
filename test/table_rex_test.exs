@@ -17,10 +17,10 @@ defmodule TableRex.TableRexTest do
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
     +----------------+----------------------+------+
-    |     Artist     |        Track         | Year |
+    | Artist         | Track                | Year |
     +----------------+----------------------+------+
-    |    Konflict    |       Cyanide        | 1999 |
-    | Keaton & Hive  |      The Plague      | 2003 |
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
     | Vicious Circle | Welcome To Shanktown | 2007 |
     +----------------+----------------------+------+
     """
@@ -37,10 +37,10 @@ defmodule TableRex.TableRexTest do
     )
     assert rendered == """
     +----------------+----------------------+------+
-    |     Artist     |        Track         | Year |
+    | Artist         | Track                | Year |
     +----------------+----------------------+------+
-    |    Konflict    |       Cyanide        | 1999 |
-    | Keaton & Hive  |      The Plague      | 2003 |
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
     | Vicious Circle | Welcome To Shanktown | 2007 |
     +----------------+----------------------+------+
     """
@@ -56,8 +56,8 @@ defmodule TableRex.TableRexTest do
     )
     assert rendered == """
     +----------------+----------------------+------+
-    |    Konflict    |       Cyanide        | 1999 |
-    | Keaton & Hive  |      The Plague      | 2003 |
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
     | Vicious Circle | Welcome To Shanktown | 2007 |
     +----------------+----------------------+------+
     """
@@ -81,10 +81,10 @@ defmodule TableRex.TableRexTest do
     +----------------------------------------------+
     |          Renegade Hardware Releases          |
     +----------------+----------------------+------+
-    |     Artist     |        Track         | Year |
+    | Artist         | Track                | Year |
     +----------------+----------------------+------+
-    |    Konflict    |       Cyanide        | 1999 |
-    | Keaton & Hive  |      The Plague      | 2003 |
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
     | Vicious Circle | Welcome To Shanktown | 2007 |
     +----------------+----------------------+------+
     """
@@ -101,10 +101,10 @@ defmodule TableRex.TableRexTest do
     )
     assert rendered == """
     +----------------+----------------------+------+
-    |     Artist     |        Track         | Year |
+    | Artist         | Track                | Year |
     +----------------+----------------------+------+
-    |    Konflict    |       Cyanide        | 1999 |
-    | Keaton & Hive  |      The Plague      | 2003 |
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
     | Vicious Circle | Welcome To Shanktown | 2007 |
     +----------------+----------------------+------+
     """
@@ -120,8 +120,8 @@ defmodule TableRex.TableRexTest do
     )
     assert rendered == """
     +----------------+----------------------+------+
-    |    Konflict    |       Cyanide        | 1999 |
-    | Keaton & Hive  |      The Plague      | 2003 |
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
     | Vicious Circle | Welcome To Shanktown | 2007 |
     +----------------+----------------------+------+
     """
