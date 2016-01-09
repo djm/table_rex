@@ -70,16 +70,12 @@ defmodule TableRex.Table do
   @doc """
   Sets column level information such as padding and alignment.
   """
-  @spec set_column_meta(Table.t, integer | Range.t | atom, Keyword.t) :: Table.t
+  @spec set_column_meta(Table.t, integer | atom | Enum.t, Keyword.t) :: Table.t
   def set_column_meta(%Table{} = table, col_index, col_meta) when is_integer(col_index) and is_list(col_meta) do
     col_meta = col_meta |> Enum.into(%{})
     col = get_column(table, col_index) |> Map.merge(col_meta)
     new_columns = Map.put(table.columns, col_index, col)
     %Table{table | columns: new_columns}
-  end
-
-  def set_column_meta(%Table{} = table, %Range{} = col_range, col_meta) when is_list(col_meta) do
-    Enum.reduce(col_range, table, &set_column_meta(&2, &1, col_meta))
   end
 
   def set_column_meta(%Table{} = table, :all, col_meta) when is_list(col_meta) do
@@ -91,6 +87,10 @@ defmodule TableRex.Table do
       Map.put(acc, col_index, new_col)
     end)
     %Table{table | columns: new_columns}
+  end
+
+  def set_column_meta(%Table{} = table, col_indexes, col_meta) when is_list(col_meta) do
+    Enum.reduce(col_indexes, table, &set_column_meta(&2, &1, col_meta))
   end
 
   @doc """
@@ -109,11 +109,15 @@ defmodule TableRex.Table do
   @doc """
   Sets cell level information for the header cells.
   """
-  @spec set_header_meta(Table.t, integer, Keyword.t) :: Table.t
+  @spec set_header_meta(Table.t, integer | Enum.t, Keyword.t) :: Table.t
   def set_header_meta(%Table{} = table, col_index, cell_meta) when is_integer(col_index) and is_list(cell_meta) do
     cell_meta = cell_meta |> Enum.into(%{})
     header_row = List.update_at(table.header_row, col_index, &Map.merge(&1, cell_meta))
     %Table{table | header_row: header_row}
+  end
+
+  def set_header_meta(%Table{} = table, col_indexes, cell_meta) when is_list(cell_meta) do
+    Enum.reduce(col_indexes, table, &set_header_meta(&2, &1, cell_meta))
   end
 
   @doc """
