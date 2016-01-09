@@ -723,6 +723,24 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
+  test "default render with increases padding across all rows (using list)", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.set_column_meta([0, 1, 2], align: :left, padding: 3)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------------------+
+    |                Renegade Hardware Releases                |
+    +--------------------+--------------------------+----------+
+    |   Artist           |   Track                  |   Year   |
+    +--------------------+--------------------------+----------+
+    |   Konflict         |   Cyanide                |   1999   |
+    |   Keaton & Hive    |   The Plague             |   2003   |
+    |   Vicious Circle   |   Welcome To Shanktown   |   2007   |
+    +--------------------+--------------------------+----------+
+    """
+  end
+
   test "minimal render (zero padding)", %{table: table} do
     {:ok, rendered} =
       table

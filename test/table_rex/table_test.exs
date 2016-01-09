@@ -259,6 +259,13 @@ defmodule TableRex.TableTest do
       2 => %Column{align: :right, padding: 2},
       3 => %Column{padding: 2}
     }
+    table = Table.set_column_meta(table, [1, 2], padding: 4)
+    assert table.columns == %{
+      0 => %Column{align: :right},
+      1 => %Column{align: :right, padding: 4},
+      2 => %Column{align: :right, padding: 4},
+      3 => %Column{padding: 2}
+    }
   end
 
   test "setting column meta across all columns", %{table: table} do
@@ -317,6 +324,25 @@ defmodule TableRex.TableTest do
         %Cell{value: "Artist", align: :left},
         %Cell{value: "Track", align: :right},
         %Cell{value: "Year", align: nil}
+    ]
+  end
+
+  test "setting header cell meta across multiple cells", %{table: table} do
+    header = ["Artist", "Track", "Year"]
+    table =
+      table
+      |> Table.set_header(header)
+      |> Table.set_header_meta(0..2, align: :center)
+    assert table.header_row == [
+      %Cell{value: "Artist", align: :center},
+      %Cell{value: "Track", align: :center},
+      %Cell{value: "Year", align: :center}
+    ]
+    table = Table.set_header_meta(table, [1, 2], align: :right)
+    assert table.header_row == [
+      %Cell{value: "Artist", align: :center},
+      %Cell{value: "Track", align: :right},
+      %Cell{value: "Year", align: :right}
     ]
   end
 
