@@ -29,9 +29,7 @@ defmodule TableRex.Table do
 
   """
   @spec new() :: Table.t
-  def new do
-    %Table{}
-  end
+  def new, do: %Table{}
 
   @doc """
   Creates a new table with an initial set of rows and an optional header and title.
