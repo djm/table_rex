@@ -850,7 +850,7 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
-  test "multiline cell rendering", _ do
+  test "multiline cell rendering with center alignment", _ do
     header = ["Artist", "Track", "Details", "Year"]
     rows = [
       ["Konflict", "Cyanide", "Label: Renegade Hardware\nCat#: RH020", 1999],
@@ -859,6 +859,7 @@ defmodule TableRex.Renderer.TextTest do
     ]
     {:ok, rendered} =
       Table.new(rows, header)
+      |> Table.set_column_meta(:all, align: :center)
       |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
     assert rendered == """
     +----------------+----------------------+--------------------------+------+
