@@ -37,8 +37,8 @@ defmodule TableRex.Table do
   @spec new(list, list, String.t) :: Table.t
   def new(rows, header_row \\ [], title \\ nil) when is_list(rows) and is_list(header_row) do
     new
-    |> set_title(title)
-    |> set_header(header_row)
+    |> put_title(title)
+    |> put_header(header_row)
     |> add_rows(rows)
   end
 
@@ -48,9 +48,9 @@ defmodule TableRex.Table do
   Sets a string as the optional table title.
   Set to `nil` or `""` to remove an already set title from renders.
   """
-  @spec set_title(Table.t, String.t | nil) :: Table.t
-  def set_title(%Table{} = table, ""), do: set_title(table, nil)
-  def set_title(%Table{} = table, title) when is_binary(title) or is_nil(title) do
+  @spec put_title(Table.t, String.t | nil) :: Table.t
+  def put_title(%Table{} = table, ""), do: put_title(table, nil)
+  def put_title(%Table{} = table, title) when is_binary(title) or is_nil(title) do
     %Table{table | title: title}
   end
 
@@ -58,9 +58,9 @@ defmodule TableRex.Table do
   Sets a list as the optional header row.
   Set to `nil` or `[]` to remove an already set header from renders.
   """
-  @spec set_header(Table.t, list | nil) :: Table.t
-  def set_header(%Table{} = table, nil), do: set_header(table, [])
-  def set_header(%Table{} = table, header_row) when is_list(header_row) do
+  @spec put_header(Table.t, list | nil) :: Table.t
+  def put_header(%Table{} = table, nil), do: put_header(table, [])
+  def put_header(%Table{} = table, header_row) when is_list(header_row) do
     new_header_row = Enum.map(header_row, &Cell.to_cell(&1))
     %Table{table | header_row: new_header_row}
   end
@@ -68,15 +68,15 @@ defmodule TableRex.Table do
   @doc """
   Sets column level information such as padding and alignment.
   """
-  @spec set_column_meta(Table.t, integer | atom | Enum.t, Keyword.t) :: Table.t
-  def set_column_meta(%Table{} = table, col_index, col_meta) when is_integer(col_index) and is_list(col_meta) do
+  @spec put_column_meta(Table.t, integer | atom | Enum.t, Keyword.t) :: Table.t
+  def put_column_meta(%Table{} = table, col_index, col_meta) when is_integer(col_index) and is_list(col_meta) do
     col_meta = col_meta |> Enum.into(%{})
     col = get_column(table, col_index) |> Map.merge(col_meta)
     new_columns = Map.put(table.columns, col_index, col)
     %Table{table | columns: new_columns}
   end
 
-  def set_column_meta(%Table{} = table, :all, col_meta) when is_list(col_meta) do
+  def put_column_meta(%Table{} = table, :all, col_meta) when is_list(col_meta) do
     col_meta = col_meta |> Enum.into(%{})
     # First update default column, then any already set columns.
     table = put_in(table.default_column, Map.merge(table.default_column, col_meta))
@@ -87,15 +87,15 @@ defmodule TableRex.Table do
     %Table{table | columns: new_columns}
   end
 
-  def set_column_meta(%Table{} = table, col_indexes, col_meta) when is_list(col_meta) do
-    Enum.reduce(col_indexes, table, &set_column_meta(&2, &1, col_meta))
+  def put_column_meta(%Table{} = table, col_indexes, col_meta) when is_list(col_meta) do
+    Enum.reduce(col_indexes, table, &put_column_meta(&2, &1, col_meta))
   end
 
   @doc """
   Sets cell level information such as alignment.
   """
-  @spec set_cell_meta(Table.t, integer, integer, Keyword.t) :: Table.t
-  def set_cell_meta(%Table{} = table, col_index, row_index, cell_meta) when is_integer(col_index) and is_integer(row_index) and is_list(cell_meta) do
+  @spec put_cell_meta(Table.t, integer, integer, Keyword.t) :: Table.t
+  def put_cell_meta(%Table{} = table, col_index, row_index, cell_meta) when is_integer(col_index) and is_integer(row_index) and is_list(cell_meta) do
     cell_meta = cell_meta |> Enum.into(%{})
     inverse_row_index = -(row_index + 1)
     rows = List.update_at(table.rows, inverse_row_index, fn(row) ->
@@ -107,15 +107,15 @@ defmodule TableRex.Table do
   @doc """
   Sets cell level information for the header cells.
   """
-  @spec set_header_meta(Table.t, integer | Enum.t, Keyword.t) :: Table.t
-  def set_header_meta(%Table{} = table, col_index, cell_meta) when is_integer(col_index) and is_list(cell_meta) do
+  @spec put_header_meta(Table.t, integer | Enum.t, Keyword.t) :: Table.t
+  def put_header_meta(%Table{} = table, col_index, cell_meta) when is_integer(col_index) and is_list(cell_meta) do
     cell_meta = cell_meta |> Enum.into(%{})
     header_row = List.update_at(table.header_row, col_index, &Map.merge(&1, cell_meta))
     %Table{table | header_row: header_row}
   end
 
-  def set_header_meta(%Table{} = table, col_indexes, cell_meta) when is_list(cell_meta) do
-    Enum.reduce(col_indexes, table, &set_header_meta(&2, &1, cell_meta))
+  def put_header_meta(%Table{} = table, col_indexes, cell_meta) when is_list(cell_meta) do
+    Enum.reduce(col_indexes, table, &put_header_meta(&2, &1, cell_meta))
   end
 
   @doc """

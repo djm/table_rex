@@ -171,31 +171,31 @@ defmodule TableRex.TableTest do
 
   test "setting and overriding a title", %{table: table} do
     title_1 = "Metalheadz Releases"
-    table = Table.set_title(table, title_1)
+    table = Table.put_title(table, title_1)
     assert table.title == title_1
     title_2 = "Moving Shadow Releases"
-    table = Table.set_title(table, title_2)
+    table = Table.put_title(table, title_2)
     assert table.title == title_2
   end
 
   test "clearing a title", %{table: table} do
     title = "Moving Shadow Releases"
-    table = Table.set_title(table, title)
-    table = Table.set_title(table, "")
+    table = Table.put_title(table, title)
+    table = Table.put_title(table, "")
     assert table.title == nil
-    table = Table.set_title(table, title)
-    table = Table.set_title(table, nil)
+    table = Table.put_title(table, title)
+    table = Table.put_title(table, nil)
     assert table.title == nil
   end
 
   test "setting and then overriding a header row", %{table: table} do
     header_row = ["Artist"]
-    table = Table.set_header(table, header_row)
+    table = Table.put_header(table, header_row)
     assert table.header_row == [
       %Cell{value: "Artist"},
     ]
     header_row = ["Artist", "Track", "Year"]
-    table = Table.set_header(table, header_row)
+    table = Table.put_header(table, header_row)
     assert table.header_row == [
       %Cell{value: "Artist"},
       %Cell{value: "Track"},
@@ -209,7 +209,7 @@ defmodule TableRex.TableTest do
       %Cell{value: "Track", align: :left},
       %Cell{value: "Year", align: :right}
      ]
-    table = Table.set_header(table, header_row)
+    table = Table.put_header(table, header_row)
     assert table.header_row == [
       %Cell{value: "Artist"},
       %Cell{value: "Track", align: :left},
@@ -221,24 +221,24 @@ defmodule TableRex.TableTest do
     header_row = ["Artist"]
     table =
       table
-      |> Table.set_header(header_row)
-      |> Table.set_header(nil)
+      |> Table.put_header(header_row)
+      |> Table.put_header(nil)
     assert table.header_row == []
     table =
       table
-      |> Table.set_header(header_row)
-      |> Table.set_header([])
+      |> Table.put_header(header_row)
+      |> Table.put_header([])
     assert table.header_row == []
   end
 
   test "setting column meta for a specific column", %{table: table} do
     assert table.columns == %{}
-    table = Table.set_column_meta(table, 0, align: :right)
+    table = Table.put_column_meta(table, 0, align: :right)
     assert table.columns == %{
       0 => %Column{align: :right}
     }
-    table = Table.set_column_meta(table, 0, align: :left, padding: 2)
-    table = Table.set_column_meta(table, 1, align: :right)
+    table = Table.put_column_meta(table, 0, align: :left, padding: 2)
+    table = Table.put_column_meta(table, 1, align: :right)
     assert table.columns == %{
       0 => %Column{align: :left, padding: 2},
       1 => %Column{align: :right}
@@ -246,20 +246,20 @@ defmodule TableRex.TableTest do
   end
 
   test "setting column meta across specific columns", %{table: table} do
-    table = Table.set_column_meta(table, 0..2, align: :right)
+    table = Table.put_column_meta(table, 0..2, align: :right)
     assert table.columns == %{
       0 => %Column{align: :right},
       1 => %Column{align: :right},
       2 => %Column{align: :right}
     }
-    table = Table.set_column_meta(table, 1..3, padding: 2)
+    table = Table.put_column_meta(table, 1..3, padding: 2)
     assert table.columns == %{
       0 => %Column{align: :right},
       1 => %Column{align: :right, padding: 2},
       2 => %Column{align: :right, padding: 2},
       3 => %Column{padding: 2}
     }
-    table = Table.set_column_meta(table, [1, 2], padding: 4)
+    table = Table.put_column_meta(table, [1, 2], padding: 4)
     assert table.columns == %{
       0 => %Column{align: :right},
       1 => %Column{align: :right, padding: 4},
@@ -271,20 +271,20 @@ defmodule TableRex.TableTest do
   test "setting column meta across all columns", %{table: table} do
     assert Table.get_column_meta(table, 0, :align) == :left
     assert Table.get_column_meta(table, 1, :align) == :left
-    table = Table.set_column_meta(table, :all, align: :right)
+    table = Table.put_column_meta(table, :all, align: :right)
     assert Table.get_column_meta(table, 0, :align) == :right
     assert Table.get_column_meta(table, 1, :align) == :right
-    table = Table.set_column_meta(table, :all, align: :left)
+    table = Table.put_column_meta(table, :all, align: :left)
     assert Table.get_column_meta(table, 0, :align) == :left
     assert Table.get_column_meta(table, 1, :align) == :left
     assert Table.get_column_meta(table, 2, :align) == :left
   end
 
   test "overriding column meta across all columns", %{table: table} do
-    table = Table.set_column_meta(table, 0, align: :right)
+    table = Table.put_column_meta(table, 0, align: :right)
     assert Table.get_column_meta(table, 0, :align) == :right
     assert Table.get_column_meta(table, 1, :align) == :left
-    table = Table.set_column_meta(table, :all, align: :left)
+    table = Table.put_column_meta(table, :all, align: :left)
     assert Table.get_column_meta(table, 0, :align) == :left
     assert Table.get_column_meta(table, 1, :align) == :left
   end
@@ -297,8 +297,8 @@ defmodule TableRex.TableTest do
     table =
       table
       |> Table.add_rows(rows)
-      |> Table.set_cell_meta(0, 0, align: :right)
-      |> Table.set_cell_meta(1, 1, align: :left)
+      |> Table.put_cell_meta(0, 0, align: :right)
+      |> Table.put_cell_meta(1, 1, align: :left)
 
     assert table.rows == [
       [
@@ -318,9 +318,9 @@ defmodule TableRex.TableTest do
     header = ["Artist", "Track", "Year"]
     table =
       table
-      |> Table.set_header(header)
-      |> Table.set_header_meta(0, align: :left)
-      |> Table.set_header_meta(1, align: :right)
+      |> Table.put_header(header)
+      |> Table.put_header_meta(0, align: :left)
+      |> Table.put_header_meta(1, align: :right)
     assert table.header_row == [
         %Cell{value: "Artist", align: :left},
         %Cell{value: "Track", align: :right},
@@ -332,14 +332,14 @@ defmodule TableRex.TableTest do
     header = ["Artist", "Track", "Year"]
     table =
       table
-      |> Table.set_header(header)
-      |> Table.set_header_meta(0..2, align: :center)
+      |> Table.put_header(header)
+      |> Table.put_header_meta(0..2, align: :center)
     assert table.header_row == [
       %Cell{value: "Artist", align: :center},
       %Cell{value: "Track", align: :center},
       %Cell{value: "Year", align: :center}
     ]
-    table = Table.set_header_meta(table, [1, 2], align: :right)
+    table = Table.put_header_meta(table, [1, 2], align: :right)
     assert table.header_row == [
       %Cell{value: "Artist", align: :center},
       %Cell{value: "Track", align: :right},
@@ -356,8 +356,8 @@ defmodule TableRex.TableTest do
     ]
     table =
       table
-      |> Table.set_title(title)
-      |> Table.set_header(header)
+      |> Table.put_title(title)
+      |> Table.put_header(header)
       |> Table.add_rows(rows)
       |> Table.clear_rows
     assert table.title == title
@@ -400,7 +400,7 @@ defmodule TableRex.TableTest do
   end
 
   test "get_column_meta returns correct values and defaults", %{table: table} do
-    table = Table.set_column_meta(table, 0, align: :right)
+    table = Table.put_column_meta(table, 0, align: :right)
     assert Table.get_column_meta(table, 0, :align) == :right
     assert Table.get_column_meta(table, 1, :align) == :left
     assert Table.get_column_meta(table, 2, :padding) == 1
