@@ -44,7 +44,7 @@ The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
 
 ```elixir
 def deps do
-  [{:table_rex, "~> 0.7.0"}]
+  [{:table_rex, "~> 0.8.0"}]
 end
 ```
 
@@ -131,8 +131,8 @@ These examples all use: `alias TableRex.Table` to shorten the namespace.
 
 ```elixir
 Table.new(rows, header)
-|> Table.set_column_meta(0, align: :right, padding: 5) # `0` is the column index.
-|> Table.set_column_meta(1..2, align: :center) # `1..2` is a range of column indexes. :all also works.
+|> Table.put_column_meta(0, align: :right, padding: 5) # `0` is the column index.
+|> Table.put_column_meta(1..2, align: :center) # `1..2` is a range of column indexes. :all also works.
 |> Table.render!
 |> IO.puts
 ```
@@ -151,7 +151,7 @@ Table.new(rows, header)
 
 ```elixir
 Table.new(rows, header)
-|> Table.set_column_meta(:all, align: :center)
+|> Table.put_column_meta(:all, align: :center)
 |> Table.render!(header_separator_symbol: "=", horizontal_style: :all)
 |> IO.puts
 ```
@@ -184,8 +184,8 @@ Table.new(rows, header)
 
 ```elixir
 Table.new(rows, header)
-|> Table.set_header_meta(0..4, align: :center) # row index(es)
-|> Table.set_cell_meta(2, 1, align: :right) # column index, row index.
+|> Table.put_header_meta(0..4, align: :center) # row index(es)
+|> Table.put_cell_meta(2, 1, align: :right) # column index, row index.
 |> Table.render!
 |> IO.puts
 ```

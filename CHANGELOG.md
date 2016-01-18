@@ -1,5 +1,13 @@
 # Changelog
 
+##v0.8.0
+
+**Breaking changes**
+
+All `Table.set_*` functions have been changed to `Table.put_*` to better
+reflect their functionality and mimic convention used elsewhere in the
+Elixir ecosphere.
+
 ##v0.7.0
 
 **Breaking changes**
