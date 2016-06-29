@@ -1,5 +1,9 @@
 # Changelog
 
+##v0.8.1
+
+Fixed a compilation bug in the new Elixir 1.3. No other changes.
+
 ##v0.8.0
 
 **Breaking changes**
