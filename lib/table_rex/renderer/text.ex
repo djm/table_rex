@@ -127,7 +127,6 @@ defmodule TableRex.Renderer.Text do
   end
 
   defp render_header({%Table{header_row: header_row} = table, meta, opts, rendered}) do
-    row_height = Meta.row_height(meta, 0)
     separator = if meta.render_column_separators?, do: opts[:vertical_symbol], else: " "
     line = if meta.render_vertical_frame? do
       render_cell_row(table, meta, header_row, separator) |> frame_with(opts[:vertical_symbol])
