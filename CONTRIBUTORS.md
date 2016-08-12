@@ -6,4 +6,6 @@ Original Author
 Contributors
 ============
 
+* **[Charles FD](https://github.com/freiden)**
+
 Please add yourself if making a contribution.
