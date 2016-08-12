@@ -1,5 +1,9 @@
 # Changelog
 
+##v0.8.2
+
+Updated some locked development dependencies to reduce warning output during usage.
+
 ##v0.8.1
 
 Fixed a compilation bug in the new Elixir 1.3. No other changes.
