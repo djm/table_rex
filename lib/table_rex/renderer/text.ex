@@ -96,10 +96,11 @@ defmodule TableRex.Renderer.Text do
 
   defp render_title({%Table{title: title} = table, meta, opts, rendered}) do
     inner_width = Meta.inner_width(meta)
+    line = do_render_cell(title, inner_width)
     line = if meta.render_vertical_frame? do
-      do_render_cell(title, inner_width) |> frame_with(opts[:vertical_symbol])
+      line |> frame_with(opts[:vertical_symbol])
     else
-      do_render_cell(title, inner_width)
+      line
     end
     {table, meta, opts, [line | rendered]}
   end
@@ -128,10 +129,11 @@ defmodule TableRex.Renderer.Text do
 
   defp render_header({%Table{header_row: header_row} = table, meta, opts, rendered}) do
     separator = if meta.render_column_separators?, do: opts[:vertical_symbol], else: " "
+    line = render_cell_row(table, meta, header_row, separator)
     line = if meta.render_vertical_frame? do
-      render_cell_row(table, meta, header_row, separator) |> frame_with(opts[:vertical_symbol])
+      line |> frame_with(opts[:vertical_symbol])
     else
-      render_cell_row(table, meta, header_row, separator)
+      line
     end
     {table, meta, opts, [line | rendered]}
   end
