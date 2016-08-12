@@ -1,5 +1,9 @@
 # Changelog
 
+##v0.8.3
+
+Fixed warnings caused by Elixir 1.3's unsafe variable checker.
+
 ##v0.8.2
 
 Updated some locked development dependencies to reduce warning output during usage.
