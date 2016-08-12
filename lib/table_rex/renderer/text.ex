@@ -96,9 +96,10 @@ defmodule TableRex.Renderer.Text do
 
   defp render_title({%Table{title: title} = table, meta, opts, rendered}) do
     inner_width = Meta.inner_width(meta)
-    line = do_render_cell(title, inner_width)
-    if meta.render_vertical_frame? do
-      line = line |> frame_with(opts[:vertical_symbol])
+    line = if meta.render_vertical_frame? do
+      do_render_cell(title, inner_width) |> frame_with(opts[:vertical_symbol])
+    else
+      do_render_cell(title, inner_width)
     end
     {table, meta, opts, [line | rendered]}
   end
@@ -128,9 +129,10 @@ defmodule TableRex.Renderer.Text do
   defp render_header({%Table{header_row: header_row} = table, meta, opts, rendered}) do
     row_height = Meta.row_height(meta, 0)
     separator = if meta.render_column_separators?, do: opts[:vertical_symbol], else: " "
-    line = render_cell_row(table, meta, header_row, separator)
-    if meta.render_vertical_frame? do
-      line = line |> frame_with(opts[:vertical_symbol])
+    line = if meta.render_vertical_frame? do
+      render_cell_row(table, meta, header_row, separator) |> frame_with(opts[:vertical_symbol])
+    else
+      render_cell_row(table, meta, header_row, separator)
     end
     {table, meta, opts, [line | rendered]}
   end
@@ -156,12 +158,17 @@ defmodule TableRex.Renderer.Text do
   defp render_rows({%Table{rows: rows} = table, meta, opts, rendered}) do
     separator = if meta.render_column_separators?, do: opts[:vertical_symbol], else: " "
     lines = Enum.map(rows, &render_cell_row(table, meta, &1, separator))
-    if meta.render_vertical_frame? do
-      lines = Enum.map(lines, &frame_with(&1, opts[:vertical_symbol]))
+    lines = if meta.render_vertical_frame? do
+      Enum.map(lines, &frame_with(&1, opts[:vertical_symbol]))
+    else
+      lines
     end
-    if meta.render_row_separators? do
+
+    lines = if meta.render_row_separators? do
       row_separator = render_line(meta.table_width, meta.intersections, opts[:horizontal_symbol], opts[:intersection_symbol])
-      lines = Enum.intersperse(lines, row_separator)
+      Enum.intersperse(lines, row_separator)
+    else
+      lines
     end
     rendered = lines ++ rendered
     {table, meta, opts, rendered}
