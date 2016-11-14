@@ -14,9 +14,6 @@ matrix:
     # 1.1 Does not run on v19 OTP.
     - elixir: 1.1.1
       otp_release: 19.0
-sudo: false # To use faster container based build environment
-script:
-  - mix test
 after_script:
   - mix deps.get --only docs
   - MIX_ENV=docs mix inch.report
