@@ -18,6 +18,7 @@ Currently supports output:
 * A one-liner for those that just want to render ASCII tables with sane defaults.
 * Support for table titles & alignable headers.
 * Support for column & cell level alignment (center, left, right).
+* Support for column, header, & cell level color.
 * Automatic cell padding but also the option to set padding per column<sup>1</sup>.
 * Frame the table with various vertical & horizontal styles<sup>1</sup>.
 * Style the table how you wish with custom separators<sup>1</sup>.
@@ -198,6 +199,33 @@ Table.new(rows, header)
 | Marcus Intalex | Temperance    |            Soul:r | 2004 |
 | Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
 +----------------+---------------+-------------------+------+
+```
+
+**Set color for the column, header, and cell:**
+```elixir
+Table.new(rows, header)
+|> Table.put_column_meta(0, color: :red) # sets column header to red, too
+|> Table.put_header_meta(1..4, color: IO.ANSI.color(31))
+|> Table.put_cell_meta(2, 1, color: [:green_background, :white])
+|> Table.render!
+|> IO.puts
+```
+
+*Supported color value types:*
+
+* atom: a named ANSI sequence defined in [IO.ANSI](https://hexdocs.pm/elixir/IO.ANSI.html#content)
+* string: an embedded ANSI sequence
+* chardata: a list of atoms and/or strings
+* function: `(text, value) -> text`
+  * where text is the padded value and where the value is a string
+  * **Note:** to render the correct padding, always format and return the text
+
+**Conditionally set a color:**
+```elixir
+Table.new(rows, header)
+|> Table.put_column_meta(3, color: fn(text, value) -> if value in ["1999", "2007"], do: [:blue, text], else: text end)
+|> Table.render!
+|> IO.puts
 ```
 
 **Change/pass in your own renderer module:**
