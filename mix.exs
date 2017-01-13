@@ -7,7 +7,7 @@ defmodule TableRex.Mixfile do
       name: "table_rex",
       source_url: "https://github.com/djm/table_rex",
       description: "Generate configurable text-based tables for display (ASCII & more)",
-      version: "0.8.3",
+      version: "0.9.0",
       elixir: "~> 1.1",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,

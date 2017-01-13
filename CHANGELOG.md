@@ -1,5 +1,10 @@
 # Changelog
 
+##v0.9.0
+
+Justin G (@theredcoder) has added support for header, column and cell level
+foreground & background ANSI colouring. Many thanks to Justin.
+
 ##v0.8.3
 
 Fixed warnings caused by Elixir 1.3's unsafe variable checker.
