@@ -203,7 +203,9 @@ defmodule TableRex.Renderer.Text do
     col_width = Meta.col_width(meta, col_index)
     col_padding = Table.get_column_meta(table, col_index, :padding)
     cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
+    cell_color = Map.get(cell, :color) || Table.get_column_meta(table, col_index, :color)
     do_render_cell(cell.value, col_width, col_padding, align: cell_align)
+    |> format_with_color(cell.value, cell_color)
   end
 
   defp do_render_cell(value, inner_width) do
@@ -298,5 +300,17 @@ defmodule TableRex.Renderer.Text do
     |> Enum.reverse
     |> Enum.join("\n")
     |> Kernel.<>("\n")
+  end
+
+  defp format_with_color(text, _, nil), do: text
+
+  defp format_with_color(text, value, color) when is_function(color) do
+    [color.(text, value) | IO.ANSI.reset]
+    |> IO.ANSI.format_fragment(true)
+  end
+
+  defp format_with_color(text, _, color) do
+    [[color | text] | IO.ANSI.reset]
+    |> IO.ANSI.format_fragment(true)
   end
 end

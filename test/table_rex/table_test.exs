@@ -89,13 +89,13 @@ defmodule TableRex.TableTest do
   test "adding a single row with cell structs", %{table: table} do
     row = [
       "Rascal & Klone",
-      %Cell{value: "The Grind", align: :left},
+      %Cell{value: "The Grind", align: :left, color: :red},
       %Cell{value: 2000, align: :right}
     ]
     table = Table.add_row(table, row)
     assert table.rows == [[
       %Cell{value: "Rascal & Klone"},
-      %Cell{value: "The Grind", align: :left},
+      %Cell{value: "The Grind", align: :left, color: :red},
       %Cell{value: "2000", align: :right}
     ]]
   end
@@ -107,7 +107,7 @@ defmodule TableRex.TableTest do
     ]
     additional_rows = [
       ["Aquasky", "Uptight", %Cell{value: 2000, align: :right}],
-      ["Dom & Roland", "Dance All Night", %Cell{value: 2004, align: :right}]
+      ["Dom & Roland", "Dance All Night", %Cell{value: 2004, align: :right, color: :red}]
     ]
     table = Table.add_rows(table, rows)
     table = Table.add_rows(table, additional_rows)
@@ -115,7 +115,7 @@ defmodule TableRex.TableTest do
       [
         %Cell{value: "Dom & Roland"},
         %Cell{value: "Dance All Night"},
-        %Cell{value: "2004", align: :right},
+        %Cell{value: "2004", align: :right, color: :red},
       ],
       [
         %Cell{value: "Aquasky"},
@@ -206,13 +206,13 @@ defmodule TableRex.TableTest do
   test "setting a header row with cell structs", %{table: table} do
     header_row = [
       "Artist",
-      %Cell{value: "Track", align: :left},
+      %Cell{value: "Track", align: :left, color: :red},
       %Cell{value: "Year", align: :right}
      ]
     table = Table.put_header(table, header_row)
     assert table.header_row == [
       %Cell{value: "Artist"},
-      %Cell{value: "Track", align: :left},
+      %Cell{value: "Track", align: :left, color: :red},
       %Cell{value: "Year", align: :right},
     ]
   end
@@ -237,10 +237,10 @@ defmodule TableRex.TableTest do
     assert table.columns == %{
       0 => %Column{align: :right}
     }
-    table = Table.put_column_meta(table, 0, align: :left, padding: 2)
+    table = Table.put_column_meta(table, 0, align: :left, padding: 2, color: :red)
     table = Table.put_column_meta(table, 1, align: :right)
     assert table.columns == %{
-      0 => %Column{align: :left, padding: 2},
+      0 => %Column{align: :left, padding: 2, color: :red},
       1 => %Column{align: :right}
     }
   end
@@ -265,6 +265,13 @@ defmodule TableRex.TableTest do
       1 => %Column{align: :right, padding: 4},
       2 => %Column{align: :right, padding: 4},
       3 => %Column{padding: 2}
+    }
+    table = Table.put_column_meta(table, [2, 3], color: :red)
+    assert table.columns == %{
+      0 => %Column{align: :right},
+      1 => %Column{align: :right, padding: 4},
+      2 => %Column{align: :right, padding: 4, color: :red},
+      3 => %Column{padding: 2, color: :red}
     }
   end
 
@@ -298,18 +305,20 @@ defmodule TableRex.TableTest do
       table
       |> Table.add_rows(rows)
       |> Table.put_cell_meta(0, 0, align: :right)
+      |> Table.put_cell_meta(0, 1, color: :red)
+      |> Table.put_cell_meta(1, 0, color: :red)
       |> Table.put_cell_meta(1, 1, align: :left)
 
     assert table.rows == [
       [
-        %Cell{value: "Calyx", align: nil},
-        %Cell{value: "Downpour", align: :left},
-        %Cell{value: "2001", align: nil}
+        %Cell{value: "Calyx", align: nil, color: :red},
+        %Cell{value: "Downpour", align: :left, color: nil},
+        %Cell{value: "2001", align: nil, color: nil}
       ],
       [
-        %Cell{value: "Dom & Roland", align: :right},
-        %Cell{value: "Thunder", align: nil},
-        %Cell{value: "1998", align: nil}
+        %Cell{value: "Dom & Roland", align: :right, color: nil},
+        %Cell{value: "Thunder", align: nil, color: :red},
+        %Cell{value: "1998", align: nil, color: nil}
       ]
     ]
   end
@@ -321,10 +330,11 @@ defmodule TableRex.TableTest do
       |> Table.put_header(header)
       |> Table.put_header_meta(0, align: :left)
       |> Table.put_header_meta(1, align: :right)
+      |> Table.put_header_meta(2, color: :red)
     assert table.header_row == [
-        %Cell{value: "Artist", align: :left},
-        %Cell{value: "Track", align: :right},
-        %Cell{value: "Year", align: nil}
+        %Cell{value: "Artist", align: :left, color: nil},
+        %Cell{value: "Track", align: :right, color: nil},
+        %Cell{value: "Year", align: nil, color: :red}
     ]
   end
 

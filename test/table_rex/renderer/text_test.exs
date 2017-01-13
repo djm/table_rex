@@ -740,6 +740,78 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
+  test "default render with added color using a named ANSI sequence", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_column_meta(1, color: :red)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         |\e[31m Track                \e[0m| Year |
+    +----------------+----------------------+------+
+    | Konflict       |\e[31m Cyanide              \e[0m| 1999 |
+    | Keaton & Hive  |\e[31m The Plague           \e[0m| 2003 |
+    | Vicious Circle |\e[31m Welcome To Shanktown \e[0m| 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with added color using an embedded ANSI sequence", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_column_meta(1, color: "\e[31m")
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         |\e[31m Track                \e[0m| Year |
+    +----------------+----------------------+------+
+    | Konflict       |\e[31m Cyanide              \e[0m| 1999 |
+    | Keaton & Hive  |\e[31m The Plague           \e[0m| 2003 |
+    | Vicious Circle |\e[31m Welcome To Shanktown \e[0m| 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with added color using multiple ANSI sequences", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_column_meta(1, color: ["\e[48;5;30m", :white])
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         |\e[48;5;30m\e[37m Track                \e[0m| Year |
+    +----------------+----------------------+------+
+    | Konflict       |\e[48;5;30m\e[37m Cyanide              \e[0m| 1999 |
+    | Keaton & Hive  |\e[48;5;30m\e[37m The Plague           \e[0m| 2003 |
+    | Vicious Circle |\e[48;5;30m\e[37m Welcome To Shanktown \e[0m| 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with added color using a function", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_column_meta(2, color: fn(t, v) -> if v in ["1999", "2007"], do: [:blue, t], else: t end)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year \e[0m|
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              |\e[34m 1999 \e[0m|
+    | Keaton & Hive  | The Plague           | 2003 \e[0m|
+    | Vicious Circle | Welcome To Shanktown |\e[34m 2007 \e[0m|
+    +----------------+----------------------+------+
+    """
+  end
+
   test "default render with increases padding across all rows (using list)", %{table: table} do
     {:ok, rendered} =
       table
@@ -792,6 +864,24 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
+  test "default render with set column meta color across all columns", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_column_meta(:all, color: :red)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    |\e[31m Artist         \e[0m|\e[31m Track                \e[0m|\e[31m Year \e[0m|
+    +----------------+----------------------+------+
+    |\e[31m Konflict       \e[0m|\e[31m Cyanide              \e[0m|\e[31m 1999 \e[0m|
+    |\e[31m Keaton & Hive  \e[0m|\e[31m The Plague           \e[0m|\e[31m 2003 \e[0m|
+    |\e[31m Vicious Circle \e[0m|\e[31m Welcome To Shanktown \e[0m|\e[31m 2007 \e[0m|
+    +----------------+----------------------+------+
+    """
+  end
+
   test "default render with set column meta across all columns and specific column override", %{table: table} do
     {:ok, rendered} =
       table
@@ -831,6 +921,78 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
+  test "default render with cell level color using a named ANSI sequence", %{table: table} do
+    {:ok, rendered} =
+      table
+    |> Table.put_cell_meta(1, 1, color: :red)
+    |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  |\e[31m The Plague           \e[0m| 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with cell level color using an embedded ANSI sequence", %{table: table} do
+    {:ok, rendered} =
+      table
+    |> Table.put_cell_meta(1, 1, color: "\e[31m")
+    |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  |\e[31m The Plague           \e[0m| 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with cell level color using multiple ANSI sequences", %{table: table} do
+    {:ok, rendered} =
+      table
+    |> Table.put_cell_meta(1, 1, color: ["\e[48;5;30m", :white])
+    |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  |\e[48;5;30m\e[37m The Plague           \e[0m| 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with cell level color using a function", %{table: table} do
+    {:ok, rendered} =
+      table
+    |> Table.put_cell_meta(1, 1, color: fn(t, _) -> ["\e[48;5;30m", :white, t] end)
+    |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  |\e[48;5;30m\e[37m The Plague           \e[0m| 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
   test "default render with header cell alignment", %{table: table} do
     {:ok, rendered} =
       table
@@ -850,4 +1012,60 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
+  test "default render with header cell color", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_header_meta(0, color: :red)
+      |> Table.put_header_meta(1, color: :blue)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    |\e[31m Artist         \e[0m|\e[34m Track                \e[0m| Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with set column meta color across all columns and specific header override", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_column_meta(1, color: :red)
+      |> Table.put_header_meta(1, color: :blue)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         |\e[34m Track                \e[0m| Year |
+    +----------------+----------------------+------+
+    | Konflict       |\e[31m Cyanide              \e[0m| 1999 |
+    | Keaton & Hive  |\e[31m The Plague           \e[0m| 2003 |
+    | Vicious Circle |\e[31m Welcome To Shanktown \e[0m| 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with set column meta color across all columns and clear header", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_column_meta(1, color: :red)
+      |> Table.put_header_meta(1, color: :reset)
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         |\e[0m Track                \e[0m| Year |
+    +----------------+----------------------+------+
+    | Konflict       |\e[31m Cyanide              \e[0m| 1999 |
+    | Keaton & Hive  |\e[31m The Plague           \e[0m| 2003 |
+    | Vicious Circle |\e[31m Welcome To Shanktown \e[0m| 2007 |
+    +----------------+----------------------+------+
+    """
+  end
  end

@@ -4,7 +4,7 @@ defmodule TableRex.Cell do
   """
   alias TableRex.Cell
 
-  defstruct value: "", align: nil
+  defstruct value: "", align: nil, color: nil
 
   @type t :: %__MODULE__{}
 
