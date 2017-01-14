@@ -198,9 +198,8 @@ defmodule TableRex.Table do
   """
   @spec render(Table.t, list) :: Renderer.render_return
   def render(%Table{} = table, opts \\ []) when is_list(opts) do
-    opts = opts |> Map.new()
-    {renderer, opts} = Map.pop(opts, :renderer, @default_renderer)
-    opts = Map.merge(renderer.default_options, opts)
+    {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
+    opts = opts |> Enum.into(renderer.default_options)
     if Table.has_rows?(table) do
       renderer.render(table, opts)
     else
