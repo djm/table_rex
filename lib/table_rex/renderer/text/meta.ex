@@ -29,14 +29,14 @@ defmodule TableRex.Renderer.Text.Meta do
   Retreives the column width at the given column index.
   """
   def col_width(meta, col_index) do
-    Dict.get(meta.col_widths, col_index)
+    Map.get(meta.col_widths, col_index)
   end
 
   @doc """
   Retreives the row width at the given row index.
   """
   def row_height(meta, row_index) do
-    Dict.get(meta.row_heights, row_index)
+    Map.get(meta.row_heights, row_index)
   end
 
 end

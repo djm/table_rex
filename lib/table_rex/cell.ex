@@ -1,15 +1,19 @@
 defmodule TableRex.Cell do
   @moduledoc """
   Defines a struct that represents a single table cell, and helper functions.
+
+  The `align` field can be of:
+
+    * `:left`: left align text in the cell.
+    * `:center`: center text in the cell.
+    * `:right`: right align text in the cell.
+    * `nil`: align text in cell according to column alignment.
   """
   alias TableRex.Cell
 
   defstruct value: "", align: nil, color: nil
 
   @type t :: %__MODULE__{}
-
-  # `nil` tells the cell to take alignment from the column.
-  @alignment_options [:left, :center, :right, nil]
 
   @doc """
   Converts the passed value to be a normalised %Cell{} struct.

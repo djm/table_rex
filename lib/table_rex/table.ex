@@ -36,7 +36,7 @@ defmodule TableRex.Table do
   """
   @spec new(list, list, String.t) :: Table.t
   def new(rows, header_row \\ [], title \\ nil) when is_list(rows) and is_list(header_row) do
-    new
+    new()
     |> put_title(title)
     |> put_header(header_row)
     |> add_rows(rows)
@@ -160,7 +160,7 @@ defmodule TableRex.Table do
   # Retrieval API
 
   defp get_column(%Table{} = table, col_index) when is_integer(col_index) do
-    Dict.get(table.columns, col_index, table.default_column)
+    Map.get(table.columns, col_index, table.default_column)
   end
 
   @doc """
@@ -198,8 +198,9 @@ defmodule TableRex.Table do
   """
   @spec render(Table.t, list) :: Renderer.render_return
   def render(%Table{} = table, opts \\ []) when is_list(opts) do
-    {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
-    opts = Dict.merge(renderer.default_options, opts)
+    opts = opts |> Map.new()
+    {renderer, opts} = Map.pop(opts, :renderer, @default_renderer)
+    opts = Map.merge(renderer.default_options, opts)
     if Table.has_rows?(table) do
       renderer.render(table, opts)
     else

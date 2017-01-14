@@ -8,9 +8,8 @@ defmodule TableRex.Renderer.Text do
 
   @behaviour TableRex.Renderer
 
-  # Available styling options.
-  @horizontal_styles [:all, :header, :frame, :off]
-  @vertical_styles [:all, :frame, :off]
+  # horizontal_styles: [:all, :header, :frame:, :off]
+  # vertical_styles: [:all, :frame, :off]
 
   # Which horizontal/vertical styles render a specific separator.
   @render_horizontal_frame_styles [:all, :frame, :header]
@@ -37,6 +36,21 @@ defmodule TableRex.Renderer.Text do
 
   @doc """
   Implementation of the TableRex.Renderer behaviour.
+
+  Available styling options.
+
+  `horizontal_styles` controls horizontal separators and can be one of:
+
+    * `:all`: display separators between and around every row.
+    * `:header`: display outer and header horizontal separators only.
+    * `:frame`: display outer horizontal separators only.
+    * `:off`: display no horizontal separators.
+
+  `vertical_styles` controls vertical separators and can be one of:
+
+    * `:all`: display between and around every column.
+    * `:frame`: display outer vertical separators only.
+    * `:off`: display no vertical separators.
   """
   def render(table = %Table{}, opts) do
     {col_widths, row_heights} = max_dimensions(table)
@@ -235,7 +249,7 @@ defmodule TableRex.Renderer.Text do
 
   defp intersections(table_width, _col_widths, vertical_style: :frame) do
     [0, table_width - 1]
-    |> Enum.into(HashSet.new)
+    |> Enum.into(MapSet.new)
   end
 
   defp intersections(table_width, col_widths,  vertical_style: :all) do
@@ -244,7 +258,7 @@ defmodule TableRex.Renderer.Text do
       [acc_h + x + 1 | acc]
     end)
     [0, table_width - 1] ++ inner_intersections
-    |> Enum.into(HashSet.new)
+    |> Enum.into(MapSet.new)
   end
 
   defp max_dimensions(%Table{} = table) do
@@ -262,8 +276,8 @@ defmodule TableRex.Renderer.Text do
   defp reduce_cell_maximums(%Table{} = table, {cell, col_index}, {col_widths, row_heights}, row_index) do
     padding = Table.get_column_meta(table, col_index, :padding)
     {width, height} = content_dimensions(cell.value, padding)
-    col_widths = Dict.update(col_widths, col_index, width, &Enum.max([&1, width]))
-    row_heights = Dict.update(row_heights, row_index, height, &Enum.max([&1, height]))
+    col_widths = Map.update(col_widths, col_index, width, &Enum.max([&1, width]))
+    row_heights = Map.update(row_heights, row_index, height, &Enum.max([&1, height]))
     {col_widths, row_heights}
   end
 
@@ -276,7 +290,7 @@ defmodule TableRex.Renderer.Text do
 
   defp table_width(%{} = col_widths, vertical_frame?: vertical_frame?) do
     width = col_widths
-     |> Dict.values
+     |> Map.values
      |> Enum.intersperse(1)
      |> Enum.sum
 
