@@ -1,5 +1,16 @@
 # Changelog
 
+##v.10.0
+
+**Breaking changes**
+
+Dropped support for Elixir v1.1.x. We support the latest 3 minor versions, and
+the latest 2 major versions for Erlang OTP.
+
+Other changes:
+
+Fixed all compiler warnings resulting from Elixir 1.3 and 1.4 releases.
+
 ##v0.9.0
 
 Justin G (@theredcoder) has added support for header, column and cell level
