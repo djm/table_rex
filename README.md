@@ -270,6 +270,16 @@ To run the test suite, from the project directory, do:
 mix test
 ```
 
+##Publish to Hex
+
+```bash
+# Login to hex to retrieve API Key
+mix hex.user auth
+
+# Then publish by first setting to docs env to allow building to hexdocs.
+MIX_ENV=docs mix hex.publish
+```
+
 ##Roadmap/Contributing
 
 We use the Github Issues tracker.
@@ -278,7 +288,7 @@ If you have found something wrong, please raise an issue.
 
 If you'd like to contribute, check the issues to see where you can help.
 
-Contributions are welcome from anyone at any time but if the piece of work is significant in size, please raise an issue first.
+Contributions are welcome from anyone at any time but if the piece of work is significant in size, please raise an issue first to avoid instances of wasted work.
 
 ##License
 
