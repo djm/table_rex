@@ -8,6 +8,7 @@ defmodule TableRex do
   @doc """
   A shortcut function to render with a one-liner.
   Sacrifices all customisation for those that just want sane defaults.
+  `rows` parameter should be a list of lists, not a list of tuples or a list of maps.
   Returns `{:ok, rendered_string}` on success and `{:error, reason}` on failure.
   """
   @spec quick_render(list, list, String.t | nil) :: Renderer.render_return
