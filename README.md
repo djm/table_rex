@@ -13,7 +13,7 @@ Currently supports output:
 * in customisable ASCII format.
 * with your own renderer module.
 
-####Features
+#### Features
 
 * A one-liner for those that just want to render ASCII tables with sane defaults.
 * Support for table titles & alignable headers.
@@ -27,11 +27,11 @@ Currently supports output:
 
 <sup>1</sup> The text renderer supports these features, others may not or might not need to.
 
-####Documenation
+#### Documenation
 
 See the quick start below or check out the [full API docs at HexDocs](https://hexdocs.pm/table_rex/).
 
-####Stability
+#### Stability
 
 This software is pre-v1 and therefore the public API *may* change; any breaking changes will be clearly
 denoted in the [CHANGELOG](CHANGELOG.md). After v1, the API will be stable.
@@ -57,7 +57,7 @@ def application do
 end
 ```
 
-##Quick Start
+## Quick Start
 
 Use the `TableRex.quick_render` and `TableRex.quick_render!` functions; for those that just want a table quickly.
 
@@ -73,7 +73,7 @@ rows = [
 ]
 ```
 
-###TableRex.quick_render!/1
+### TableRex.quick_render!/1
 
 ```elixir
 TableRex.quick_render!(rows)
@@ -88,7 +88,7 @@ TableRex.quick_render!(rows)
 +----------------+---------------+-------------------+------+
 ```
 
-###TableRex.quick_render!/2
+### TableRex.quick_render!/2
 
 ```elixir
 TableRex.quick_render!(rows, header)
@@ -105,7 +105,7 @@ TableRex.quick_render!(rows, header)
 +----------------+---------------+-------------------+------+
 ```
 
-###TableRex.quick_render!/3
+### TableRex.quick_render!/3
 
 ```elixir
 TableRex.quick_render!(rows, header, title)
@@ -124,7 +124,7 @@ TableRex.quick_render!(rows, header, title)
 +----------------+---------------+-------------------+------+
 ```
 
-###Utilising TableRex.Table for deeper customisation
+### Utilising TableRex.Table for deeper customisation
 
 These examples all use: `alias TableRex.Table` to shorten the namespace.
 
@@ -259,7 +259,7 @@ Table.new(rows, header)
 +----------------+---------------+-------------------+------+
 ```
 
-##Run the tests
+## Run the tests
 
 We have an extensive test suite which helps showcase project usage. For example: the [quick render functions](https://github.com/djm/table_rex/blob/master/test/table_rex_test.exs),
 [table manipulation API](https://github.com/djm/table_rex/blob/master/test/table_rex/table_test.exs) or [the text renderer module](https://github.com/djm/table_rex/blob/master/test/table_rex/renderer/text_test.exs).
@@ -270,7 +270,7 @@ To run the test suite, from the project directory, do:
 mix test
 ```
 
-##Publish to Hex
+## Publish to Hex
 
 ```bash
 # Login to hex to retrieve API Key
@@ -280,7 +280,7 @@ mix hex.user auth
 MIX_ENV=docs mix hex.publish
 ```
 
-##Roadmap/Contributing
+## Roadmap/Contributing
 
 We use the Github Issues tracker.
 
@@ -290,11 +290,11 @@ If you'd like to contribute, check the issues to see where you can help.
 
 Contributions are welcome from anyone at any time but if the piece of work is significant in size, please raise an issue first to avoid instances of wasted work.
 
-##License
+## License
 
 MIT. See the [full license](LICENSE).
 
-##Thanks
+## Thanks
 
 * Ryanz720, for the [original T-Rex image](https://commons.wikimedia.org/wiki/File:Trex_Roar.jpg).
 
