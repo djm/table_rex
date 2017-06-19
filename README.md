@@ -18,7 +18,7 @@ Currently supports output:
 * A one-liner for those that just want to render ASCII tables with sane defaults.
 * Support for table titles & alignable headers.
 * Support for column & cell level alignment (center, left, right).
-* Support for column, header, & cell level <img src="http://i.imgur.com/IwdTF3b.png" width="44" />.
+* Support for column, header, & cell level <img src="http://i.imgur.com/VYTQPUo.png" width="44" />.
 * Automatic cell padding but also the option to set padding per column<sup>1</sup>.
 * Frame the table with various vertical & horizontal styles<sup>1</sup>.
 * Style the table how you wish with custom separators<sup>1</sup>.
