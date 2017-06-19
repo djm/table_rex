@@ -1068,4 +1068,142 @@ defmodule TableRex.Renderer.TextTest do
     +----------------+----------------------+------+
     """
   end
+
+  test "default render with title that is one less than the combined column widths", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_title("Renegade Hardware Releases That Be Here Now")
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    | Renegade Hardware Releases That Be Here Now  |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with title that exactly matches combined column widths", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_title("Renegade Hardware Releases That Are Here Now")
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------+
+    | Renegade Hardware Releases That Are Here Now |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | 1999 |
+    | Keaton & Hive  | The Plague           | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 2007 |
+    +----------------+----------------------+------+
+    """
+  end
+
+  test "default render with title that exceeds combined column widths by one space", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_title("Renegade Hardware Releases That Are Seen Here")
+      |> Table.render
+    assert rendered == """
+    +-------------------------------------------------+
+    |  Renegade Hardware Releases That Are Seen Here  |
+    +-----------------+-----------------------+-------+
+    | Artist          | Track                 | Year  |
+    +-----------------+-----------------------+-------+
+    | Konflict        | Cyanide               | 1999  |
+    | Keaton & Hive   | The Plague            | 2003  |
+    | Vicious Circle  | Welcome To Shanktown  | 2007  |
+    +-----------------+-----------------------+-------+
+    """
+  end
+
+  test "default render with title that significantly exceeds combined column widths", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_title("Renegade Hardware Releases That Are Present In This Table")
+      |> Table.render
+    assert rendered == """
+    +-------------------------------------------------------------+
+    |  Renegade Hardware Releases That Are Present In This Table  |
+    +---------------------+---------------------------+-----------+
+    | Artist              | Track                     | Year      |
+    +---------------------+---------------------------+-----------+
+    | Konflict            | Cyanide                   | 1999      |
+    | Keaton & Hive       | The Plague                | 2003      |
+    | Vicious Circle      | Welcome To Shanktown      | 2007      |
+    +---------------------+---------------------------+-----------+
+    """
+  end
+
+  test "default render with title exceeding combined column widths by multiple of number of columns", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_title("Renegade Hardware Releases Seen In This Very Table")
+      |> Table.render
+    assert rendered == """
+    +----------------------------------------------------+
+    | Renegade Hardware Releases Seen In This Very Table |
+    +------------------+------------------------+--------+
+    | Artist           | Track                  | Year   |
+    +------------------+------------------------+--------+
+    | Konflict         | Cyanide                | 1999   |
+    | Keaton & Hive    | The Plague             | 2003   |
+    | Vicious Circle   | Welcome To Shanktown   | 2007   |
+    +------------------+------------------------+--------+
+    """
+  end
+
+  test "default render with title exactly matching combined column widths when only 2 columns" do
+    title = "Renegade Hardware Releases Shown Here"
+    header = ["Artist", "Track"]
+    rows = [
+      ["Konflict", "Cyanide"],
+      ["Keaton & Hive", "The Plague"],
+      ["Vicious Circle", "Welcome To Shanktown"]
+    ]
+    {:ok, rendered} = Table.new(rows, header, title)
+    |> Table.render
+
+    assert rendered === """
+    +---------------------------------------+
+    | Renegade Hardware Releases Shown Here |
+    +----------------+----------------------+
+    | Artist         | Track                |
+    +----------------+----------------------+
+    | Konflict       | Cyanide              |
+    | Keaton & Hive  | The Plague           |
+    | Vicious Circle | Welcome To Shanktown |
+    +----------------+----------------------+
+    """
+  end
+
+  test "default render with title exceeding combined column widths by one space when only 2 columns" do
+    title = "Renegade Hardware Releases Shown Here!"
+    header = ["Artist", "Track"]
+    rows = [
+      ["Konflict", "Cyanide"],
+      ["Keaton & Hive", "The Plague"],
+      ["Vicious Circle", "Welcome To Shanktown"]
+    ]
+    {:ok, rendered} = Table.new(rows, header, title)
+    |> Table.render
+
+    assert rendered === """
+    +-----------------------------------------+
+    | Renegade Hardware Releases Shown Here!  |
+    +-----------------+-----------------------+
+    | Artist          | Track                 |
+    +-----------------+-----------------------+
+    | Konflict        | Cyanide               |
+    | Keaton & Hive   | The Plague            |
+    | Vicious Circle  | Welcome To Shanktown  |
+    +-----------------+-----------------------+
+    """
  end
+end
