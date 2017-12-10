@@ -262,9 +262,31 @@ defmodule TableRex.Renderer.Text do
   end
 
   defp max_dimensions(%Table{} = table) do
-    [table.header_row | table.rows]
+    {col_widths, row_heights} = [table.header_row | table.rows]
     |> Enum.with_index
     |> Enum.reduce({%{}, %{}}, &reduce_row_maximums(table, &1, &2))
+
+    num_columns = Map.size(col_widths)
+
+    # Infer padding on left and right of title
+    title_padding = [0, num_columns - 1]
+    |> Enum.map(&(Table.get_column_meta(table, &1, :padding)))
+    |> Enum.sum
+
+    # Compare table body width with title width
+    col_separators_widths = num_columns - 1
+    body_width = (col_widths |> Map.values |> Enum.sum) + col_separators_widths
+    title_width = (if is_nil(table.title), do: 0, else: String.length(table.title)) + title_padding
+
+    # Add extra padding equally to all columns if required to match body and title width.
+    revised_col_widths = if body_width >= title_width do
+      col_widths
+    else
+      extra_padding = ((title_width - body_width) / num_columns) |> Float.ceil |> round
+      Enum.into(col_widths, %{}, fn {k, v} -> { k, v + extra_padding } end)
+    end
+
+    {revised_col_widths, row_heights}
   end
 
   defp reduce_row_maximums(%Table{} = table, {row, row_index}, {col_widths, row_heights}) do
