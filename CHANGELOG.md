@@ -1,5 +1,25 @@
 # Changelog
 
+##v1.0.0
+
+The API seems stable enough, sans major complaints, and has no major open bugs
+so here is our version 1 release!
+
+This release brings only new feature:
+
+* TableRex has gained the ability to stretch the table width to accomodate long
+titles, thanks to @matt-harvey.
+
+And one breaking change:
+
+* We are dropping support for Elixir v1.2.x and Erlang 18.x. For the time
+being, we support the latest 3 minor versions of Elixir, and the latest 2
+major versions for Erlang.
+
+From now on - as per semver, new breaking changes will increment the major release
+number, new non-breaking features will increment the minor release number and
+bug fixes will update the patch number.
+
 ##v.10.0
 
 **Breaking changes**
