@@ -33,8 +33,7 @@ See the quick start below or check out the [full API docs at HexDocs](https://he
 
 #### Stability
 
-This software is pre-v1 and therefore the public API *may* change; any breaking changes will be clearly
-denoted in the [CHANGELOG](CHANGELOG.md). After v1, the API will be stable.
+This software is now post v1 and therefore, as per semver, can be considered stable and will have no breaking changes without incrementing the major version number. Any breaking changes, and they will be few and far between, will be documented in the [CHANGELOG](CHANGELOG.md).
 
 
 ## Installation
