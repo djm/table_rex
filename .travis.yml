@@ -1,14 +1,21 @@
 language: elixir
-# Test policy:
+# Test policy, where possible:
 #  - should run on 3 latest minor Elixir releases.
 #  - should run on 2 latest major OTP releases.
 elixir:
-  - 1.4.0
+  - 1.5.2
+  - 1.4.5
   - 1.3.4
-  - 1.2.6
 otp_release:
-  - 18.3
-  - 19.2
+  - 19.3
+  - 20.1
+
+# Certain older Elixir releases do not fair well
+# with the OTP 20 release, so they are excluded.
+matrix:
+  exclude:
+    - elixir: 1.3.4
+      otp_release: 20.1
 
 sudo: false # To use faster container based build environment
 script:
