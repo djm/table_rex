@@ -508,4 +508,71 @@ defmodule TableRex.TableTest do
     end
   end
 
+  test "sort/1 should sort the table using the first column" do
+    table =
+      Table.new()
+      |> Table.add_row([1])
+      |> Table.add_row([2])
+      |> Table.sort()
+
+    [[row1], [row2]] = table.rows
+    assert row1.value == "1"
+    assert row2.value == "2"
+  end
+
+  test "sort/1 should sort the table using the first column (3 lines)" do
+    table =
+      Table.new()
+      |> Table.add_row([3])
+      |> Table.add_row([1])
+      |> Table.add_row([2])
+      |> Table.sort()
+
+    [[row1], [row2], [row3]] = table.rows
+    assert row1.value == "1"
+    assert row2.value == "2"
+    assert row3.value == "3"
+  end
+
+    test "sort/1 should sort the table by the first column by default" do
+      table =
+        Table.new()
+        |> Table.add_row([3, "a"])
+        |> Table.add_row([1, "b"])
+        |> Table.add_row([2, "c"])
+        |> Table.sort()
+
+      [[r1c1, r1c2], [r2c1, r2c2], [r3c1, r3c2]] = table.rows
+      assert r1c1.value == "1"
+      assert r1c2.value == "b"
+      assert r2c1.value == "2"
+      assert r2c2.value == "c"
+      assert r3c1.value == "3"
+      assert r3c2.value == "a"
+    end
+
+    test "sort/2 should sort the table by the passed column" do
+      table =
+        Table.new()
+        |> Table.add_row([3, "a"])
+        |> Table.add_row([1, "b"])
+        |> Table.add_row([2, "c"])
+        |> Table.sort(1)
+
+      [[r1c1, r1c2], [r2c1, r2c2], [r3c1, r3c2]] = table.rows
+      assert r1c1.value == "3"
+      assert r1c2.value == "a"
+      assert r2c1.value == "1"
+      assert r2c2.value == "b"
+      assert r3c1.value == "2"
+      assert r3c2.value == "c"
+    end
+
+    test "sort/2 shouldn't sort with invalid column" do
+      assert_raise TableRex.Error, fn ->
+        Table.new()
+        |> Table.add_row([3, "a"])
+        |> Table.sort(3)
+      end
+    end
 end
