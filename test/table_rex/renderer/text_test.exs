@@ -1228,6 +1228,32 @@ defmodule TableRex.Renderer.TextTest do
     """
   end
 
+  test "default render with individual cells containing ANSI color codes" do
+    title = "Renegade Hardware Releases"
+    header = ["Artist", "Track", "Year"]
+    rows = [
+      ["Konflict", "Cyanide", IO.ANSI.format([:red, "19", :bright, "99"])],
+      ["Keaton & Hive", "The Plague", 2003],
+      ["Vicious Circle", "Welcome To Shanktown", IO.ANSI.format(["200", :green, "7"])],
+    ]
+    {:ok, rendered} =
+      rows
+      |> Table.new(header, title)
+      |> Table.render()
+
+    assert rendered === """
+    +----------------------------------------------+
+    |          Renegade Hardware Releases          |
+    +----------------+----------------------+------+
+    | Artist         | Track                | Year |
+    +----------------+----------------------+------+
+    | Konflict       | Cyanide              | \e[31m19\e[1m99\e[0m |
+    | Keaton & Hive  | The Plague           | 2003 |
+    | Vicious Circle | Welcome To Shanktown | 200\e[32m7\e[0m |
+    +----------------+----------------------+------+
+    """
+  end
+
   test "minimal render (zero padding) with title exceeding combined column widths", %{table: table} do
     {:ok, rendered} =
       table
@@ -1284,5 +1310,4 @@ defmodule TableRex.Renderer.TextTest do
     +--------------------+--------------------------+------------+
     """
   end
-
 end

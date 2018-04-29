@@ -227,14 +227,14 @@ defmodule TableRex.Renderer.Text do
   end
 
   defp do_render_cell(value, inner_width, _padding, align: :center) do
-    value_len = String.length(value)
+    value_len = String.length(strip_ansi_color_codes(value))
     post_value = ((inner_width - value_len) / 2) |> round
     pre_value = inner_width - (post_value + value_len)
     String.duplicate(" ", pre_value) <> value <> String.duplicate(" ", post_value)
   end
 
   defp do_render_cell(value, inner_width, padding, align: align) do
-    value_len = String.length(value)
+    value_len = String.length(strip_ansi_color_codes(value))
     alt_side_padding = inner_width - value_len - padding
     {pre_value, post_value} = case align do
       :left ->
@@ -304,7 +304,10 @@ defmodule TableRex.Renderer.Text do
   end
 
   defp content_dimensions(value, padding) when is_binary(value) and is_number(padding) do
-    lines = String.split(value, "\n")
+    lines =
+      value
+      |> strip_ansi_color_codes()
+      |> String.split("\n")
     height = Enum.count(lines)
     width = Enum.max(lines) |> String.length
     {width + (padding * 2), height}
@@ -348,5 +351,9 @@ defmodule TableRex.Renderer.Text do
   defp format_with_color(text, _, color) do
     [[color | text] | IO.ANSI.reset]
     |> IO.ANSI.format_fragment(true)
+  end
+
+  defp strip_ansi_color_codes(text) do
+    Regex.replace(~r|\e\[\d+m|u, text, "")
   end
 end
