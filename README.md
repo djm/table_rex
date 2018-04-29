@@ -15,26 +15,34 @@ Currently supports output:
 
 #### Features
 
-* A one-liner for those that just want to render ASCII tables with sane defaults.
+* A one-liner for those that just want to render ASCII tables with sane
+  defaults.
 * Support for table titles & alignable headers.
 * Support for column & cell level alignment (center, left, right).
-* Support for column, header, & cell level <img src="http://i.imgur.com/LCfvYYM.png" width="44" />.
-* Automatic cell padding but also the option to set padding per column<sup>1</sup>.
+* Support for column, header, & cell level
+  <img src="http://i.imgur.com/LCfvYYM.png" width="44" />.
+* Automatic cell padding but also the option to set padding per
+  column<sup>1</sup>.
 * Frame the table with various vertical & horizontal styles<sup>1</sup>.
 * Style the table how you wish with custom separators<sup>1</sup>.
 * Works well with the Agent module to allow for easy sharing of state.
-* Clients can supply their own rendering modules and still take advantage of the table manipulation API.
+* Clients can supply their own rendering modules and still take advantage of the
+  table manipulation API.
 
-<sup>1</sup> The text renderer supports these features, others may not or might not need to.
+<sup>1</sup> The text renderer supports these features, others may not or might
+not need to.
 
 #### Documenation
 
-See the quick start below or check out the [full API docs at HexDocs](https://hexdocs.pm/table_rex/).
+See the quick start below or check out the
+[full API docs at HexDocs](https://hexdocs.pm/table_rex/).
 
 #### Stability
 
-This software is now post v1 and therefore, as per semver, can be considered stable and will have no breaking changes without incrementing the major version number. Any breaking changes, and they will be few and far between, will be documented in the [CHANGELOG](CHANGELOG.md).
-
+This software is now post v1 and therefore, as per semver, can be considered
+stable and will have no breaking changes without incrementing the major version
+number. Any breaking changes, and they will be few and far between, will be
+documented in the [CHANGELOG](CHANGELOG.md).
 
 ## Installation
 
@@ -58,7 +66,8 @@ end
 
 ## Quick Start
 
-Use the `TableRex.quick_render` and `TableRex.quick_render!` functions; for those that just want a table quickly.
+Use the `TableRex.quick_render` and `TableRex.quick_render!` functions; for
+those that just want a table quickly.
 
 Given this data:
 
@@ -168,16 +177,18 @@ Table.new(rows, header)
 +----------------+---------------+-------------------+------+
 ```
 
-*Available render options:*
+_Available render options:_
 
 * `horizontal_style`: one of `:off`, `:frame`, `:header` or `:all`.
 * `vertical_style`: one of `:off`, `:frame` or `:all`.
 * `horizontal_symbol`: draws horizontal row separators.
 * `vertical_symbol`: draws vertical separators.
-* `intersection_symbol`: draws the symbol where horizontal and vertical seperators intersect.
+* `intersection_symbol`: draws the symbol where horizontal and vertical
+  seperators intersect.
 * `top_frame_symbol`: draws the frame's top horizontal separator.
-* `title_separator_symbol`:  draws the horizontal separator under the title.
-* `header_separator_symbol`: draws to draw the horizontal separator under the header.
+* `title_separator_symbol`: draws the horizontal separator under the title.
+* `header_separator_symbol`: draws to draw the horizontal separator under the
+  header.
 * `bottom_frame_symbol`: draws the frame's bottom horizontal separator.
 
 **Set cell level meta (including for the header cells):**
@@ -201,6 +212,7 @@ Table.new(rows, header)
 ```
 
 **Set color for the column, header, and cell:**
+
 ```elixir
 Table.new(rows, header)
 |> Table.put_column_meta(0, color: :red) # sets column header to red, too
@@ -210,9 +222,10 @@ Table.new(rows, header)
 |> IO.puts
 ```
 
-*Supported color value types:*
+_Supported color value types:_
 
-* atom: a named ANSI sequence defined in [IO.ANSI](https://hexdocs.pm/elixir/IO.ANSI.html#content)
+* atom: a named ANSI sequence defined in
+  [IO.ANSI](https://hexdocs.pm/elixir/IO.ANSI.html#content)
 * string: an embedded ANSI sequence
 * chardata: a list of atoms and/or strings
 * function: `(text, value) -> text`
@@ -220,6 +233,7 @@ Table.new(rows, header)
   * **Note:** to render the correct padding, always format and return the text
 
 **Conditionally set a color:**
+
 ```elixir
 Table.new(rows, header)
 |> Table.put_column_meta(3, color: fn(text, value) -> if value in ["1999", "2007"], do: [:blue, text], else: text end)
@@ -260,8 +274,12 @@ Table.new(rows, header)
 
 ## Run the tests
 
-We have an extensive test suite which helps showcase project usage. For example: the [quick render functions](https://github.com/djm/table_rex/blob/master/test/table_rex_test.exs),
-[table manipulation API](https://github.com/djm/table_rex/blob/master/test/table_rex/table_test.exs) or [the text renderer module](https://github.com/djm/table_rex/blob/master/test/table_rex/renderer/text_test.exs).
+We have an extensive test suite which helps showcase project usage. For example:
+the
+[quick render functions](https://github.com/djm/table_rex/blob/master/test/table_rex_test.exs),
+[table manipulation API](https://github.com/djm/table_rex/blob/master/test/table_rex/table_test.exs)
+or
+[the text renderer module](https://github.com/djm/table_rex/blob/master/test/table_rex/renderer/text_test.exs).
 
 To run the test suite, from the project directory, do:
 
@@ -287,7 +305,9 @@ If you have found something wrong, please raise an issue.
 
 If you'd like to contribute, check the issues to see where you can help.
 
-Contributions are welcome from anyone at any time but if the piece of work is significant in size, please raise an issue first to avoid instances of wasted work.
+Contributions are welcome from anyone at any time but if the piece of work is
+significant in size, please raise an issue first to avoid instances of wasted
+work.
 
 ## License
 
@@ -295,6 +315,7 @@ MIT. See the [full license](LICENSE).
 
 ## Thanks
 
-* Ryanz720, for the [original T-Rex image](https://commons.wikimedia.org/wiki/File:Trex_Roar.jpg).
+* Ryanz720, for the
+  [original T-Rex image](https://commons.wikimedia.org/wiki/File:Trex_Roar.jpg).
 
 * Everyone in #elixir-lang on freenode, for answering the endless questions.
