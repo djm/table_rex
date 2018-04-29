@@ -1,5 +1,41 @@
 # Changelog
 
+##v2.0.0
+
+Version 2 has no external API breaking changes but we are bumping the major version
+number as the internal data structure of the %Cell{} struct has changed. See
+note below.
+
+New features:
+
+* sort! Tables can now have a basic sort function which uses Elixir's term
+  ordering to sort your table rows by a specific column in either ascending or
+  descending order. Please see the README for usage; many thanks to everyone
+  at @elixir-poa for this change.
+
+* you are now free to add your own ANSI color wrappers to text within an inline
+  cell, the extra characters this adds are ignored as part of width calculations
+  and therefore the structure of the table no longer breaks when you do this.
+  Thanks to @geolessel for this change.
+
+
+**%Cell{} struct change**
+
+Previously Cells only stored the string-coerced version of the data you wanted
+to insert into the table. This was limiting as it meant we could not sort your
+tables as type information was lost in that process. It also opens up TableRex
+to many other features now that we keep the original data.
+
+The stringified value of a Cell used to be stored at `value`, it is now stored
+at `rendered_value` - with the original being stored at `raw_value`.
+
+To migrate:
+
+* If you are creating Cells, instead of passing `value`, pass `raw_value`.
+* If you are using Cells, it's likely you'll want to use `Cell.rendered_value`
+  which is now what the removed `Cell.value` used to be.
+
+
 ##v1.0.0
 
 The API seems stable enough, sans major complaints, and has no major open bugs
