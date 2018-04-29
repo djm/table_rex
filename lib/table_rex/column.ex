@@ -8,5 +8,4 @@ defmodule TableRex.Column do
   defstruct align: :left, padding: 1, color: nil
 
   @type t :: %__MODULE__{}
-
 end

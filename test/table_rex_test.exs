@@ -4,63 +4,67 @@ defmodule TableRex.TableRexTest do
   doctest TableRex
 
   test "quick_render with title, header and rows" do
-    {:ok, rendered} = TableRex.quick_render(
-      [
-        ["Konflict", "Cyanide", 1999],
-        ["Keaton & Hive", "The Plague", 2003],
-        ["Vicious Circle", "Welcome To Shanktown", 2007]
-      ],
-      ["Artist", "Track", "Year"],
-      "Renegade Hardware Releases"
-    )
+    {:ok, rendered} =
+      TableRex.quick_render(
+        [
+          ["Konflict", "Cyanide", 1999],
+          ["Keaton & Hive", "The Plague", 2003],
+          ["Vicious Circle", "Welcome To Shanktown", 2007]
+        ],
+        ["Artist", "Track", "Year"],
+        "Renegade Hardware Releases"
+      )
+
     assert rendered == """
-    +----------------------------------------------+
-    |          Renegade Hardware Releases          |
-    +----------------+----------------------+------+
-    | Artist         | Track                | Year |
-    +----------------+----------------------+------+
-    | Konflict       | Cyanide              | 1999 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    +----------------+----------------------+------+
-    """
+           +----------------------------------------------+
+           |          Renegade Hardware Releases          |
+           +----------------+----------------------+------+
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Konflict       | Cyanide              | 1999 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "quick_render with header and rows" do
-    {:ok, rendered} = TableRex.quick_render(
-      [
-        ["Konflict", "Cyanide", 1999],
-        ["Keaton & Hive", "The Plague", 2003],
-        ["Vicious Circle", "Welcome To Shanktown", 2007]
-      ],
-      ["Artist", "Track", "Year"]
-    )
+    {:ok, rendered} =
+      TableRex.quick_render(
+        [
+          ["Konflict", "Cyanide", 1999],
+          ["Keaton & Hive", "The Plague", 2003],
+          ["Vicious Circle", "Welcome To Shanktown", 2007]
+        ],
+        ["Artist", "Track", "Year"]
+      )
+
     assert rendered == """
-    +----------------+----------------------+------+
-    | Artist         | Track                | Year |
-    +----------------+----------------------+------+
-    | Konflict       | Cyanide              | 1999 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    +----------------+----------------------+------+
-    """
+           +----------------+----------------------+------+
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Konflict       | Cyanide              | 1999 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "quick_render with just rows" do
-    {:ok, rendered} = TableRex.quick_render(
-      [
+    {:ok, rendered} =
+      TableRex.quick_render([
         ["Konflict", "Cyanide", 1999],
         ["Keaton & Hive", "The Plague", 2003],
         ["Vicious Circle", "Welcome To Shanktown", 2007]
-      ]
-    )
+      ])
+
     assert rendered == """
-    +----------------+----------------------+------+
-    | Konflict       | Cyanide              | 1999 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    +----------------+----------------------+------+
-    """
+           +----------------+----------------------+------+
+           | Konflict       | Cyanide              | 1999 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "quick_render with no rows to test error return" do
@@ -68,63 +72,67 @@ defmodule TableRex.TableRexTest do
   end
 
   test "quick_render! with title, header and rows" do
-    rendered = TableRex.quick_render!(
-      [
-        ["Konflict", "Cyanide", 1999],
-        ["Keaton & Hive", "The Plague", 2003],
-        ["Vicious Circle", "Welcome To Shanktown", 2007]
-      ],
-      ["Artist", "Track", "Year"],
-      "Renegade Hardware Releases"
-    )
+    rendered =
+      TableRex.quick_render!(
+        [
+          ["Konflict", "Cyanide", 1999],
+          ["Keaton & Hive", "The Plague", 2003],
+          ["Vicious Circle", "Welcome To Shanktown", 2007]
+        ],
+        ["Artist", "Track", "Year"],
+        "Renegade Hardware Releases"
+      )
+
     assert rendered == """
-    +----------------------------------------------+
-    |          Renegade Hardware Releases          |
-    +----------------+----------------------+------+
-    | Artist         | Track                | Year |
-    +----------------+----------------------+------+
-    | Konflict       | Cyanide              | 1999 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    +----------------+----------------------+------+
-    """
+           +----------------------------------------------+
+           |          Renegade Hardware Releases          |
+           +----------------+----------------------+------+
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Konflict       | Cyanide              | 1999 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "quick_render! with header and rows" do
-    rendered = TableRex.quick_render!(
-      [
-        ["Konflict", "Cyanide", 1999],
-        ["Keaton & Hive", "The Plague", 2003],
-        ["Vicious Circle", "Welcome To Shanktown", 2007]
-      ],
-      ["Artist", "Track", "Year"]
-    )
+    rendered =
+      TableRex.quick_render!(
+        [
+          ["Konflict", "Cyanide", 1999],
+          ["Keaton & Hive", "The Plague", 2003],
+          ["Vicious Circle", "Welcome To Shanktown", 2007]
+        ],
+        ["Artist", "Track", "Year"]
+      )
+
     assert rendered == """
-    +----------------+----------------------+------+
-    | Artist         | Track                | Year |
-    +----------------+----------------------+------+
-    | Konflict       | Cyanide              | 1999 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    +----------------+----------------------+------+
-    """
+           +----------------+----------------------+------+
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Konflict       | Cyanide              | 1999 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "quick_render! with just rows" do
-    rendered = TableRex.quick_render!(
-      [
+    rendered =
+      TableRex.quick_render!([
         ["Konflict", "Cyanide", 1999],
         ["Keaton & Hive", "The Plague", 2003],
         ["Vicious Circle", "Welcome To Shanktown", 2007]
-      ]
-    )
+      ])
+
     assert rendered == """
-    +----------------+----------------------+------+
-    | Konflict       | Cyanide              | 1999 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    +----------------+----------------------+------+
-    """
+           +----------------+----------------------+------+
+           | Konflict       | Cyanide              | 1999 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "quick_render! with no rows to test error is raised" do
@@ -132,5 +140,4 @@ defmodule TableRex.TableRexTest do
       TableRex.quick_render!([])
     end
   end
-
 end

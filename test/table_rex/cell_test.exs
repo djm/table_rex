@@ -6,10 +6,10 @@ defmodule TableRex.CellTest do
 
   test "default struct" do
     assert %Cell{} == %Cell{
-      value: "",
-      align: nil,
-      color: nil
-    }
+             value: "",
+             align: nil,
+             color: nil
+           }
   end
 
   test "to_cell with float" do
@@ -25,7 +25,8 @@ defmodule TableRex.CellTest do
   end
 
   test "to_cell with binary & opts" do
-    %Cell{value: "Thirteen", align: :left, color: :red} = Cell.to_cell("Thirteen", align: :left, color: :red)
+    %Cell{value: "Thirteen", align: :left, color: :red} =
+      Cell.to_cell("Thirteen", align: :left, color: :red)
   end
 
   test "to_cell with %Cell{value: float}" do
@@ -39,5 +40,4 @@ defmodule TableRex.CellTest do
   test "to_cell with %Cell{value: binary}" do
     %Cell{value: "Thirteen"} = Cell.to_cell(%Cell{value: "Thirteen"})
   end
-
 end

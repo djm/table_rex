@@ -5,7 +5,7 @@ defmodule TableRex.Renderer do
   """
 
   @typedoc "Return value of the render function."
-  @type render_return :: {:ok, String.t} | {:error, String.t}
+  @type render_return :: {:ok, String.t()} | {:error, String.t()}
 
   @doc "Returns a Map of the options and their default values required by the renderer."
   @callback default_options() :: map

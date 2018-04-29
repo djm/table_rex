@@ -38,5 +38,4 @@ defmodule TableRex.Renderer.Text.Meta do
   def row_height(meta, row_index) do
     Map.get(meta.row_heights, row_index)
   end
-
 end
