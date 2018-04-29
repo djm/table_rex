@@ -1,6 +1,6 @@
 # Changelog
 
-##v2.0.0
+## v2.0.0
 
 Version 2 has no external API breaking changes but we are bumping the major version
 number as the internal data structure of the %Cell{} struct has changed. See
@@ -36,7 +36,7 @@ To migrate:
   which is now what the removed `Cell.value` used to be.
 
 
-##v1.0.0
+## v1.0.0
 
 The API seems stable enough, sans major complaints, and has no major open bugs
 so here is our version 1 release!
@@ -56,7 +56,7 @@ From now on - as per semver, new breaking changes will increment the major relea
 number, new non-breaking features will increment the minor release number and
 bug fixes will update the patch number.
 
-##v.10.0
+## v0.10.0
 
 **Breaking changes**
 
@@ -67,24 +67,24 @@ Other changes:
 
 Fixed all compiler warnings resulting from Elixir 1.3 and 1.4 releases.
 
-##v0.9.0
+## v0.9.0
 
 Justin G (@theredcoder) has added support for header, column and cell level
 foreground & background ANSI colouring. Many thanks to Justin.
 
-##v0.8.3
+## v0.8.3
 
 Fixed warnings caused by Elixir 1.3's unsafe variable checker.
 
-##v0.8.2
+## v0.8.2
 
 Updated some locked development dependencies to reduce warning output during usage.
 
-##v0.8.1
+## v0.8.1
 
 Fixed a compilation bug in the new Elixir 1.3. No other changes.
 
-##v0.8.0
+## v0.8.0
 
 **Breaking changes**
 
@@ -92,7 +92,7 @@ All `Table.set_*` functions have been changed to `Table.put_*` to better
 reflect their functionality and mimic convention used elsewhere in the
 Elixir ecosphere.
 
-##v0.7.0
+## v0.7.0
 
 **Breaking changes**
 
@@ -133,7 +133,7 @@ Table.set_header_meta(table, 0..4, align: :right) # aligns header cells 0 throug
 Table.set_header_meta(table, [0, 3, 5], align: :right) # aligns header cells 0, 3 & 5 to the right.
 ```
 
-##v0.6.0
+## v0.6.0
 
 **No breaking changes**
 
@@ -156,7 +156,7 @@ Table.new(rows, header, title)
 |> Table.render
 ```
 
-##v0.5.0
+## v0.5.0
 
 **No breaking changes**
 
@@ -171,7 +171,7 @@ This would right-align columns 0 through 3.
 
 It is different to using the `:all` atom as it allows for a subset.
 
-##v0.4.0
+## v0.4.0
 
 **No breaking changes**
 
@@ -182,7 +182,7 @@ separately from the default which is picked up from the column.
 
 See issue [#3](https://github.com/djm/table_rex/issues/3).
 
-##v0.3.0
+## v0.3.0
 
 **No breaking changes**
 
@@ -190,7 +190,7 @@ Simply an update to bump the version due to an oversight as the generated
 docs for older version contained documentation for uncommited files which
 were not part of the package. This has been remedied as of this version.
 
-##v0.2.0
+## v0.2.0
 
 **Breaking changes**
 
@@ -216,6 +216,6 @@ Table.new
 * `TableRex.Table.render!/2` has been added as a brother to `TableRex.Table.render/2`. It raises `TableRex.Error` on failure and returns the rendered string directly as opposed to it's brother which returns an Erlang style `:ok/:error` tuple.
 
 
-##v0.1.0
+## v0.1.0
 
 First release on hex.pm
