@@ -21,9 +21,18 @@ defmodule TableRex.TableTest do
     assert Table.new(rows) == %Table{
              rows: [
                [
-                 %Cell{value: "Dom & Roland"},
-                 %Cell{value: "Thunder"},
-                 %Cell{value: "1998"}
+                 %Cell{
+                   rendered_value: "Dom & Roland",
+                   raw_value: "Dom & Roland"
+                 },
+                 %Cell{
+                   rendered_value: "Thunder",
+                   raw_value: "Thunder"
+                 },
+                 %Cell{
+                   rendered_value: "1998",
+                   raw_value: 1998
+                 }
                ]
              ]
            }
@@ -35,15 +44,33 @@ defmodule TableRex.TableTest do
 
     assert Table.new(rows, header) == %Table{
              header_row: [
-               %Cell{value: "Artist"},
-               %Cell{value: "Track"},
-               %Cell{value: "Year"}
+               %Cell{
+                 raw_value: "Artist",
+                 rendered_value: "Artist"
+               },
+               %Cell{
+                 raw_value: "Track",
+                 rendered_value: "Track"
+               },
+               %Cell{
+                 raw_value: "Year",
+                 rendered_value: "Year"
+               }
              ],
              rows: [
                [
-                 %Cell{value: "Dom & Roland"},
-                 %Cell{value: "Thunder"},
-                 %Cell{value: "1998"}
+                 %Cell{
+                   raw_value: "Dom & Roland",
+                   rendered_value: "Dom & Roland"
+                 },
+                 %Cell{
+                   raw_value: "Thunder",
+                   rendered_value: "Thunder"
+                 },
+                 %Cell{
+                   raw_value: 1998,
+                   rendered_value: "1998"
+                 }
                ]
              ]
            }
@@ -57,15 +84,33 @@ defmodule TableRex.TableTest do
     assert Table.new(rows, header, title) == %Table{
              title: "Dom & Roland Releases",
              header_row: [
-               %Cell{value: "Artist"},
-               %Cell{value: "Track"},
-               %Cell{value: "Year"}
+               %Cell{
+                 raw_value: "Artist",
+                 rendered_value: "Artist"
+               },
+               %Cell{
+                 raw_value: "Track",
+                 rendered_value: "Track"
+               },
+               %Cell{
+                 raw_value: "Year",
+                 rendered_value: "Year"
+               }
              ],
              rows: [
                [
-                 %Cell{value: "Dom & Roland"},
-                 %Cell{value: "Thunder"},
-                 %Cell{value: "1998"}
+                 %Cell{
+                   raw_value: "Dom & Roland",
+                   rendered_value: "Dom & Roland"
+                 },
+                 %Cell{
+                   raw_value: "Thunder",
+                   rendered_value: "Thunder"
+                 },
+                 %Cell{
+                   raw_value: 1998,
+                   rendered_value: "1998"
+                 }
                ]
              ]
            }
@@ -77,9 +122,18 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{value: "Dom & Roland"},
-               %Cell{value: "Thunder"},
-               %Cell{value: "1998"}
+               %Cell{
+                 raw_value: "Dom & Roland",
+                 rendered_value: "Dom & Roland"
+               },
+               %Cell{
+                 raw_value: "Thunder",
+                 rendered_value: "Thunder"
+               },
+               %Cell{
+                 raw_value: 1998,
+                 rendered_value: "1998"
+               }
              ]
            ]
 
@@ -88,14 +142,32 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{value: "Calyx"},
-               %Cell{value: "Downpour"},
-               %Cell{value: "2001"}
+               %Cell{
+                 raw_value: "Calyx",
+                 rendered_value: "Calyx"
+               },
+               %Cell{
+                 raw_value: "Downpour",
+                 rendered_value: "Downpour"
+               },
+               %Cell{
+                 raw_value: 2001,
+                 rendered_value: "2001"
+               }
              ],
              [
-               %Cell{value: "Dom & Roland"},
-               %Cell{value: "Thunder"},
-               %Cell{value: "1998"}
+               %Cell{
+                 raw_value: "Dom & Roland",
+                 rendered_value: "Dom & Roland"
+               },
+               %Cell{
+                 raw_value: "Thunder",
+                 rendered_value: "Thunder"
+               },
+               %Cell{
+                 raw_value: 1998,
+                 rendered_value: "1998"
+               }
              ]
            ]
   end
@@ -103,30 +175,35 @@ defmodule TableRex.TableTest do
   test "adding a single row with cell structs", %{table: table} do
     row = [
       "Rascal & Klone",
-      %Cell{value: "The Grind", align: :left, color: :red},
-      %Cell{value: 2000, align: :right}
+      %Cell{raw_value: "The Grind", align: :left, color: :red},
+      %Cell{raw_value: 2000, align: :right}
     ]
 
     table = Table.add_row(table, row)
 
     assert table.rows == [
              [
-               %Cell{value: "Rascal & Klone"},
-               %Cell{value: "The Grind", align: :left, color: :red},
-               %Cell{value: "2000", align: :right}
+               %Cell{rendered_value: "Rascal & Klone", raw_value: "Rascal & Klone"},
+               %Cell{
+                 rendered_value: "The Grind",
+                 raw_value: "The Grind",
+                 align: :left,
+                 color: :red
+               },
+               %Cell{rendered_value: "2000", raw_value: 2000, align: :right}
              ]
            ]
   end
 
   test "adding multiple rows multiple times results in sane order output", %{table: table} do
     rows = [
-      ["E-Z Rollers", "Tough At The Top", %Cell{value: 1998, align: :right}],
-      ["nCode", "Spasm", %Cell{value: 1999, align: :right}]
+      ["E-Z Rollers", "Tough At The Top", %Cell{raw_value: 1998, align: :right}],
+      ["nCode", "Spasm", %Cell{raw_value: 1999, align: :right}]
     ]
 
     additional_rows = [
-      ["Aquasky", "Uptight", %Cell{value: 2000, align: :right}],
-      ["Dom & Roland", "Dance All Night", %Cell{value: 2004, align: :right, color: :red}]
+      ["Aquasky", "Uptight", %Cell{raw_value: 2000, align: :right}],
+      ["Dom & Roland", "Dance All Night", %Cell{raw_value: 2004, align: :right, color: :red}]
     ]
 
     table = Table.add_rows(table, rows)
@@ -134,29 +211,70 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{value: "Dom & Roland"},
-               %Cell{value: "Dance All Night"},
-               %Cell{value: "2004", align: :right, color: :red}
+               %Cell{
+                 raw_value: "Dom & Roland",
+                 rendered_value: "Dom & Roland"
+               },
+               %Cell{
+                 raw_value: "Dance All Night",
+                 rendered_value: "Dance All Night"
+               },
+               %Cell{
+                 raw_value: 2004,
+                 rendered_value: "2004",
+                 align: :right,
+                 color: :red
+               }
              ],
              [
-               %Cell{value: "Aquasky"},
-               %Cell{value: "Uptight"},
-               %Cell{value: "2000", align: :right}
+               %Cell{
+                 raw_value: "Aquasky",
+                 rendered_value: "Aquasky"
+               },
+               %Cell{
+                 raw_value: "Uptight",
+                 rendered_value: "Uptight"
+               },
+               %Cell{
+                 raw_value: 2000,
+                 rendered_value: "2000",
+                 align: :right
+               }
              ],
              [
-               %Cell{value: "nCode"},
-               %Cell{value: "Spasm"},
-               %Cell{value: "1999", align: :right}
+               %Cell{
+                 raw_value: "nCode",
+                 rendered_value: "nCode"
+               },
+               %Cell{
+                 raw_value: "Spasm",
+                 rendered_value: "Spasm"
+               },
+               %Cell{
+                 raw_value: 1999,
+                 rendered_value: "1999",
+                 align: :right
+               }
              ],
              [
-               %Cell{value: "E-Z Rollers"},
-               %Cell{value: "Tough At The Top"},
-               %Cell{value: "1998", align: :right}
+               %Cell{
+                 raw_value: "E-Z Rollers",
+                 rendered_value: "E-Z Rollers"
+               },
+               %Cell{
+                 raw_value: "Tough At The Top",
+                 rendered_value: "Tough At The Top"
+               },
+               %Cell{
+                 raw_value: 1998,
+                 rendered_value: "1998",
+                 align: :right
+               }
              ]
            ]
   end
 
-  test "add methods used together results in sane/expected output order", %{table: table} do
+  test "add functions used together results in sane/expected output order", %{table: table} do
     first_row = ["Blame", "Music Takes You", 1992]
 
     middle_rows = [
@@ -171,24 +289,60 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{value: "Omni Trio"},
-               %Cell{value: "Lucid"},
-               %Cell{value: "2001"}
+               %Cell{
+                 raw_value: "Omni Trio",
+                 rendered_value: "Omni Trio"
+               },
+               %Cell{
+                 raw_value: "Lucid",
+                 rendered_value: "Lucid"
+               },
+               %Cell{
+                 raw_value: 2001,
+                 rendered_value: "2001"
+               }
              ],
              [
-               %Cell{value: "Dom & Roland"},
-               %Cell{value: "Killa Bullet"},
-               %Cell{value: "1999"}
+               %Cell{
+                 raw_value: "Dom & Roland",
+                 rendered_value: "Dom & Roland"
+               },
+               %Cell{
+                 raw_value: "Killa Bullet",
+                 rendered_value: "Killa Bullet"
+               },
+               %Cell{
+                 raw_value: 1999,
+                 rendered_value: "1999"
+               }
              ],
              [
-               %Cell{value: "Deep Blue"},
-               %Cell{value: "The Helicopter Tune"},
-               %Cell{value: "1993"}
+               %Cell{
+                 raw_value: "Deep Blue",
+                 rendered_value: "Deep Blue"
+               },
+               %Cell{
+                 raw_value: "The Helicopter Tune",
+                 rendered_value: "The Helicopter Tune"
+               },
+               %Cell{
+                 raw_value: 1993,
+                 rendered_value: "1993"
+               }
              ],
              [
-               %Cell{value: "Blame"},
-               %Cell{value: "Music Takes You"},
-               %Cell{value: "1992"}
+               %Cell{
+                 raw_value: "Blame",
+                 rendered_value: "Blame"
+               },
+               %Cell{
+                 raw_value: "Music Takes You",
+                 rendered_value: "Music Takes You"
+               },
+               %Cell{
+                 raw_value: 1992,
+                 rendered_value: "1992"
+               }
              ]
            ]
   end
@@ -217,32 +371,44 @@ defmodule TableRex.TableTest do
     table = Table.put_header(table, header_row)
 
     assert table.header_row == [
-             %Cell{value: "Artist"}
+             %Cell{raw_value: "Artist", rendered_value: "Artist"}
            ]
 
     header_row = ["Artist", "Track", "Year"]
     table = Table.put_header(table, header_row)
 
     assert table.header_row == [
-             %Cell{value: "Artist"},
-             %Cell{value: "Track"},
-             %Cell{value: "Year"}
+             %Cell{raw_value: "Artist", rendered_value: "Artist"},
+             %Cell{raw_value: "Track", rendered_value: "Track"},
+             %Cell{raw_value: "Year", rendered_value: "Year"}
            ]
   end
 
   test "setting a header row with cell structs", %{table: table} do
     header_row = [
       "Artist",
-      %Cell{value: "Track", align: :left, color: :red},
-      %Cell{value: "Year", align: :right}
+      %Cell{raw_value: "Track", align: :left, color: :red},
+      %Cell{raw_value: "Year", align: :right}
     ]
 
     table = Table.put_header(table, header_row)
 
     assert table.header_row == [
-             %Cell{value: "Artist"},
-             %Cell{value: "Track", align: :left, color: :red},
-             %Cell{value: "Year", align: :right}
+             %Cell{
+               raw_value: "Artist",
+               rendered_value: "Artist"
+             },
+             %Cell{
+               raw_value: "Track",
+               rendered_value: "Track",
+               align: :left,
+               color: :red
+             },
+             %Cell{
+               raw_value: "Year",
+               rendered_value: "Year",
+               align: :right
+             }
            ]
   end
 
@@ -355,14 +521,19 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{value: "Calyx", align: nil, color: :red},
-               %Cell{value: "Downpour", align: :left, color: nil},
-               %Cell{value: "2001", align: nil, color: nil}
+               %Cell{raw_value: "Calyx", rendered_value: "Calyx", align: nil, color: :red},
+               %Cell{raw_value: "Downpour", rendered_value: "Downpour", align: :left, color: nil},
+               %Cell{raw_value: 2001, rendered_value: "2001", align: nil, color: nil}
              ],
              [
-               %Cell{value: "Dom & Roland", align: :right, color: nil},
-               %Cell{value: "Thunder", align: nil, color: :red},
-               %Cell{value: "1998", align: nil, color: nil}
+               %Cell{
+                 raw_value: "Dom & Roland",
+                 rendered_value: "Dom & Roland",
+                 align: :right,
+                 color: nil
+               },
+               %Cell{raw_value: "Thunder", rendered_value: "Thunder", align: nil, color: :red},
+               %Cell{raw_value: 1998, rendered_value: "1998", align: nil, color: nil}
              ]
            ]
   end
@@ -378,9 +549,9 @@ defmodule TableRex.TableTest do
       |> Table.put_header_meta(2, color: :red)
 
     assert table.header_row == [
-             %Cell{value: "Artist", align: :left, color: nil},
-             %Cell{value: "Track", align: :right, color: nil},
-             %Cell{value: "Year", align: nil, color: :red}
+             %Cell{raw_value: "Artist", rendered_value: "Artist", align: :left, color: nil},
+             %Cell{raw_value: "Track", rendered_value: "Track", align: :right, color: nil},
+             %Cell{raw_value: "Year", rendered_value: "Year", align: nil, color: :red}
            ]
   end
 
@@ -393,17 +564,17 @@ defmodule TableRex.TableTest do
       |> Table.put_header_meta(0..2, align: :center)
 
     assert table.header_row == [
-             %Cell{value: "Artist", align: :center},
-             %Cell{value: "Track", align: :center},
-             %Cell{value: "Year", align: :center}
+             %Cell{raw_value: "Artist", rendered_value: "Artist", align: :center},
+             %Cell{raw_value: "Track", rendered_value: "Track", align: :center},
+             %Cell{raw_value: "Year", rendered_value: "Year", align: :center}
            ]
 
     table = Table.put_header_meta(table, [1, 2], align: :right)
 
     assert table.header_row == [
-             %Cell{value: "Artist", align: :center},
-             %Cell{value: "Track", align: :right},
-             %Cell{value: "Year", align: :right}
+             %Cell{raw_value: "Artist", rendered_value: "Artist", align: :center},
+             %Cell{raw_value: "Track", rendered_value: "Track", align: :right},
+             %Cell{raw_value: "Year", rendered_value: "Year", align: :right}
            ]
   end
 
@@ -426,9 +597,9 @@ defmodule TableRex.TableTest do
     assert table.title == title
 
     assert table.header_row == [
-             %Cell{value: "Artist"},
-             %Cell{value: "Track"},
-             %Cell{value: "Year"}
+             %Cell{raw_value: "Artist", rendered_value: "Artist"},
+             %Cell{raw_value: "Track", rendered_value: "Track"},
+             %Cell{raw_value: "Year", rendered_value: "Year"}
            ]
 
     assert table.rows == []
@@ -441,9 +612,9 @@ defmodule TableRex.TableTest do
 
     assert new_table.rows == [
              [
-               %Cell{value: "Calyx"},
-               %Cell{value: "Get Myself To You"},
-               %Cell{value: "2005"}
+               %Cell{raw_value: "Calyx", rendered_value: "Calyx"},
+               %Cell{raw_value: "Get Myself To You", rendered_value: "Get Myself To You"},
+               %Cell{raw_value: 2005, rendered_value: "2005"}
              ]
            ]
 
@@ -452,22 +623,22 @@ defmodule TableRex.TableTest do
 
     assert existing_table.rows == [
              [
-               %Cell{value: "Calyx"},
-               %Cell{value: "Get Myself To You"},
-               %Cell{value: "2005"}
+               %Cell{raw_value: "Calyx", rendered_value: "Calyx"},
+               %Cell{raw_value: "Get Myself To You", rendered_value: "Get Myself To You"},
+               %Cell{raw_value: 2005, rendered_value: "2005"}
              ]
            ]
 
     assert new_table.rows == [
              [
-               %Cell{value: "E-Z Rollers"},
-               %Cell{value: "Back To Love"},
-               %Cell{value: "2002"}
+               %Cell{raw_value: "E-Z Rollers", rendered_value: "E-Z Rollers"},
+               %Cell{raw_value: "Back To Love", rendered_value: "Back To Love"},
+               %Cell{raw_value: 2002, rendered_value: "2002"}
              ],
              [
-               %Cell{value: "Calyx"},
-               %Cell{value: "Get Myself To You"},
-               %Cell{value: "2005"}
+               %Cell{raw_value: "Calyx", rendered_value: "Calyx"},
+               %Cell{raw_value: "Get Myself To You", rendered_value: "Get Myself To You"},
+               %Cell{raw_value: 2005, rendered_value: "2005"}
              ]
            ]
   end
@@ -577,71 +748,139 @@ defmodule TableRex.TableTest do
     end
   end
 
-  test "sort/1 should sort the table using the first column" do
+  test "sort/3 should sort the table using the first column (desc)" do
     table =
       Table.new()
-      |> Table.add_row([1])
-      |> Table.add_row([2])
-      |> Table.sort()
+      |> Table.add_row([1, "a"])
+      |> Table.add_row([2, "b"])
+      |> Table.add_row([3, "c"])
+      |> Table.add_row([3, "d"])
+      |> Table.sort(0, :desc)
 
-    [[row1], [row2]] = table.rows
-    assert row1.value == "1"
-    assert row2.value == "2"
+    # Remember: rows are stored in reverse internally.
+    assert table.rows == [
+             [
+               %Cell{raw_value: 1, rendered_value: "1"},
+               %Cell{raw_value: "a", rendered_value: "a"}
+             ],
+             [
+               %Cell{raw_value: 2, rendered_value: "2"},
+               %Cell{raw_value: "b", rendered_value: "b"}
+             ],
+             [
+               %Cell{raw_value: 3, rendered_value: "3"},
+               %Cell{raw_value: "c", rendered_value: "c"}
+             ],
+             [
+               %Cell{raw_value: 3, rendered_value: "3"},
+               %Cell{raw_value: "d", rendered_value: "d"}
+             ]
+           ]
   end
 
-  test "sort/1 should sort the table using the first column (3 lines)" do
+  test "sort/3 should sort the table using the first column (asc)" do
     table =
       Table.new()
-      |> Table.add_row([3])
-      |> Table.add_row([1])
-      |> Table.add_row([2])
-      |> Table.sort()
+      |> Table.add_row([1, "a"])
+      |> Table.add_row([2, "b"])
+      |> Table.add_row([3, "c"])
+      |> Table.add_row([3, "d"])
+      |> Table.sort(0, :asc)
 
-    [[row1], [row2], [row3]] = table.rows
-    assert row1.value == "1"
-    assert row2.value == "2"
-    assert row3.value == "3"
+    # Remember: rows are stored in reverse internally.
+    assert table.rows == [
+             [
+               %Cell{raw_value: 3, rendered_value: "3"},
+               %Cell{raw_value: "c", rendered_value: "c"}
+             ],
+             [
+               %Cell{raw_value: 3, rendered_value: "3"},
+               %Cell{raw_value: "d", rendered_value: "d"}
+             ],
+             [
+               %Cell{raw_value: 2, rendered_value: "2"},
+               %Cell{raw_value: "b", rendered_value: "b"}
+             ],
+             [
+               %Cell{raw_value: 1, rendered_value: "1"},
+               %Cell{raw_value: "a", rendered_value: "a"}
+             ]
+           ]
   end
 
-  test "sort/1 should sort the table by the first column by default" do
+  test "sort/3 should sort the table by the specified column (desc)" do
     table =
       Table.new()
-      |> Table.add_row([3, "a"])
-      |> Table.add_row([1, "b"])
-      |> Table.add_row([2, "c"])
-      |> Table.sort()
+      |> Table.add_row([1, "a"])
+      |> Table.add_row([2, "b"])
+      |> Table.add_row([3, "c"])
+      |> Table.add_row([3, "d"])
+      |> Table.sort(1, :desc)
 
-    [[r1c1, r1c2], [r2c1, r2c2], [r3c1, r3c2]] = table.rows
-    assert r1c1.value == "1"
-    assert r1c2.value == "b"
-    assert r2c1.value == "2"
-    assert r2c2.value == "c"
-    assert r3c1.value == "3"
-    assert r3c2.value == "a"
+    # Remember: rows are stored in reverse internally.
+    assert table.rows == [
+      [
+        %Cell{raw_value: 1, rendered_value: "1"},
+        %Cell{raw_value: "a", rendered_value: "a"}
+      ],
+      [
+        %Cell{raw_value: 2, rendered_value: "2"},
+        %Cell{raw_value: "b", rendered_value: "b"}
+      ],
+      [
+        %Cell{raw_value: 3, rendered_value: "3"},
+        %Cell{raw_value: "c", rendered_value: "c"}
+      ],
+      [
+        %Cell{raw_value: 3, rendered_value: "3"},
+        %Cell{raw_value: "d", rendered_value: "d"}
+      ],
+    ]
   end
 
-  test "sort/2 should sort the table by the passed column" do
+  test "sort/3 should sort the table by the specified column (asc)" do
     table =
       Table.new()
-      |> Table.add_row([3, "a"])
-      |> Table.add_row([1, "b"])
-      |> Table.add_row([2, "c"])
-      |> Table.sort(1)
+      |> Table.add_row([1, "a"])
+      |> Table.add_row([2, "b"])
+      |> Table.add_row([3, "c"])
+      |> Table.add_row([3, "d"])
+      |> Table.sort(1, :asc)
 
-    [[r1c1, r1c2], [r2c1, r2c2], [r3c1, r3c2]] = table.rows
-    assert r1c1.value == "3"
-    assert r1c2.value == "a"
-    assert r2c1.value == "1"
-    assert r2c2.value == "b"
-    assert r3c1.value == "2"
-    assert r3c2.value == "c"
+    # Remember: rows are stored in reverse internally.
+    assert table.rows == [
+      [
+        %Cell{raw_value: 3, rendered_value: "3"},
+        %Cell{raw_value: "d", rendered_value: "d"}
+      ],
+      [
+        %Cell{raw_value: 3, rendered_value: "3"},
+        %Cell{raw_value: "c", rendered_value: "c"}
+      ],
+      [
+        %Cell{raw_value: 2, rendered_value: "2"},
+        %Cell{raw_value: "b", rendered_value: "b"}
+      ],
+      [
+        %Cell{raw_value: 1, rendered_value: "1"},
+        %Cell{raw_value: "a", rendered_value: "a"}
+      ],
+    ]
   end
 
-  test "sort/2 shouldn't sort with invalid column" do
+  test "sort/3 should raise when column index exists out of bounds" do
     assert_raise TableRex.Error, fn ->
       Table.new()
       |> Table.add_row([3, "a"])
-      |> Table.sort(3)
+      |> Table.sort(3, :asc)
+    end
+  end
+
+  test "sort/3 should raise when order parameter is invalid" do
+    assert_raise TableRex.Error, fn ->
+      Table.new()
+      |> Table.add_row([3, "a"])
+      |> Table.sort(0, :crap)
     end
   end
 end
