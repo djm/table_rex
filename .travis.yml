@@ -21,8 +21,9 @@ otp_release:
 sudo: false # To use faster container based build environment
 script:
   - mix compile --warnings-as-errors
-  - mix format --dry-run --check-formatted
+  - if [[ `elixir -v` = *"1.6"* ]]; then mix format --check-formatted; fi
   - mix test
+
 after_script:
   - mix deps.get --only docs
   - MIX_ENV=docs mix inch.report
