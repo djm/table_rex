@@ -206,12 +206,7 @@ defmodule TableRex.Table do
     %Table{table | rows: Enum.sort(rows, build_sort_function(column_index, order))}
   end
 
-  defp build_sort_function(_column_index, order) when order not in [:desc, :asc] do
-    raise TableRex.Error,
-      message: "Invalid sort order parameter. Must be an atom, either :desc or :asc."
-  end
-
-  defp build_sort_function(column_index, order) do
+  defp build_sort_function(column_index, order) when order in [:desc, :asc] do
     fn previous, next ->
       %{raw_value: prev_value} = Enum.at(previous, column_index)
       %{raw_value: next_value} = Enum.at(next, column_index)
@@ -222,6 +217,11 @@ defmodule TableRex.Table do
         next_value < prev_value
       end
     end
+  end
+
+  defp build_sort_function(_column_index, order) do
+    raise TableRex.Error,
+      message: "Invalid sort order parameter. Must be an atom, either :desc or :asc."
   end
 
   # -------------
