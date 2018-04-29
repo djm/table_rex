@@ -221,7 +221,7 @@ defmodule TableRex.Table do
 
   defp build_sort_function(_column_index, order) do
     raise TableRex.Error,
-      message: "Invalid sort order parameter. Must be an atom, either :desc or :asc."
+      message: "Invalid sort order parameter: #{order}. Must be an atom, either :desc or :asc."
   end
 
   # -------------
