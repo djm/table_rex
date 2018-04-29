@@ -221,4 +221,20 @@ defmodule TableRex.Table do
       {:error, reason} -> raise TableRex.Error, message: reason
     end
   end
+
+  def sort(%Table{rows: [first_row | _]}, column_index) when length(first_row) <= column_index do
+    raise TableRex.Error, message: "column_index should be lower than list length"
+  end
+
+  def sort(table = %Table{rows: rows}, column_index \\ 0) do
+    %{table | rows: Enum.sort(rows, build_sort_logic (column_index))}
+  end
+
+  defp build_sort_logic(column_index) do
+    fn previous, next ->
+      %{value: pv} = Enum.at(previous, column_index)
+      %{value: nv} = Enum.at(next, column_index)
+      nv > pv
+    end
+  end
 end
