@@ -44,6 +44,15 @@ stable and will have no breaking changes without incrementing the major version
 number. Any breaking changes, and they will be few and far between, will be
 documented in the [CHANGELOG](CHANGELOG.md).
 
+The project officially supports the last 3 minor versions of Elixir, and the
+latest 2 majors for OTP. This does not mean the software fails to work in older
+versions, simply that they are not supported and are not tested against.
+
+Supported minimum requirements:
+
+* Elixir: 1.4.5
+* OTP: 19.3
+
 ## Installation
 
 The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
