@@ -819,23 +819,23 @@ defmodule TableRex.TableTest do
 
     # Remember: rows are stored in reverse internally.
     assert table.rows == [
-      [
-        %Cell{raw_value: 1, rendered_value: "1"},
-        %Cell{raw_value: "a", rendered_value: "a"}
-      ],
-      [
-        %Cell{raw_value: 2, rendered_value: "2"},
-        %Cell{raw_value: "b", rendered_value: "b"}
-      ],
-      [
-        %Cell{raw_value: 3, rendered_value: "3"},
-        %Cell{raw_value: "c", rendered_value: "c"}
-      ],
-      [
-        %Cell{raw_value: 3, rendered_value: "3"},
-        %Cell{raw_value: "d", rendered_value: "d"}
-      ],
-    ]
+             [
+               %Cell{raw_value: 1, rendered_value: "1"},
+               %Cell{raw_value: "a", rendered_value: "a"}
+             ],
+             [
+               %Cell{raw_value: 2, rendered_value: "2"},
+               %Cell{raw_value: "b", rendered_value: "b"}
+             ],
+             [
+               %Cell{raw_value: 3, rendered_value: "3"},
+               %Cell{raw_value: "c", rendered_value: "c"}
+             ],
+             [
+               %Cell{raw_value: 3, rendered_value: "3"},
+               %Cell{raw_value: "d", rendered_value: "d"}
+             ]
+           ]
   end
 
   test "sort/3 should sort the table by the specified column (asc)" do
@@ -849,23 +849,23 @@ defmodule TableRex.TableTest do
 
     # Remember: rows are stored in reverse internally.
     assert table.rows == [
-      [
-        %Cell{raw_value: 3, rendered_value: "3"},
-        %Cell{raw_value: "d", rendered_value: "d"}
-      ],
-      [
-        %Cell{raw_value: 3, rendered_value: "3"},
-        %Cell{raw_value: "c", rendered_value: "c"}
-      ],
-      [
-        %Cell{raw_value: 2, rendered_value: "2"},
-        %Cell{raw_value: "b", rendered_value: "b"}
-      ],
-      [
-        %Cell{raw_value: 1, rendered_value: "1"},
-        %Cell{raw_value: "a", rendered_value: "a"}
-      ],
-    ]
+             [
+               %Cell{raw_value: 3, rendered_value: "3"},
+               %Cell{raw_value: "d", rendered_value: "d"}
+             ],
+             [
+               %Cell{raw_value: 3, rendered_value: "3"},
+               %Cell{raw_value: "c", rendered_value: "c"}
+             ],
+             [
+               %Cell{raw_value: 2, rendered_value: "2"},
+               %Cell{raw_value: "b", rendered_value: "b"}
+             ],
+             [
+               %Cell{raw_value: 1, rendered_value: "1"},
+               %Cell{raw_value: "a", rendered_value: "a"}
+             ]
+           ]
   end
 
   test "sort/3 should raise when column index exists out of bounds" do

@@ -86,76 +86,76 @@ defmodule TableRex.Renderer.TextTest do
     {:ok, rendered} =
       table
       |> Table.sort(0, :asc)
-      |> Table.render
+      |> Table.render()
 
     assert rendered == """
-    +----------------------------------------------+
-    |          Renegade Hardware Releases          |
-    +----------------+----------------------+------+
-    | Artist         | Track                | Year |
-    +----------------+----------------------+------+
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Konflict       | Cyanide              | 1999 |
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    +----------------+----------------------+------+
-    """
+           +----------------------------------------------+
+           |          Renegade Hardware Releases          |
+           +----------------+----------------------+------+
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Konflict       | Cyanide              | 1999 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "default render with alphabetic descending sort by track name", %{table: table} do
     {:ok, rendered} =
       table
       |> Table.sort(1, :desc)
-      |> Table.render
+      |> Table.render()
 
     assert rendered == """
-    +----------------------------------------------+
-    |          Renegade Hardware Releases          |
-    +----------------+----------------------+------+
-    | Artist         | Track                | Year |
-    +----------------+----------------------+------+
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Konflict       | Cyanide              | 1999 |
-    +----------------+----------------------+------+
-    """
+           +----------------------------------------------+
+           |          Renegade Hardware Releases          |
+           +----------------+----------------------+------+
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Konflict       | Cyanide              | 1999 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "default render with numeric ascending sort by year", %{table: table} do
     {:ok, rendered} =
       table
       |> Table.sort(2, :asc)
-      |> Table.render
+      |> Table.render()
 
     assert rendered == """
-    +----------------------------------------------+
-    |          Renegade Hardware Releases          |
-    +----------------+----------------------+------+
-    | Artist         | Track                | Year |
-    +----------------+----------------------+------+
-    | Konflict       | Cyanide              | 1999 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    +----------------+----------------------+------+
-    """
+           +----------------------------------------------+
+           |          Renegade Hardware Releases          |
+           +----------------+----------------------+------+
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Konflict       | Cyanide              | 1999 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "default render with numeric descending sort by year", %{table: table} do
     {:ok, rendered} =
       table
       |> Table.sort(2, :desc)
-      |> Table.render
+      |> Table.render()
 
     assert rendered == """
-    +----------------------------------------------+
-    |          Renegade Hardware Releases          |
-    +----------------+----------------------+------+
-    | Artist         | Track                | Year |
-    +----------------+----------------------+------+
-    | Vicious Circle | Welcome To Shanktown | 2007 |
-    | Keaton & Hive  | The Plague           | 2003 |
-    | Konflict       | Cyanide              | 1999 |
-    +----------------+----------------------+------+
-    """
+           +----------------------------------------------+
+           |          Renegade Hardware Releases          |
+           +----------------+----------------------+------+
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Konflict       | Cyanide              | 1999 |
+           +----------------+----------------------+------+
+           """
   end
 
   test "render with vertical style: frame", %{table: table} do
