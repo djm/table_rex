@@ -17,10 +17,11 @@ Currently supports output:
 
 * A one-liner for those that just want to render ASCII tables with sane
   defaults.
-* Support for table titles & alignable headers.
+* Output of table titles & alignable column headers.
+* Basic sorting of rows in ascending/descending order.
 * Support for column & cell level alignment (center, left, right).
-* Support for column, header, & cell level
-  <img src="http://i.imgur.com/LCfvYYM.png" width="44" />.
+* Column, header, & cell level
+  <img src="http://i.imgur.com/LCfvYYM.png" width="44" /> support.
 * Automatic cell padding but also the option to set padding per
   column<sup>1</sup>.
 * Frame the table with various vertical & horizontal styles<sup>1</sup>.
@@ -98,11 +99,11 @@ TableRex.quick_render!(rows)
 ```
 
 ```
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 | Konflict       | Cyanide       | Renegade Hardware | 1999 |
 | Marcus Intalex | Temperance    | Soul:r            | 2004 |
 | Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 ```
 
 ### TableRex.quick_render!/2
@@ -113,13 +114,13 @@ TableRex.quick_render!(rows, header)
 ```
 
 ```
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 | Artist         | Track         | Label             | Year |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 | Konflict       | Cyanide       | Renegade Hardware | 1999 |
 | Marcus Intalex | Temperance    | Soul:r            | 2004 |
 | Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 ```
 
 ### TableRex.quick_render!/3
@@ -132,13 +133,13 @@ TableRex.quick_render!(rows, header, title)
 ```
 +-----------------------------------------------------------+
 |                   Drum & Bass Releases                    |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 | Artist         | Track         | Label             | Year |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 | Konflict       | Cyanide       | Renegade Hardware | 1999 |
 | Marcus Intalex | Temperance    | Soul:r            | 2004 |
 | Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 ```
 
 ### Utilising TableRex.Table for deeper customisation
@@ -156,13 +157,32 @@ Table.new(rows, header)
 ```
 
 ```
-+------------------------+---------------+-------------------+------+
++------------------------|---------------|-------------------|------+
 |             Artist     | Track         | Label             | Year |
-+------------------------+---------------+-------------------+------+
++------------------------|---------------|-------------------|------+
 |           Konflict     |    Cyanide    | Renegade Hardware | 1999 |
 |     Marcus Intalex     |  Temperance   |      Soul:r       | 2004 |
 |      Kryptic Minds     | The Forgotten |  Defcom Records   | 2007 |
-+------------------------+---------------+-------------------+------+
++------------------------|---------------|-------------------|------+
+```
+
+**Sort the rows of the table using a column's values:**
+
+```elixir
+Table.new(rows, header)
+|> Table.sort(3, :desc) # `3` is the column index, order is :desc or :asc for descending/ascending.
+|> Table.render!
+|> IO.puts
+```
+
+```
++----------------|---------------|-------------------|------+
+| Artist         | Track         | Label             | Year |
++----------------|---------------|-------------------|------+
+| Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
+| Marcus Intalex | Temperance    | Soul:r            | 2004 |
+| Konflict       | Cyanide       | Renegade Hardware | 1999 |
++----------------|---------------|-------------------|------+
 ```
 
 **Change the table styling:**
@@ -175,15 +195,15 @@ Table.new(rows, header)
 ```
 
 ```
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 |     Artist     |     Track     |       Label       | Year |
 +================+===============+===================+======+
 |    Konflict    |    Cyanide    | Renegade Hardware | 1999 |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 | Marcus Intalex |  Temperance   |      Soul:r       | 2004 |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 | Kryptic Minds  | The Forgotten |  Defcom Records   | 2007 |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 ```
 
 _Available render options:_
@@ -211,13 +231,13 @@ Table.new(rows, header)
 ```
 
 ```
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 |     Artist     |     Track     |       Label       | Year |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 | Konflict       | Cyanide       | Renegade Hardware | 1999 |
 | Marcus Intalex | Temperance    |            Soul:r | 2004 |
 | Kryptic Minds  | The Forgotten | Defcom Records    | 2007 |
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 ```
 
 **Set color for the column, header, and cell:**
@@ -278,7 +298,7 @@ Table.new(rows, header)
 ! Marcus Intalex ! Temperance    ! Soul:r            ! 2004 !
 +~~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~+~~~~~~~~~~~~~~~~~~~+~~~~~~+
 ! Kryptic Minds  ! The Forgotten ! Defcom Records    ! 2007 !
-+----------------+---------------+-------------------+------+
++----------------|---------------|-------------------|------+
 ```
 
 ## Run the tests

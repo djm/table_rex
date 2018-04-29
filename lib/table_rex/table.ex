@@ -42,7 +42,9 @@ defmodule TableRex.Table do
     |> add_rows(rows)
   end
 
+  # ------------
   # Mutation API
+  # ------------
 
   @doc """
   Sets a string as the optional table title.
@@ -170,7 +172,61 @@ defmodule TableRex.Table do
     %Table{table | rows: []}
   end
 
+  @doc """
+  Sorts the table rows by using the values in a specified column.
+
+  This is very much a simple sorting function and relies on Elixir's
+  built-in comparison operators & types to cover the basic cases.
+
+  As each cell retains the original value it was created with, we
+  use that value to sort on as this allows us to sort on many
+  built-in types in the most obvious fashions.
+
+  Remember that rows are stored internally in reverse order that
+  they will be output in, to allow for fast insertion.
+
+  Parameters:
+
+      `column_index`: the 0-indexed column number to sort by
+      `order`: supply :desc or :asc for sort direction.
+
+  Returns a new Table, with sorted rows.
+  """
+  @spec sort(Table.t(), integer, atom) :: Table.t()
+  def sort(table, column_index, order \\ :desc)
+
+  def sort(%Table{rows: [first_row | _]}, column_index, _order)
+      when length(first_row) <= column_index do
+    raise TableRex.Error,
+      message:
+        "You cannot sort by column #{column_index}, as the table only has #{length(first_row)} column(s)"
+  end
+
+  def sort(table = %Table{rows: rows}, column_index, order) do
+    %Table{table | rows: Enum.sort(rows, build_sort_function(column_index, order))}
+  end
+
+  defp build_sort_function(column_index, order) when order in [:desc, :asc] do
+    fn previous, next ->
+      %{raw_value: prev_value} = Enum.at(previous, column_index)
+      %{raw_value: next_value} = Enum.at(next, column_index)
+
+      if order == :desc do
+        next_value > prev_value
+      else
+        next_value < prev_value
+      end
+    end
+  end
+
+  defp build_sort_function(_column_index, order) do
+    raise TableRex.Error,
+      message: "Invalid sort order parameter: #{order}. Must be an atom, either :desc or :asc."
+  end
+
+  # -------------
   # Retrieval API
+  # -------------
 
   defp get_column(%Table{} = table, col_index) when is_integer(col_index) do
     Map.get(table.columns, col_index, table.default_column)
@@ -201,7 +257,9 @@ defmodule TableRex.Table do
   def has_header?(%Table{header_row: []}), do: false
   def has_header?(%Table{header_row: header_row}) when is_list(header_row), do: true
 
+  # -------------
   # Rendering API
+  # -------------
 
   @doc """
   Renders the current table state to string, ready for display via `IO.puts/2` or other means.
@@ -234,22 +292,6 @@ defmodule TableRex.Table do
     case render(table, opts) do
       {:ok, rendered_string} -> rendered_string
       {:error, reason} -> raise TableRex.Error, message: reason
-    end
-  end
-
-  def sort(%Table{rows: [first_row | _]}, column_index) when length(first_row) <= column_index do
-    raise TableRex.Error, message: "column_index should be lower than list length"
-  end
-
-  def sort(table = %Table{rows: rows}, column_index \\ 0) do
-    %{table | rows: Enum.sort(rows, build_sort_logic(column_index))}
-  end
-
-  defp build_sort_logic(column_index) do
-    fn previous, next ->
-      %{value: pv} = Enum.at(previous, column_index)
-      %{value: nv} = Enum.at(next, column_index)
-      nv > pv
     end
   end
 end

@@ -285,8 +285,8 @@ defmodule TableRex.Renderer.Text do
     cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
     cell_color = Map.get(cell, :color) || Table.get_column_meta(table, col_index, :color)
 
-    do_render_cell(cell.value, col_width, col_padding, align: cell_align)
-    |> format_with_color(cell.value, cell_color)
+    do_render_cell(cell.rendered_value, col_width, col_padding, align: cell_align)
+    |> format_with_color(cell.rendered_value, cell_color)
   end
 
   defp do_render_cell(value, inner_width) do
@@ -379,7 +379,7 @@ defmodule TableRex.Renderer.Text do
          row_index
        ) do
     padding = Table.get_column_meta(table, col_index, :padding)
-    {width, height} = content_dimensions(cell.value, padding)
+    {width, height} = content_dimensions(cell.rendered_value, padding)
     col_widths = Map.update(col_widths, col_index, width, &Enum.max([&1, width]))
     row_heights = Map.update(row_heights, row_index, height, &Enum.max([&1, height]))
     {col_widths, row_heights}
@@ -419,7 +419,7 @@ defmodule TableRex.Renderer.Text do
 
   defp render_to_string({_, _, _, rendered_lines}) when is_list(rendered_lines) do
     rendered_lines
-    |> Enum.map(&String.rstrip/1)
+    |> Enum.map(&String.trim_trailing/1)
     |> Enum.reverse()
     |> Enum.join("\n")
     |> Kernel.<>("\n")
