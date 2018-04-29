@@ -1,14 +1,25 @@
 Original Author
 ===============
 
-* **[Darian Moody](https://github.com/djm)**
+* **Darian Moody** ([@djm](https://github.com/djm))
 
 Contributors
 ============
 
-* **[Charles FD](https://github.com/freiden)**
-* **[Justin G](https://github.com/theredcoder)**
-* **[Matt Harvey](https://github.com/matt-harvey)**
-* **[Geoffrey Lessel](https://github.com/geolessel)**
+* **Charles FD** ([@freiden](https://github.com/freiden))
+* **Justin G** ([@theredcoder](https://github.com/theredcoder))
+* **Matt Harvey** ([@matt-harvey](https://github.com/matt-harvey))
+* **Geoffrey Lessel** ([@geolessel](https://github.com/geolessel))
+* **Pablo Margreth** ([@pmargreff](https://github.com/pmargreff))
+
+* **Diogo Azevedo** ([@diogoazevedos](https://github.com/diogoazevedos))
+* **Débora Duarte** ([@deboraduarte](https://github.com/deboraduarte))
+* **Davi Busanello** ([@davibusanello](https://github.com/davibusanello))
+* **Vinicius Herbstrith** ([@Herbstrith](https://github.com/Herbstrith))
+* **Anderson Konzen** ([@anderkonzen](https://github.com/anderkonzen))
+* **Diego Plentz** ([@plentz](https://github.com/plentz))
+* **Pedro Guimarães** ([@0x7067](https://github.com/0x7067))
+* **Jefferson Stachelski** ([@jeffhsta](https://github.com/jeffhsta))
+* **Gerson Azevedo** ([@gersonazgo](https://github.com/gersonazgo))
 
 Please add yourself if making a contribution.
