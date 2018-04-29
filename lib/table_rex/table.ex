@@ -28,13 +28,13 @@ defmodule TableRex.Table do
       %TableRex.Table{}
 
   """
-  @spec new() :: Table.t
+  @spec new() :: Table.t()
   def new, do: %Table{}
 
   @doc """
   Creates a new table with an initial set of rows and an optional header and title.
   """
-  @spec new(list, list, String.t) :: Table.t
+  @spec new(list, list, String.t()) :: Table.t()
   def new(rows, header_row \\ [], title \\ nil) when is_list(rows) and is_list(header_row) do
     new()
     |> put_title(title)
@@ -48,8 +48,9 @@ defmodule TableRex.Table do
   Sets a string as the optional table title.
   Set to `nil` or `""` to remove an already set title from renders.
   """
-  @spec put_title(Table.t, String.t | nil) :: Table.t
+  @spec put_title(Table.t(), String.t() | nil) :: Table.t()
   def put_title(%Table{} = table, ""), do: put_title(table, nil)
+
   def put_title(%Table{} = table, title) when is_binary(title) or is_nil(title) do
     %Table{table | title: title}
   end
@@ -58,8 +59,9 @@ defmodule TableRex.Table do
   Sets a list as the optional header row.
   Set to `nil` or `[]` to remove an already set header from renders.
   """
-  @spec put_header(Table.t, list | nil) :: Table.t
+  @spec put_header(Table.t(), list | nil) :: Table.t()
   def put_header(%Table{} = table, nil), do: put_header(table, [])
+
   def put_header(%Table{} = table, header_row) when is_list(header_row) do
     new_header_row = Enum.map(header_row, &Cell.to_cell(&1))
     %Table{table | header_row: new_header_row}
@@ -68,8 +70,9 @@ defmodule TableRex.Table do
   @doc """
   Sets column level information such as padding and alignment.
   """
-  @spec put_column_meta(Table.t, integer | atom | Enum.t, Keyword.t) :: Table.t
-  def put_column_meta(%Table{} = table, col_index, col_meta) when is_integer(col_index) and is_list(col_meta) do
+  @spec put_column_meta(Table.t(), integer | atom | Enum.t(), Keyword.t()) :: Table.t()
+  def put_column_meta(%Table{} = table, col_index, col_meta)
+      when is_integer(col_index) and is_list(col_meta) do
     col_meta = col_meta |> Enum.into(%{})
     col = get_column(table, col_index) |> Map.merge(col_meta)
     new_columns = Map.put(table.columns, col_index, col)
@@ -80,10 +83,13 @@ defmodule TableRex.Table do
     col_meta = col_meta |> Enum.into(%{})
     # First update default column, then any already set columns.
     table = put_in(table.default_column, Map.merge(table.default_column, col_meta))
-    new_columns = Enum.reduce(table.columns, %{}, fn({col_index, col}, acc) ->
-      new_col = Map.merge(col, col_meta)
-      Map.put(acc, col_index, new_col)
-    end)
+
+    new_columns =
+      Enum.reduce(table.columns, %{}, fn {col_index, col}, acc ->
+        new_col = Map.merge(col, col_meta)
+        Map.put(acc, col_index, new_col)
+      end)
+
     %Table{table | columns: new_columns}
   end
 
@@ -94,21 +100,26 @@ defmodule TableRex.Table do
   @doc """
   Sets cell level information such as alignment.
   """
-  @spec put_cell_meta(Table.t, integer, integer, Keyword.t) :: Table.t
-  def put_cell_meta(%Table{} = table, col_index, row_index, cell_meta) when is_integer(col_index) and is_integer(row_index) and is_list(cell_meta) do
+  @spec put_cell_meta(Table.t(), integer, integer, Keyword.t()) :: Table.t()
+  def put_cell_meta(%Table{} = table, col_index, row_index, cell_meta)
+      when is_integer(col_index) and is_integer(row_index) and is_list(cell_meta) do
     cell_meta = cell_meta |> Enum.into(%{})
     inverse_row_index = -(row_index + 1)
-    rows = List.update_at(table.rows, inverse_row_index, fn(row) ->
-      List.update_at(row, col_index, &Map.merge(&1, cell_meta))
-    end)
+
+    rows =
+      List.update_at(table.rows, inverse_row_index, fn row ->
+        List.update_at(row, col_index, &Map.merge(&1, cell_meta))
+      end)
+
     %Table{table | rows: rows}
   end
 
   @doc """
   Sets cell level information for the header cells.
   """
-  @spec put_header_meta(Table.t, integer | Enum.t, Keyword.t) :: Table.t
-  def put_header_meta(%Table{} = table, col_index, cell_meta) when is_integer(col_index) and is_list(cell_meta) do
+  @spec put_header_meta(Table.t(), integer | Enum.t(), Keyword.t()) :: Table.t()
+  def put_header_meta(%Table{} = table, col_index, cell_meta)
+      when is_integer(col_index) and is_list(cell_meta) do
     cell_meta = cell_meta |> Enum.into(%{})
     header_row = List.update_at(table.header_row, col_index, &Map.merge(&1, cell_meta))
     %Table{table | header_row: header_row}
@@ -121,7 +132,7 @@ defmodule TableRex.Table do
   @doc """
   Adds a single row to the table.
   """
-  @spec add_row(Table.t, list) :: Table.t
+  @spec add_row(Table.t(), list) :: Table.t()
   def add_row(%Table{} = table, row) when is_list(row) do
     new_row = Enum.map(row, &Cell.to_cell(&1))
     %Table{table | rows: [new_row | table.rows]}
@@ -130,13 +141,15 @@ defmodule TableRex.Table do
   @doc """
   Adds multiple rows to the table.
   """
-  @spec add_rows(Table.t, list) :: Table.t
+  @spec add_rows(Table.t(), list) :: Table.t()
   def add_rows(%Table{} = table, rows) when is_list(rows) do
-    rows = rows
-     |> Enum.reverse
-     |> Enum.map(fn row ->
-          Enum.map(row, &Cell.to_cell(&1))
-        end)
+    rows =
+      rows
+      |> Enum.reverse()
+      |> Enum.map(fn row ->
+        Enum.map(row, &Cell.to_cell(&1))
+      end)
+
     %Table{table | rows: rows ++ table.rows}
   end
 
@@ -144,7 +157,7 @@ defmodule TableRex.Table do
   Removes column meta for all columns, effectively resetting
   column meta back to the default options across the board.
   """
-  @spec clear_all_column_meta(Table.t) :: Table.t
+  @spec clear_all_column_meta(Table.t()) :: Table.t()
   def clear_all_column_meta(%Table{} = table) do
     %Table{table | columns: %{}}
   end
@@ -152,7 +165,7 @@ defmodule TableRex.Table do
   @doc """
   Removes all row data from the table, keeping everything else.
   """
-  @spec clear_rows(Table.t) :: Table.t
+  @spec clear_rows(Table.t()) :: Table.t()
   def clear_rows(%Table{} = table) do
     %Table{table | rows: []}
   end
@@ -167,8 +180,9 @@ defmodule TableRex.Table do
   Retreives the value of a column meta option at the specified col_index.
   If no value has been set, default values are returned.
   """
-  @spec get_column_meta(Table.t, integer, atom) :: any
-  def get_column_meta(%Table{} = table, col_index, key) when is_integer(col_index) and is_atom(key) do
+  @spec get_column_meta(Table.t(), integer, atom) :: any
+  def get_column_meta(%Table{} = table, col_index, key)
+      when is_integer(col_index) and is_atom(key) do
     get_column(table, col_index)
     |> Map.fetch!(key)
   end
@@ -176,14 +190,14 @@ defmodule TableRex.Table do
   @doc """
   Returns a boolean detailing if the passed table has any row data set.
   """
-  @spec has_rows?(Table.t) :: boolean
+  @spec has_rows?(Table.t()) :: boolean
   def has_rows?(%Table{rows: []}), do: false
   def has_rows?(%Table{rows: rows}) when is_list(rows), do: true
 
   @doc """
   Returns a boolean detailing if the passed table has a header row set.
   """
-  @spec has_header?(Table.t) :: boolean
+  @spec has_header?(Table.t()) :: boolean
   def has_header?(%Table{header_row: []}), do: false
   def has_header?(%Table{header_row: header_row}) when is_list(header_row), do: true
 
@@ -196,10 +210,11 @@ defmodule TableRex.Table do
 
   Returns `{:ok, rendered_string}` on success and `{:error, reason}` on failure.
   """
-  @spec render(Table.t, list) :: Renderer.render_return
+  @spec render(Table.t(), list) :: Renderer.render_return()
   def render(%Table{} = table, opts \\ []) when is_list(opts) do
     {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
     opts = opts |> Enum.into(renderer.default_options)
+
     if Table.has_rows?(table) do
       renderer.render(table, opts)
     else
@@ -214,7 +229,7 @@ defmodule TableRex.Table do
 
   Returns the rendered string on success, or raises `TableRex.Error` on failure.
   """
-  @spec render!(Table.t, list) :: String.t | no_return
+  @spec render!(Table.t(), list) :: String.t() | no_return
   def render!(%Table{} = table, opts \\ []) when is_list(opts) do
     case render(table, opts) do
       {:ok, rendered_string} -> rendered_string
@@ -227,7 +242,7 @@ defmodule TableRex.Table do
   end
 
   def sort(table = %Table{rows: rows}, column_index \\ 0) do
-    %{table | rows: Enum.sort(rows, build_sort_logic (column_index))}
+    %{table | rows: Enum.sort(rows, build_sort_logic(column_index))}
   end
 
   defp build_sort_logic(column_index) do

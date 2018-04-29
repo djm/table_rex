@@ -27,16 +27,17 @@ defmodule TableRex.Cell do
   key will pass straight through; all others will have their `value` key
   stringified before being passed through.
   """
-  @spec to_cell(Cell.t) :: Cell.t
+  @spec to_cell(Cell.t()) :: Cell.t()
   def to_cell(%Cell{value: value} = cell) when is_binary(value), do: cell
 
   def to_cell(%Cell{value: value} = cell) do
     %{cell | value: to_string(value)}
   end
 
-  @spec to_cell(any, list) :: Cell.t
+  @spec to_cell(any, list) :: Cell.t()
   def to_cell(value, opts \\ []) do
     opts = Enum.into(opts, %{})
+
     %Cell{value: to_string(value)}
     |> Map.merge(opts)
   end
