@@ -3,6 +3,7 @@
 [![Hex.pm](https://img.shields.io/hexpm/v/table_rex.svg)](https://hex.pm/packages/table_rex)
 [![Build Status](https://travis-ci.org/djm/table_rex.svg?branch=master)](https://travis-ci.org/djm/table_rex)
 [![Docs on HexDocs](http://inch-ci.org/github/djm/table_rex.svg)](https://hexdocs.pm/table_rex/)
+[![Awesome Elixir](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/h4cc/awesome-elixir#command-line-applications)
 
 **An Elixir app which generates text-based tables for display**
 
