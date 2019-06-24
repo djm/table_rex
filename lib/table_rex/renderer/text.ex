@@ -24,13 +24,13 @@ defmodule TableRex.Renderer.Text do
     %{
       horizontal_style: :header,
       vertical_style: :all,
-      horizontal_symbol: "-",
-      vertical_symbol: "|",
-      intersection_symbol: "+",
-      top_frame_symbol: "-",
-      title_separator_symbol: "-",
-      header_separator_symbol: "-",
-      bottom_frame_symbol: "-"
+      horizontal_symbol: "─",
+      vertical_symbol: "│",
+      intersection_symbol: "┼",
+      top_frame_symbol: "─",
+      title_separator_symbol: "─",
+      header_separator_symbol: "─",
+      bottom_frame_symbol: "─"
     }
   end
 
