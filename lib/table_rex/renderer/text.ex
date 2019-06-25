@@ -25,12 +25,20 @@ defmodule TableRex.Renderer.Text do
       horizontal_style: :header,
       vertical_style: :all,
       horizontal_symbol: "─",
+      right_intersection_symbol: "┤",
+      left_intersection_symbol: "├",
       vertical_symbol: "│",
-      intersection_symbol: "┼",
+      top_intersection_symbol: "┬",
+      bottom_intersection_symbol: "┴",
+      inner_intersection_symbol: "┼",
       top_frame_symbol: "─",
       title_separator_symbol: "─",
       header_separator_symbol: "─",
-      bottom_frame_symbol: "─"
+      bottom_frame_symbol: "─",
+      top_left_corner_symbole: "┌",
+      top_right_corner_symbole: "┐",
+      bottom_left_corner_symbole: "└",
+      bottom_right_corner_symbole: "┘"
     }
   end
 
@@ -68,7 +76,15 @@ defmodule TableRex.Renderer.Text do
       col_widths: col_widths,
       row_heights: row_heights,
       table_width: table_width,
-      intersections: intersections,
+      inner_intersections: intersections,
+      top_left_corners: [0],
+      top_right_corners: [table_width - 1],
+      bottom_left_corners: [],
+      bottom_right_corners: [],
+      left_intersections: [],
+      right_intersections: [],
+      top_intersections: [],
+      bottom_intersections: [],
       render_horizontal_frame?: render_horizontal_frame?,
       render_vertical_frame?: render_vertical_frame?,
       render_column_separators?: render_column_separators?,
@@ -99,10 +115,9 @@ defmodule TableRex.Renderer.Text do
 
     line =
       render_line(
-        meta.table_width,
-        intersections,
+        meta,
         opts[:top_frame_symbol],
-        opts[:intersection_symbol]
+        opts
       )
 
     {table, meta, opts, [line | rendered]}
@@ -111,13 +126,30 @@ defmodule TableRex.Renderer.Text do
   defp render_top_frame({table, meta, opts, rendered}) do
     line =
       render_line(
-        meta.table_width,
-        meta.intersections,
+        meta,
         opts[:top_frame_symbol],
-        opts[:intersection_symbol]
+        opts
       )
 
     {table, meta, opts, [line | rendered]}
+  end
+
+  defp render_line(%Meta{} = meta, horizontal_symbol, opts) do
+    for n <- 0..(meta.table_width - 1) do
+      cond do
+        if(n in meta.inner_intersections) -> opts[:inner_intersection_symbol]
+        if(n in meta.top_left_corners) -> opts[:top_left_corner_symbole]
+        if(n in meta.top_right_corners) -> opts[:top_right_corner_symbole]
+        if(n in meta.bottom_left_corners) -> opts[:bottom_left_corner_symbole]
+        if(n in meta.bottom_right_corners) -> opts[:bottom_right_corner_symbole]
+        if(n in meta.left_intersections) -> opts[:left_intersection_symbol]
+        if(n in meta.right_intersections) -> opts[:right_intersection_symbol]
+        if(n in meta.top_intersections) -> opts[:top_intersection_symbol]
+        if(n in meta.bottom_intersections) -> opts[:bottom_intersection_symbol]
+        true -> horizontal_symbol
+      end
+    end
+    |> Enum.join()
   end
 
   defp render_title({%Table{title: nil} = table, meta, opts, rendered}) do
@@ -174,7 +206,7 @@ defmodule TableRex.Renderer.Text do
 
   defp render_header({%Table{header_row: header_row} = table, meta, opts, rendered}) do
     separator = if meta.render_column_separators?, do: opts[:vertical_symbol], else: " "
-    line = render_cell_row(table, meta, header_row, separator)
+    line = render_cell_row(table, meta, {header_row, 0}, separator)
 
     line =
       if meta.render_vertical_frame? do
@@ -220,7 +252,10 @@ defmodule TableRex.Renderer.Text do
 
   defp render_rows({%Table{rows: rows} = table, meta, opts, rendered}) do
     separator = if meta.render_column_separators?, do: opts[:vertical_symbol], else: " "
-    lines = Enum.map(rows, &render_cell_row(table, meta, &1, separator))
+
+    lines =
+      Enum.with_index(rows, 1)
+      |> Enum.map(&render_cell_row(table, meta, &1, separator))
 
     lines =
       if meta.render_vertical_frame? do
@@ -264,29 +299,44 @@ defmodule TableRex.Renderer.Text do
     {table, meta, opts, [line | rendered]}
   end
 
-  defp render_line(table_width, intersections, separator_symbol, intersection_symbol) do
-    for n <- 0..(table_width - 1) do
-      if n in intersections, do: intersection_symbol, else: separator_symbol
-    end
-    |> Enum.join()
-  end
-
-  defp render_cell_row(%Table{} = table, %Meta{} = meta, row, separator) do
+  defp render_cell_row(%Table{} = table, %Meta{} = meta, {row, row_index}, separator) do
+    # IO.inspect(meta, label: "meta")
+    # IO.inspect(row_index, label: "index")
+    # IO.inspect(row, label: "row")
     row
     |> Enum.with_index()
-    |> Enum.map(&render_cell(table, meta, &1))
-    |> Enum.intersperse(separator)
-    |> Enum.join()
+    |> Enum.map(&render_cell(table, meta, row_index, &1))
+    |> Enum.zip()
+    |> Enum.map(&Tuple.to_list/1)
+    |> Enum.map(&Enum.intersperse(&1, separator))
+    |> Enum.join("\n ")
   end
 
-  defp render_cell(%Table{} = table, %Meta{} = meta, {%Cell{} = cell, col_index}) do
+  defp render_cell(%Table{} = table, %Meta{} = meta, row_index, {%Cell{} = cell, col_index}) do
     col_width = Meta.col_width(meta, col_index)
+    row_height = Meta.row_height(meta, row_index)
     col_padding = Table.get_column_meta(table, col_index, :padding)
     cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
     cell_color = Map.get(cell, :color) || Table.get_column_meta(table, col_index, :color)
 
-    do_render_cell(cell.rendered_value, col_width, col_padding, align: cell_align)
-    |> format_with_color(cell.rendered_value, cell_color)
+    cell.rendered_value
+    |> strip_ansi_color_codes()
+    |> String.split("\n")
+    |> add_height_padding(col_width, row_height, col_padding)
+    |> Enum.map(&do_render_cell(&1, col_width, col_padding, align: cell_align))
+    |> Enum.map(&format_with_color(&1, cell_color))
+  end
+
+  defp add_height_padding(lines, inner_width, row_height, col_padding)
+       when is_list(lines) and is_integer(row_height) and is_integer(inner_width) do
+    IO.inspect(row_height, label: "row_height")
+    IO.inspect(max(0, row_height - length(lines)), label: "maxx")
+
+    empty_line = String.duplicate(" ", inner_width - col_padding)
+    res = lines ++ List.duplicate(empty_line, max(0, row_height - length(lines)))
+
+    IO.inspect(res, label: "res")
+    res
   end
 
   defp do_render_cell(value, inner_width) do
@@ -304,6 +354,8 @@ defmodule TableRex.Renderer.Text do
     value_len = String.length(strip_ansi_color_codes(value))
     alt_side_padding = inner_width - value_len - padding
 
+    # IO.inspect(alt_side_padding, label: "alt")
+    # IO.inspect(padding, label: "padding")
     {pre_value, post_value} =
       case align do
         :left ->
@@ -318,12 +370,9 @@ defmodule TableRex.Renderer.Text do
 
   defp intersections(_table_width, _col_widths, vertical_style: :off), do: []
 
-  defp intersections(table_width, _col_widths, vertical_style: :frame) do
-    [0, table_width - 1]
-    |> Enum.into(MapSet.new())
-  end
+  defp intersections(_table_width, _col_widths, vertical_style: :frame), do: []
 
-  defp intersections(table_width, col_widths, vertical_style: :all) do
+  defp intersections(_table_width, col_widths, vertical_style: :all) do
     col_widths = ordered_col_widths(col_widths)
 
     inner_intersections =
@@ -331,7 +380,7 @@ defmodule TableRex.Renderer.Text do
         [acc_h + x + 1 | acc]
       end)
 
-    ([0, table_width - 1] ++ inner_intersections)
+    inner_intersections
     |> Enum.into(MapSet.new())
   end
 
@@ -392,7 +441,7 @@ defmodule TableRex.Renderer.Text do
       |> String.split("\n")
 
     height = Enum.count(lines)
-    width = Enum.max(lines) |> String.length()
+    width = Enum.map(lines, &String.length(&1)) |> Enum.max()
     {width + padding * 2, height}
   end
 
@@ -425,14 +474,9 @@ defmodule TableRex.Renderer.Text do
     |> Kernel.<>("\n")
   end
 
-  defp format_with_color(text, _, nil), do: text
+  defp format_with_color(text, nil), do: text
 
-  defp format_with_color(text, value, color) when is_function(color) do
-    [color.(text, value) | IO.ANSI.reset()]
-    |> IO.ANSI.format_fragment(true)
-  end
-
-  defp format_with_color(text, _, color) do
+  defp format_with_color(text, color) do
     [[color | text] | IO.ANSI.reset()]
     |> IO.ANSI.format_fragment(true)
   end

@@ -8,8 +8,8 @@ defmodule TableRex.Renderer.TextTest do
 
     rows = [
       ["Konflict", "Cyanide", 1999],
-      ["Keaton & Hive", "The Plague", 2003],
-      ["Vicious Circle", "Welcome To Shanktown", 2007]
+      ["Keaton & Hive", "The Plague \nhello\n hello\n world", 2003],
+      ["Vicious Circle", "Welcome To\nShanktown", 2007]
     ]
 
     table = Table.new(rows, header, title)
@@ -139,23 +139,27 @@ defmodule TableRex.Renderer.TextTest do
            """
   end
 
+  @tag :active
   test "default render with numeric descending sort by year", %{table: table} do
     {:ok, rendered} =
       table
       |> Table.sort(2, :desc)
       |> Table.render()
 
-    assert rendered == """
-           +----------------------------------------------+
-           |          Renegade Hardware Releases          |
-           +----------------+----------------------+------+
-           | Artist         | Track                | Year |
-           +----------------+----------------------+------+
-           | Vicious Circle | Welcome To Shanktown | 2007 |
-           | Keaton & Hive  | The Plague           | 2003 |
-           | Konflict       | Cyanide              | 1999 |
-           +----------------+----------------------+------+
-           """
+    IO.puts(rendered)
+
+    assert rendered ==
+             """
+             ┼──────────────────────────────────────────────┼
+             │          Renegade Hardware Releases          │
+             ┼────────────────┼──────────────────────┼──────┼
+             │ Artist         │ Track                │ Year │
+             ┼────────────────┼──────────────────────┼──────┼
+             │ Vicious Circle │ Welcome To Shanktown │ 2007 │
+             │ Keaton & Hive  │ The Plague           │ 2003 │
+             │ Konflict       │ Cyanide              │ 1999 │
+             ┼────────────────┼──────────────────────┼──────┼
+             """
   end
 
   test "render with vertical style: frame", %{table: table} do
