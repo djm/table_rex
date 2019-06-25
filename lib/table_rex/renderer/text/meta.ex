@@ -23,28 +23,12 @@ defmodule TableRex.Renderer.Text.Meta do
   defstruct col_widths: %{},
             row_heights: %{},
             table_width: 0,
-            inner_intersections: [],
-            top_left_corners: [],
-            top_right_corners: [],
-            bottom_left_corners: [],
-            bottom_right_corners: [],
-            left_intersections: [],
-            right_intersections: [],
-            top_intersections: [],
-            bottom_intersections: [],
-            render_horizontal_frame?: false,
-            render_vertical_frame?: false,
-            render_column_separators?: false,
-            render_row_separators?: false
+            inner_intersections: []
 
   @doc """
   Retreives the "inner width" of the table, which is the full width minus any frame.
   """
-  def inner_width(%Meta{table_width: table_width, render_vertical_frame?: true}) do
-    table_width - 2
-  end
-
-  def inner_width(%Meta{table_width: table_width, render_vertical_frame?: false}) do
+  def inner_width(%Meta{table_width: table_width}) do
     table_width
   end
 

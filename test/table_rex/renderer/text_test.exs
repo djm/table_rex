@@ -4,12 +4,12 @@ defmodule TableRex.Renderer.TextTest do
 
   setup do
     title = "Renegade Hardware Releases"
-    header = ["Artist", "Track", "Year"]
+    header = ["Artist", "Track", "Y\near", "xccccccx" , "sdfds,"]
 
     rows = [
-      ["Konflict", "Cyanide", 1999],
-      ["Keaton & Hive", "The Plague \nhello\n hello\n world", 2003],
-      ["Vicious Circle", "Welcome To\nShanktown", 2007]
+      ["Konflict", "Cyanide", 1999, "xccccccx" , "sdfds,"],
+      ["Keaton & Hive", "The Plague\nhello\nhello\nworld", 2003, "xccccccx" , "sdfds,"],
+      ["Vicious Circle", "Welcome To\nShanktown", 2007, "xccccccx" , "sdfds,"]
     ]
 
     table = Table.new(rows, header, title)
