@@ -45,16 +45,16 @@ defmodule TableRex.Renderer.Text do
       table_color_function: fn row_index, col_index ->
         cond do
           rem(col_index, 4) == 0 ->
-            [IO.ANSI.black(), IO.ANSI.magenta()]
+            [IO.ANSI.magenta()]
 
           rem(col_index, 4) == 1 ->
-            [IO.ANSI.black(), IO.ANSI.green()]
+            [IO.ANSI.green()]
 
           rem(col_index, 4) == 2 ->
-            [IO.ANSI.black(), IO.ANSI.color(9)]
+            [IO.ANSI.color(9)]
 
           rem(col_index, 4) == 3 ->
-            [IO.ANSI.black(), IO.ANSI.yellow()]
+            [IO.ANSI.yellow()]
         end
       end
     }
@@ -75,7 +75,7 @@ defmodule TableRex.Renderer.Text do
   `vertical_styles` controls vertical separators and can be one of:
 
     * `:all`: display between and around every column.
-    * `:frame`: display outer v8ertical separators only.
+    * `:frame`: display outer vertical separators only.
     * `:off`: display no vertical separators.
   """
   def render(table = %Table{}, opts) do
@@ -190,16 +190,16 @@ defmodule TableRex.Renderer.Text do
 
   defp do_render_cell(value, inner_width, _padding, align: :center) do
     value_len = String.length(strip_ansi_color_codes(value))
-    post_value_padding = ((inner_width - value_len) / 2) |> round
-    pre_value_padding = inner_width - (post_value_padding + value_len)
-    String.duplicate(" ", pre_value_padding) <> value <> String.duplicate(" ", post_value_padding)
+    post_value = ((inner_width - value_len) / 2) |> round
+    pre_value = inner_width - (post_value + value_len)
+    String.duplicate(" ", pre_value) <> value <> String.duplicate(" ", post_value)
   end
 
   defp do_render_cell(value, inner_width, padding, align: align) do
     value_len = String.length(strip_ansi_color_codes(value))
     alt_side_padding = inner_width - value_len - padding
 
-    {pre_value_padding, post_value_padding} =
+    {pre_value, post_value} =
       case align do
         :left ->
           {padding, alt_side_padding}
@@ -208,7 +208,7 @@ defmodule TableRex.Renderer.Text do
           {alt_side_padding, padding}
       end
 
-    String.duplicate(" ", pre_value_padding) <> value <> String.duplicate(" ", post_value_padding)
+    String.duplicate(" ", pre_value) <> value <> String.duplicate(" ", post_value)
   end
 
   defp render_bottom_frame({%Table{} = table, %Meta{} = meta, opts, rendered}) do
