@@ -4,18 +4,17 @@ defmodule TableRex.Renderer.TextTest do
 
   setup do
     title = "Renegade Hardware Releases"
-    header = ["Artist", "Track", "Year\nString", "xccccccx", "sdfds,"]
+    header = ["Artist", "Track", "YearDate", "xccccccxString"]
 
     rows = [
       [
-        "Keaton & Hive!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+        "Keaton & Hive!",
         "The Plague\nhello\nhello\nworld",
         2003,
-        "xccccccx",
-        "sdfds,"
+        "xccccccx"
       ],
-      ["Konflict", "Cyanide", 1999, "xccccccx", "sdfds,"],
-      ["Vicious Circle", "Welcome To\nShanktown", 2007, "xccccccx", "sdfds,"]
+      ["Konflict", "Cyanide", 1999, "xccccccx"],
+      ["Vicious Circle", "Welcome To\nShanktown", 2007, "xccccccx"]
     ]
 
     table = Table.new(rows, header, title)
@@ -149,7 +148,7 @@ defmodule TableRex.Renderer.TextTest do
   test "default render with numeric descending sort by year", %{table: table} do
     {:ok, rendered} =
       table
-      # |> Table.sort(2, :desc)
+      |> Table.sort(2, :desc)
       |> Table.render()
 
     IO.puts(rendered)

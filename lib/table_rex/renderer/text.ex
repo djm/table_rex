@@ -29,22 +29,32 @@ defmodule TableRex.Renderer.Text do
       bottom_right_corner_symbol: "┘",
       header_color_function: fn col_index ->
         cond do
-          # rem(col_index, 2) == 0 ->
-          #   [IO.ANSI.white(), IO.ANSI.red_background(), IO.ANSI.bright()]
+          rem(col_index, 4) == 0 ->
+            [IO.ANSI.black(), IO.ANSI.magenta_background()]
 
-          true ->
-            nil
+          rem(col_index, 4) == 1 ->
+            [IO.ANSI.black(), IO.ANSI.green_background()]
+
+          rem(col_index, 4) == 2 ->
+            [IO.ANSI.black(), IO.ANSI.color_background(9)]
+
+          rem(col_index, 4) == 3 ->
+            [IO.ANSI.black(), IO.ANSI.yellow_background()]
         end
       end,
       table_color_function: fn row_index, col_index ->
         cond do
-          # row_index == 3 ->
-          #   [IO.ANSI.white(), IO.ANSI.light_red_background()]
+          rem(col_index, 4) == 0 ->
+            [IO.ANSI.black(), IO.ANSI.magenta()]
 
-          # col_index == 0 ->
-          #   [IO.ANSI.white(), IO.ANSI.magenta_background()]
-          true ->
-            nil
+          rem(col_index, 4) == 1 ->
+            [IO.ANSI.black(), IO.ANSI.green()]
+
+          rem(col_index, 4) == 2 ->
+            [IO.ANSI.black(), IO.ANSI.color(9)]
+
+          rem(col_index, 4) == 3 ->
+            [IO.ANSI.black(), IO.ANSI.yellow()]
         end
       end
     }
@@ -108,12 +118,16 @@ defmodule TableRex.Renderer.Text do
     row_index = 0
 
     header =
-      render_cell_row(
-        table,
-        meta,
-        {header_row, row_index},
-        opts
-      )
+      header_row
+      |> Enum.with_index()
+      |> Enum.map(fn {cell, col_index} ->
+        color = opts[:header_color_function].(col_index)
+        {%{cell | color: color}, col_index}
+      end)
+      |> Enum.map(&render_cell(table, meta, row_index, &1))
+      |> Enum.zip()
+      |> Enum.map(&Tuple.to_list/1)
+      |> Enum.map(&Enum.intersperse(&1, opts[:top_intersection_symbol]))
       |> Enum.map(&Enum.join(&1))
       |> Enum.map(&String.replace(&1, " ", opts[:header_separator_symbol]))
       |> Enum.map(&(opts[:top_left_corner_symbol] <> &1 <> opts[:top_right_corner_symbol]))
@@ -132,31 +146,24 @@ defmodule TableRex.Renderer.Text do
 
     lines =
       Enum.with_index(rows, 1)
-      |> Enum.map(&render_cell_row(table, meta, &1, opts))
+      |> Enum.map(fn {row, row_index} ->
+        row
+        |> Enum.with_index()
+        |> Enum.map(fn {cell, col_index} ->
+          color = opts[:table_color_function].(row_index, col_index)
+          {%{cell | color: color}, col_index}
+        end)
+        |> Enum.map(&render_cell(table, meta, row_index, &1))
+        |> Enum.zip()
+        |> Enum.map(&Tuple.to_list/1)
+        |> Enum.map(&Enum.intersperse(&1, opts[:vertical_symbol]))
+      end)
       |> Enum.intersperse([[row_separator]])
       |> Enum.flat_map(& &1)
       |> Enum.map(&Enum.join(&1))
-      |> Enum.map(&with_frame(&1, opts[:vertical_symbol]))
+      |> Enum.map(fn line -> opts[:vertical_symbol] <> line <> opts[:vertical_symbol] end)
 
     {table, meta, opts, rendered ++ lines}
-  end
-
-  defp render_cell_row(%Table{} = table, %Meta{} = meta, {row, row_index}, opts) do
-    row
-    |> Enum.with_index()
-    |> Enum.map(fn {cell, col_index} ->
-      if row_index == 0 do
-        color = opts[:header_color_function].(col_index)
-        {%{cell | color: color}, col_index}
-      else
-        color = opts[:table_color_function].(row_index, col_index)
-        {%{cell | color: color}, col_index}
-      end
-    end)
-    |> Enum.map(&render_cell(table, meta, row_index, &1))
-    |> Enum.zip()
-    |> Enum.map(&Tuple.to_list/1)
-    |> Enum.map(&Enum.intersperse(&1, opts[:vertical_symbol]))
   end
 
   defp render_cell(%Table{} = table, %Meta{} = meta, row_index, {%Cell{} = cell, col_index}) do
@@ -304,10 +311,6 @@ defmodule TableRex.Renderer.Text do
     |> Enum.into([])
     |> Enum.sort()
     |> Enum.map(&elem(&1, 1))
-  end
-
-  defp with_frame(string, frame) do
-    frame <> string <> frame
   end
 
   defp render_to_string({_, _, _, rendered_lines}) when is_list(rendered_lines) do

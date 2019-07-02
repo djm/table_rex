@@ -211,9 +211,9 @@ defmodule TableRex.Table do
       %{raw_value: next_value} = Enum.at(next, column_index)
 
       if order == :desc do
-        next_value > prev_value
-      else
         next_value < prev_value
+      else
+        next_value > prev_value
       end
     end
   end
