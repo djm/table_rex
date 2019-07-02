@@ -27,6 +27,7 @@ defmodule TableRex.Renderer.Text do
       top_right_corner_symbol: "┤",
       bottom_left_corner_symbol: "└",
       bottom_right_corner_symbol: "┘",
+      row_seperator: true,
       header_color_function: fn col_index ->
         cond do
           rem(col_index, 4) == 0 ->
@@ -65,18 +66,18 @@ defmodule TableRex.Renderer.Text do
 
   Available styling options.
 
-  `horizontal_styles` controls horizontal separators and can be one of:
+  # # `horizontal_styles` controls horizontal separators and can be one of:
 
-    * `:all`: display separators between and around every row.
-    * `:header`: display outer and header horizontal separators only.
-    * `:frame`: display outer horizontal separators only.
-    * `:off`: display no horizontal separators.
+  # #   * `:all`: display separators between and around every row.
+  # #   * `:header`: display outer and header horizontal separators only.
+  # #   * `:frame`: display outer horizontal separators only.
+  # #   * `:off`: display no horizontal separators.
 
-  `vertical_styles` controls vertical separators and can be one of:
+  # # `vertical_styles` controls vertical separators and can be one of:
 
-    * `:all`: display between and around every column.
-    * `:frame`: display outer vertical separators only.
-    * `:off`: display no vertical separators.
+  # #   * `:all`: display between and around every column.
+  # #   * `:frame`: display outer vertical separators only.
+  # #   * `:off`: display no vertical separators.
   """
   def render(table = %Table{}, opts) do
     {col_widths, row_heights} = max_dimensions(table)
@@ -115,13 +116,13 @@ defmodule TableRex.Renderer.Text do
   end
 
   defp render_header({%Table{header_row: header_row} = table, meta, opts, rendered}) do
-    row_index = 0
+    row_index = -1
 
     header =
       header_row
       |> Enum.with_index()
       |> Enum.map(fn {cell, col_index} ->
-        color = opts[:header_color_function].(col_index)
+        color = opts[:header_color_function].(col_index) || cell.color
         {%{cell | color: color}, col_index}
       end)
       |> Enum.map(&render_cell(table, meta, row_index, &1))
@@ -145,12 +146,12 @@ defmodule TableRex.Renderer.Text do
       )
 
     lines =
-      Enum.with_index(rows, 1)
+      Enum.with_index(rows)
       |> Enum.map(fn {row, row_index} ->
         row
         |> Enum.with_index()
         |> Enum.map(fn {cell, col_index} ->
-          color = opts[:table_color_function].(row_index, col_index)
+          color = opts[:table_color_function].(row_index, col_index) || cell.color
           {%{cell | color: color}, col_index}
         end)
         |> Enum.map(&render_cell(table, meta, row_index, &1))
@@ -158,7 +159,11 @@ defmodule TableRex.Renderer.Text do
         |> Enum.map(&Tuple.to_list/1)
         |> Enum.map(&Enum.intersperse(&1, opts[:vertical_symbol]))
       end)
-      |> Enum.intersperse([[row_separator]])
+      |> (&(if opts[:row_seperator] do
+              Enum.intersperse(&1, [[row_separator]])
+            else
+              &1
+            end)).()
       |> Enum.flat_map(& &1)
       |> Enum.map(&Enum.join(&1))
       |> Enum.map(fn line -> opts[:vertical_symbol] <> line <> opts[:vertical_symbol] end)
@@ -172,6 +177,16 @@ defmodule TableRex.Renderer.Text do
     col_padding = Table.get_column_meta(table, col_index, :padding)
     cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
     cell_color = Map.get(cell, :color) || Table.get_column_meta(table, col_index, :color)
+    # IO.inspect(cell, label: "cell")
+    # IO.inspect(Map.get(cell, :color), label: "cell_c11olor")
+
+    # IO.inspect(cell_color, label: "cell_color")
+
+    # IO.inspect(cell_color, label: "cell_color")
+
+    # IO.inspect(Table.get_column_meta(table, col_index, :color),
+    #   label: "Table.get_column_meta(table, col_index, :color)"
+    # )
 
     cell.rendered_value
     |> strip_ansi_color_codes()
@@ -236,7 +251,7 @@ defmodule TableRex.Renderer.Text do
   defp max_dimensions(%Table{} = table) do
     {col_widths, row_heights} =
       [table.header_row | table.rows]
-      |> Enum.with_index()
+      |> Enum.with_index(-1)
       |> Enum.reduce({%{}, %{}}, &reduce_row_maximums(table, &1, &2))
 
     num_columns = Map.size(col_widths)

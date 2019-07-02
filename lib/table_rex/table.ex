@@ -106,10 +106,9 @@ defmodule TableRex.Table do
   def put_cell_meta(%Table{} = table, col_index, row_index, cell_meta)
       when is_integer(col_index) and is_integer(row_index) and is_list(cell_meta) do
     cell_meta = cell_meta |> Enum.into(%{})
-    inverse_row_index = -(row_index + 1)
 
     rows =
-      List.update_at(table.rows, inverse_row_index, fn row ->
+      List.update_at(table.rows, row_index, fn row ->
         List.update_at(row, col_index, &Map.merge(&1, cell_meta))
       end)
 
@@ -272,11 +271,7 @@ defmodule TableRex.Table do
     {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
     opts = opts |> Enum.into(renderer.default_options)
 
-    if Table.has_rows?(table) do
-      renderer.render(table, opts)
-    else
-      {:error, "Table must have at least one row before being rendered"}
-    end
+    renderer.render(table, opts)
   end
 
   @doc """

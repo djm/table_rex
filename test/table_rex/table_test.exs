@@ -143,20 +143,6 @@ defmodule TableRex.TableTest do
     assert table.rows == [
              [
                %Cell{
-                 raw_value: "Calyx",
-                 rendered_value: "Calyx"
-               },
-               %Cell{
-                 raw_value: "Downpour",
-                 rendered_value: "Downpour"
-               },
-               %Cell{
-                 raw_value: 2001,
-                 rendered_value: "2001"
-               }
-             ],
-             [
-               %Cell{
                  raw_value: "Dom & Roland",
                  rendered_value: "Dom & Roland"
                },
@@ -167,6 +153,20 @@ defmodule TableRex.TableTest do
                %Cell{
                  raw_value: 1998,
                  rendered_value: "1998"
+               }
+             ],
+             [
+               %Cell{
+                 raw_value: "Calyx",
+                 rendered_value: "Calyx"
+               },
+               %Cell{
+                 raw_value: "Downpour",
+                 rendered_value: "Downpour"
+               },
+               %Cell{
+                 raw_value: 2001,
+                 rendered_value: "2001"
                }
              ]
            ]
@@ -209,69 +209,70 @@ defmodule TableRex.TableTest do
     table = Table.add_rows(table, rows)
     table = Table.add_rows(table, additional_rows)
 
-    assert table.rows == [
-             [
-               %Cell{
-                 raw_value: "Dom & Roland",
-                 rendered_value: "Dom & Roland"
-               },
-               %Cell{
-                 raw_value: "Dance All Night",
-                 rendered_value: "Dance All Night"
-               },
-               %Cell{
-                 raw_value: 2004,
-                 rendered_value: "2004",
-                 align: :right,
-                 color: :red
-               }
-             ],
-             [
-               %Cell{
-                 raw_value: "Aquasky",
-                 rendered_value: "Aquasky"
-               },
-               %Cell{
-                 raw_value: "Uptight",
-                 rendered_value: "Uptight"
-               },
-               %Cell{
-                 raw_value: 2000,
-                 rendered_value: "2000",
-                 align: :right
-               }
-             ],
-             [
-               %Cell{
-                 raw_value: "nCode",
-                 rendered_value: "nCode"
-               },
-               %Cell{
-                 raw_value: "Spasm",
-                 rendered_value: "Spasm"
-               },
-               %Cell{
-                 raw_value: 1999,
-                 rendered_value: "1999",
-                 align: :right
-               }
-             ],
-             [
-               %Cell{
-                 raw_value: "E-Z Rollers",
-                 rendered_value: "E-Z Rollers"
-               },
-               %Cell{
-                 raw_value: "Tough At The Top",
-                 rendered_value: "Tough At The Top"
-               },
-               %Cell{
-                 raw_value: 1998,
-                 rendered_value: "1998",
-                 align: :right
-               }
-             ]
-           ]
+    assert table.rows ==
+             Enum.reverse([
+               [
+                 %Cell{
+                   raw_value: "Dom & Roland",
+                   rendered_value: "Dom & Roland"
+                 },
+                 %Cell{
+                   raw_value: "Dance All Night",
+                   rendered_value: "Dance All Night"
+                 },
+                 %Cell{
+                   raw_value: 2004,
+                   rendered_value: "2004",
+                   align: :right,
+                   color: :red
+                 }
+               ],
+               [
+                 %Cell{
+                   raw_value: "Aquasky",
+                   rendered_value: "Aquasky"
+                 },
+                 %Cell{
+                   raw_value: "Uptight",
+                   rendered_value: "Uptight"
+                 },
+                 %Cell{
+                   raw_value: 2000,
+                   rendered_value: "2000",
+                   align: :right
+                 }
+               ],
+               [
+                 %Cell{
+                   raw_value: "nCode",
+                   rendered_value: "nCode"
+                 },
+                 %Cell{
+                   raw_value: "Spasm",
+                   rendered_value: "Spasm"
+                 },
+                 %Cell{
+                   raw_value: 1999,
+                   rendered_value: "1999",
+                   align: :right
+                 }
+               ],
+               [
+                 %Cell{
+                   raw_value: "E-Z Rollers",
+                   rendered_value: "E-Z Rollers"
+                 },
+                 %Cell{
+                   raw_value: "Tough At The Top",
+                   rendered_value: "Tough At The Top"
+                 },
+                 %Cell{
+                   raw_value: 1998,
+                   rendered_value: "1998",
+                   align: :right
+                 }
+               ]
+             ])
   end
 
   test "add functions used together results in sane/expected output order", %{table: table} do
@@ -287,64 +288,65 @@ defmodule TableRex.TableTest do
     table = Table.add_rows(table, middle_rows)
     table = Table.add_row(table, fourth_row)
 
-    assert table.rows == [
-             [
-               %Cell{
-                 raw_value: "Omni Trio",
-                 rendered_value: "Omni Trio"
-               },
-               %Cell{
-                 raw_value: "Lucid",
-                 rendered_value: "Lucid"
-               },
-               %Cell{
-                 raw_value: 2001,
-                 rendered_value: "2001"
-               }
-             ],
-             [
-               %Cell{
-                 raw_value: "Dom & Roland",
-                 rendered_value: "Dom & Roland"
-               },
-               %Cell{
-                 raw_value: "Killa Bullet",
-                 rendered_value: "Killa Bullet"
-               },
-               %Cell{
-                 raw_value: 1999,
-                 rendered_value: "1999"
-               }
-             ],
-             [
-               %Cell{
-                 raw_value: "Deep Blue",
-                 rendered_value: "Deep Blue"
-               },
-               %Cell{
-                 raw_value: "The Helicopter Tune",
-                 rendered_value: "The Helicopter Tune"
-               },
-               %Cell{
-                 raw_value: 1993,
-                 rendered_value: "1993"
-               }
-             ],
-             [
-               %Cell{
-                 raw_value: "Blame",
-                 rendered_value: "Blame"
-               },
-               %Cell{
-                 raw_value: "Music Takes You",
-                 rendered_value: "Music Takes You"
-               },
-               %Cell{
-                 raw_value: 1992,
-                 rendered_value: "1992"
-               }
-             ]
-           ]
+    assert table.rows ==
+             Enum.reverse([
+               [
+                 %Cell{
+                   raw_value: "Omni Trio",
+                   rendered_value: "Omni Trio"
+                 },
+                 %Cell{
+                   raw_value: "Lucid",
+                   rendered_value: "Lucid"
+                 },
+                 %Cell{
+                   raw_value: 2001,
+                   rendered_value: "2001"
+                 }
+               ],
+               [
+                 %Cell{
+                   raw_value: "Dom & Roland",
+                   rendered_value: "Dom & Roland"
+                 },
+                 %Cell{
+                   raw_value: "Killa Bullet",
+                   rendered_value: "Killa Bullet"
+                 },
+                 %Cell{
+                   raw_value: 1999,
+                   rendered_value: "1999"
+                 }
+               ],
+               [
+                 %Cell{
+                   raw_value: "Deep Blue",
+                   rendered_value: "Deep Blue"
+                 },
+                 %Cell{
+                   raw_value: "The Helicopter Tune",
+                   rendered_value: "The Helicopter Tune"
+                 },
+                 %Cell{
+                   raw_value: 1993,
+                   rendered_value: "1993"
+                 }
+               ],
+               [
+                 %Cell{
+                   raw_value: "Blame",
+                   rendered_value: "Blame"
+                 },
+                 %Cell{
+                   raw_value: "Music Takes You",
+                   rendered_value: "Music Takes You"
+                 },
+                 %Cell{
+                   raw_value: 1992,
+                   rendered_value: "1992"
+                 }
+               ]
+             ])
   end
 
   test "setting and overriding a title", %{table: table} do
@@ -519,23 +521,29 @@ defmodule TableRex.TableTest do
       |> Table.put_cell_meta(1, 0, color: :red)
       |> Table.put_cell_meta(1, 1, align: :left)
 
-    assert table.rows == [
-             [
-               %Cell{raw_value: "Calyx", rendered_value: "Calyx", align: nil, color: :red},
-               %Cell{raw_value: "Downpour", rendered_value: "Downpour", align: :left, color: nil},
-               %Cell{raw_value: 2001, rendered_value: "2001", align: nil, color: nil}
-             ],
-             [
-               %Cell{
-                 raw_value: "Dom & Roland",
-                 rendered_value: "Dom & Roland",
-                 align: :right,
-                 color: nil
-               },
-               %Cell{raw_value: "Thunder", rendered_value: "Thunder", align: nil, color: :red},
-               %Cell{raw_value: 1998, rendered_value: "1998", align: nil, color: nil}
-             ]
-           ]
+    assert table.rows ==
+             Enum.reverse([
+               [
+                 %Cell{raw_value: "Calyx", rendered_value: "Calyx", align: nil, color: :red},
+                 %Cell{
+                   raw_value: "Downpour",
+                   rendered_value: "Downpour",
+                   align: :left,
+                   color: nil
+                 },
+                 %Cell{raw_value: 2001, rendered_value: "2001", align: nil, color: nil}
+               ],
+               [
+                 %Cell{
+                   raw_value: "Dom & Roland",
+                   rendered_value: "Dom & Roland",
+                   align: :right,
+                   color: nil
+                 },
+                 %Cell{raw_value: "Thunder", rendered_value: "Thunder", align: nil, color: :red},
+                 %Cell{raw_value: 1998, rendered_value: "1998", align: nil, color: nil}
+               ]
+             ])
   end
 
   test "setting header cell meta", %{table: table} do
@@ -629,18 +637,19 @@ defmodule TableRex.TableTest do
              ]
            ]
 
-    assert new_table.rows == [
-             [
-               %Cell{raw_value: "E-Z Rollers", rendered_value: "E-Z Rollers"},
-               %Cell{raw_value: "Back To Love", rendered_value: "Back To Love"},
-               %Cell{raw_value: 2002, rendered_value: "2002"}
-             ],
-             [
-               %Cell{raw_value: "Calyx", rendered_value: "Calyx"},
-               %Cell{raw_value: "Get Myself To You", rendered_value: "Get Myself To You"},
-               %Cell{raw_value: 2005, rendered_value: "2005"}
-             ]
-           ]
+    assert new_table.rows ==
+             Enum.reverse([
+               [
+                 %Cell{raw_value: "E-Z Rollers", rendered_value: "E-Z Rollers"},
+                 %Cell{raw_value: "Back To Love", rendered_value: "Back To Love"},
+                 %Cell{raw_value: 2002, rendered_value: "2002"}
+               ],
+               [
+                 %Cell{raw_value: "Calyx", rendered_value: "Calyx"},
+                 %Cell{raw_value: "Get Myself To You", rendered_value: "Get Myself To You"},
+                 %Cell{raw_value: 2005, rendered_value: "2005"}
+               ]
+             ])
   end
 
   test "get_column_meta returns correct values and defaults", %{table: table} do
@@ -709,15 +718,6 @@ defmodule TableRex.TableTest do
     assert_received {:rendering, _table, ^expected_opts}
   end
 
-  test "render/2 errors when not enough rows" do
-    {:error, reason} =
-      Table.new()
-      |> Table.render(renderer: TestRenderer)
-
-    assert reason == "Table must have at least one row before being rendered"
-    refute_received {:rendering, _, _}
-  end
-
   test "render!/2 default runs" do
     rendered =
       Table.new()
@@ -741,13 +741,6 @@ defmodule TableRex.TableTest do
     assert_received {:rendering, _table, ^expected_opts}
   end
 
-  test "render/2 raises an error on failure" do
-    assert_raise TableRex.Error, fn ->
-      Table.new()
-      |> Table.render!()
-    end
-  end
-
   test "sort/3 should sort the table using the first column (desc)" do
     table =
       Table.new()
@@ -757,25 +750,25 @@ defmodule TableRex.TableTest do
       |> Table.add_row([3, "d"])
       |> Table.sort(0, :desc)
 
-    # Remember: rows are stored in reverse internally.
-    assert table.rows == [
-             [
-               %Cell{raw_value: 1, rendered_value: "1"},
-               %Cell{raw_value: "a", rendered_value: "a"}
-             ],
-             [
-               %Cell{raw_value: 2, rendered_value: "2"},
-               %Cell{raw_value: "b", rendered_value: "b"}
-             ],
-             [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "c", rendered_value: "c"}
-             ],
-             [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "d", rendered_value: "d"}
-             ]
-           ]
+    assert table.rows ==
+             Enum.reverse([
+               [
+                 %Cell{raw_value: 1, rendered_value: "1"},
+                 %Cell{raw_value: "a", rendered_value: "a"}
+               ],
+               [
+                 %Cell{raw_value: 2, rendered_value: "2"},
+                 %Cell{raw_value: "b", rendered_value: "b"}
+               ],
+               [
+                 %Cell{raw_value: 3, rendered_value: "3"},
+                 %Cell{raw_value: "c", rendered_value: "c"}
+               ],
+               [
+                 %Cell{raw_value: 3, rendered_value: "3"},
+                 %Cell{raw_value: "d", rendered_value: "d"}
+               ]
+             ])
   end
 
   test "sort/3 should sort the table using the first column (asc)" do
@@ -787,25 +780,25 @@ defmodule TableRex.TableTest do
       |> Table.add_row([3, "d"])
       |> Table.sort(0, :asc)
 
-    # Remember: rows are stored in reverse internally.
-    assert table.rows == [
-             [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "c", rendered_value: "c"}
-             ],
-             [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "d", rendered_value: "d"}
-             ],
-             [
-               %Cell{raw_value: 2, rendered_value: "2"},
-               %Cell{raw_value: "b", rendered_value: "b"}
-             ],
-             [
-               %Cell{raw_value: 1, rendered_value: "1"},
-               %Cell{raw_value: "a", rendered_value: "a"}
-             ]
-           ]
+    assert table.rows ==
+             Enum.reverse([
+               [
+                 %Cell{raw_value: 3, rendered_value: "3"},
+                 %Cell{raw_value: "c", rendered_value: "c"}
+               ],
+               [
+                 %Cell{raw_value: 3, rendered_value: "3"},
+                 %Cell{raw_value: "d", rendered_value: "d"}
+               ],
+               [
+                 %Cell{raw_value: 2, rendered_value: "2"},
+                 %Cell{raw_value: "b", rendered_value: "b"}
+               ],
+               [
+                 %Cell{raw_value: 1, rendered_value: "1"},
+                 %Cell{raw_value: "a", rendered_value: "a"}
+               ]
+             ])
   end
 
   test "sort/3 should sort the table by the specified column (desc)" do
@@ -817,25 +810,25 @@ defmodule TableRex.TableTest do
       |> Table.add_row([3, "d"])
       |> Table.sort(1, :desc)
 
-    # Remember: rows are stored in reverse internally.
-    assert table.rows == [
-             [
-               %Cell{raw_value: 1, rendered_value: "1"},
-               %Cell{raw_value: "a", rendered_value: "a"}
-             ],
-             [
-               %Cell{raw_value: 2, rendered_value: "2"},
-               %Cell{raw_value: "b", rendered_value: "b"}
-             ],
-             [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "c", rendered_value: "c"}
-             ],
-             [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "d", rendered_value: "d"}
-             ]
-           ]
+    assert table.rows ==
+             Enum.reverse([
+               [
+                 %Cell{raw_value: 1, rendered_value: "1"},
+                 %Cell{raw_value: "a", rendered_value: "a"}
+               ],
+               [
+                 %Cell{raw_value: 2, rendered_value: "2"},
+                 %Cell{raw_value: "b", rendered_value: "b"}
+               ],
+               [
+                 %Cell{raw_value: 3, rendered_value: "3"},
+                 %Cell{raw_value: "c", rendered_value: "c"}
+               ],
+               [
+                 %Cell{raw_value: 3, rendered_value: "3"},
+                 %Cell{raw_value: "d", rendered_value: "d"}
+               ]
+             ])
   end
 
   test "sort/3 should sort the table by the specified column (asc)" do
@@ -847,25 +840,25 @@ defmodule TableRex.TableTest do
       |> Table.add_row([3, "d"])
       |> Table.sort(1, :asc)
 
-    # Remember: rows are stored in reverse internally.
-    assert table.rows == [
-             [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "d", rendered_value: "d"}
-             ],
-             [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "c", rendered_value: "c"}
-             ],
-             [
-               %Cell{raw_value: 2, rendered_value: "2"},
-               %Cell{raw_value: "b", rendered_value: "b"}
-             ],
-             [
-               %Cell{raw_value: 1, rendered_value: "1"},
-               %Cell{raw_value: "a", rendered_value: "a"}
-             ]
-           ]
+    assert table.rows ==
+             Enum.reverse([
+               [
+                 %Cell{raw_value: 3, rendered_value: "3"},
+                 %Cell{raw_value: "d", rendered_value: "d"}
+               ],
+               [
+                 %Cell{raw_value: 3, rendered_value: "3"},
+                 %Cell{raw_value: "c", rendered_value: "c"}
+               ],
+               [
+                 %Cell{raw_value: 2, rendered_value: "2"},
+                 %Cell{raw_value: "b", rendered_value: "b"}
+               ],
+               [
+                 %Cell{raw_value: 1, rendered_value: "1"},
+                 %Cell{raw_value: "a", rendered_value: "a"}
+               ]
+             ])
   end
 
   test "sort/3 should raise when column index exists out of bounds" do
