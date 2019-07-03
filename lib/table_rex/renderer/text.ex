@@ -10,7 +10,59 @@ defmodule TableRex.Renderer.Text do
 
   @doc """
   Provides a level of sane defaults for the Text rendering module.
-  
+
+  Defaults:
+
+  ```elixir
+      %{
+      horizontal_symbol: "─",
+      right_intersection_symbol: "┤",
+      left_intersection_symbol: "├",
+      vertical_symbol: "│",
+      top_intersection_symbol: "┼",
+      bottom_intersection_symbol: "┴",
+      inner_intersection_symbol: "┼",
+      top_frame_symbol: "─",
+      header_separator_symbol: "─",
+      bottom_frame_symbol: "─",
+      top_left_corner_symbol: "├",
+      top_right_corner_symbol: "┤",
+      bottom_left_corner_symbol: "└",
+      bottom_right_corner_symbol: "┘",
+      row_seperator: true,
+      header_color_function: fn col_index ->
+        cond do
+          rem(col_index, 4) == 0 ->
+            [IO.ANSI.black(), IO.ANSI.magenta_background()]
+
+          rem(col_index, 4) == 1 ->
+            [IO.ANSI.black(), IO.ANSI.green_background()]
+
+          rem(col_index, 4) == 2 ->
+            [IO.ANSI.black(), IO.ANSI.color_background(9)]
+
+          rem(col_index, 4) == 3 ->
+            [IO.ANSI.black(), IO.ANSI.yellow_background()]
+        end
+      end,
+      table_color_function: fn row_index, col_index ->
+        cond do
+          rem(col_index, 4) == 0 ->
+            [IO.ANSI.magenta()]
+
+          rem(col_index, 4) == 1 ->
+            [IO.ANSI.green()]
+
+          rem(col_index, 4) == 2 ->
+            [IO.ANSI.color(9)]
+
+          rem(col_index, 4) == 3 ->
+            [IO.ANSI.yellow()]
+        end
+      end
+    }
+  ```
+
   """
   def default_options do
     %{
@@ -44,7 +96,7 @@ defmodule TableRex.Renderer.Text do
             [IO.ANSI.black(), IO.ANSI.yellow_background()]
         end
       end,
-      table_color_function: fn row_index, col_index ->
+      table_color_function: fn _, col_index ->
         cond do
           rem(col_index, 4) == 0 ->
             [IO.ANSI.magenta()]
