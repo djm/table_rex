@@ -436,8 +436,8 @@ defmodule TableRex.Renderer.TextTest do
   test "minimal render (zero padding)", %{table: table, opts: opts} do
     {:ok, rendered} =
       table
-      |> Table.put_column_meta(padding: 0)
-      |> Table.render()
+      |> Table.put_column_meta(:all, padding: 0)
+      |> Table.render(opts)
 
     assert rendered == """
            ├Artist────────┼Track─────┼Year┤
@@ -595,28 +595,6 @@ defmodule TableRex.Renderer.TextTest do
            │                │\e[48;5;30m\e[37m hello      \e[0m│      │
            │                │\e[48;5;30m\e[37m hello      \e[0m│      │
            │                │\e[48;5;30m\e[37m world      \e[0m│      │
-           │────────────────┼────────────┼──────│
-           │ Vicious Circle │ Welcome To │ 2007 │
-           │                │ Shanktown  │      │
-           └────────────────┴────────────┴──────┘
-           """
-  end
-
-  test "default render with cell level color using a function", %{table: table, opts: opts} do
-    {:ok, rendered} =
-      table
-      |> Table.put_cell_meta(1, 1, color: fn t, _ -> ["\e[48;5;30m", :white, t] end)
-      |> Table.render(opts)
-
-    assert rendered == """
-           ├─Artist─────────┼─Track──────┼─Year─┤
-           ├────────────────┼────────────┼─Date─┤
-           │ Konflict       │ Cyanide    │ 1999 │
-           │────────────────┼────────────┼──────│
-           │ Keaton & Hive! │\e[48;5;30m\e[37m The Plague \e[0m│ 2003 │
-           │                │\e[48;5;30m\e[37m hello      \e[0m│      │
-           │                │\e[48;5;30m\e[37m hello      \e[0m│      │
-           │                │\e[48;5;30m\e[37m      \e[0m│      │
            │────────────────┼────────────┼──────│
            │ Vicious Circle │ Welcome To │ 2007 │
            │                │ Shanktown  │      │
@@ -942,15 +920,11 @@ defmodule TableRex.Renderer.TextTest do
       |> Table.render(opts ++ [row_seperator: false])
 
     assert rendered === """
-           +----------------------------------------------+
-           |          Renegade Hardware Releases          |
-           +----------------+----------------------+------+
-           | Artist         | Track                | Year |
-           +----------------+----------------------+------+
-           | Konflict       | Cyanide              | \e[31m19\e[1m99\e[0m |
-           | Keaton & Hive  | The Plague           | 2003 |
-           | Vicious Circle | Welcome To Shanktown | 200\e[32m7\e[0m |
-           +----------------+----------------------+------+
+           ├─Artist─────────┼─Track────────────────┼─Year─┤
+           │ Konflict       │ Cyanide              │ \e[31m19\e[1m99\e[0m │
+           │ Keaton & Hive  │ The Plague           │ 2003 │
+           │ Vicious Circle │ Welcome To Shanktown │ 200\e[32m7\e[0m │
+           └────────────────┴──────────────────────┴──────┘
            """
   end
 

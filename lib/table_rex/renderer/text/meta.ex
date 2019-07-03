@@ -4,22 +4,7 @@ defmodule TableRex.Renderer.Text.Meta do
   of style & dimension calculations to be passed down the render pipeline.
   """
   alias TableRex.Renderer.Text.Meta
-  # vertical_style: :all,
-  # horizontal_symbol: "─",
-  # horizontal_right_terminal_symbol: "┤",
-  # horizontal_left_terminal_symbol: "├",
-  # vertical_symbol: "│",
-  # vertical_top_terminal_symbol: "┬",
-  # vertical_bottom_terminal_symbol: "┴",
-  # intersection_symbol: "┼",
-  # top_frame_symbol: "─",
-  # title_separator_symbol: "─",
-  # header_separator_symbol: "─",
-  # bottom_frame_symbol: "─",
-  # top_left_corner_symbole: "┌",
-  # top_right_corner_symbole: "┐",
-  # bottom_left_corner_symbole: "└",
-  # bottom_right_corner_symbole: "┘"
+  
   defstruct col_widths: %{},
             row_heights: %{},
             table_width: 0,

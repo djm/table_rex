@@ -10,6 +10,7 @@ defmodule TableRex.Renderer.Text do
 
   @doc """
   Provides a level of sane defaults for the Text rendering module.
+  
   """
   def default_options do
     %{
@@ -63,21 +64,6 @@ defmodule TableRex.Renderer.Text do
 
   @doc """
   Implementation of the TableRex.Renderer behaviour.
-
-  Available styling options.
-
-  # # `horizontal_styles` controls horizontal separators and can be one of:
-
-  # #   * `:all`: display separators between and around every row.
-  # #   * `:header`: display outer and header horizontal separators only.
-  # #   * `:frame`: display outer horizontal separators only.
-  # #   * `:off`: display no horizontal separators.
-
-  # # `vertical_styles` controls vertical separators and can be one of:
-
-  # #   * `:all`: display between and around every column.
-  # #   * `:frame`: display outer vertical separators only.
-  # #   * `:off`: display no vertical separators.
   """
   def render(table = %Table{}, opts) do
     {col_widths, row_heights} = max_dimensions(table)
@@ -177,19 +163,8 @@ defmodule TableRex.Renderer.Text do
     col_padding = Table.get_column_meta(table, col_index, :padding)
     cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
     cell_color = Map.get(cell, :color) || Table.get_column_meta(table, col_index, :color)
-    # IO.inspect(cell, label: "cell")
-    # IO.inspect(Map.get(cell, :color), label: "cell_c11olor")
-
-    # IO.inspect(cell_color, label: "cell_color")
-
-    # IO.inspect(cell_color, label: "cell_color")
-
-    # IO.inspect(Table.get_column_meta(table, col_index, :color),
-    #   label: "Table.get_column_meta(table, col_index, :color)"
-    # )
 
     cell.rendered_value
-    |> strip_ansi_color_codes()
     |> String.split("\n")
     |> add_height_padding(col_width, row_height, col_padding)
     |> Enum.map(&do_render_cell(&1, col_width, col_padding, align: cell_align))
