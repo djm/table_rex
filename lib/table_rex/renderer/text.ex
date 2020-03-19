@@ -341,7 +341,7 @@ defmodule TableRex.Renderer.Text do
       |> Enum.with_index()
       |> Enum.reduce({%{}, %{}}, &reduce_row_maximums(table, &1, &2))
 
-    num_columns = Map.size(col_widths)
+    num_columns = map_size(col_widths)
 
     # Infer padding on left and right of title
     title_padding =
