@@ -1,7 +1,7 @@
 <img src="http://i.imgur.com/ipa4UVa.png" width="500" />
 
 [![Hex.pm](https://img.shields.io/hexpm/v/table_rex.svg)](https://hex.pm/packages/table_rex)
-[![Build Status](https://github.com/djm/table_rex/workflows/elixir/badge.svg)](https://github.com/djm/table_rex/actions)
+[![Build Status](https://github.com/djm/table_rex/workflows/TableRex%20CI/badge.svg)](https://github.com/djm/table_rex/actions)
 [![Awesome Elixir](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/h4cc/awesome-elixir#command-line-applications)
 
 **An Elixir app which generates text-based tables for display**
