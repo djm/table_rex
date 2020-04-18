@@ -36,7 +36,8 @@ defmodule TableRex.Mixfile do
     [
       maintainers: ["Darian Moody"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/djm/table_rex"}
+      links: %{"GitHub" => "https://github.com/djm/table_rex"},
+      exclude_patterns: [".DS_Store"]
     ]
   end
 end
