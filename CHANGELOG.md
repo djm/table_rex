@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.0
+
+**No external API changes**, but we are dropping support for Elixir v1.7 and below
+along with Erlang OTP v20 and below and as such the major version number is
+bumping to appreciate that.
+
 ## v2.0.0
 
 Version 2 has no external API breaking changes but we are bumping the major version

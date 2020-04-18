@@ -46,14 +46,14 @@ stable and will have no breaking changes without incrementing the major version
 number. Any breaking changes, and they will be few and far between, will be
 documented in the [CHANGELOG](CHANGELOG.md).
 
-The project officially supports the last 3 minor versions of Elixir, and the
-latest 2 majors for OTP. This does not mean the software fails to work in older
-versions, simply that they are not supported and are not tested against.
+The project officially will attempt to support the last 3 minor versions of
+Elixir, and the latest 2 majors for OTP. If you are looking for support for
+older version, then look at older releases.
 
-Supported minimum requirements:
+Current minimum requirements:
 
-* Elixir: 1.4.5
-* OTP: 19.3
+* Elixir: 1.8
+* OTP: 21
 
 ## Installation
 
@@ -63,11 +63,13 @@ The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
 
 ```elixir
 def deps do
-  [{:table_rex, "~> 2.0.0"}]
+  [{:table_rex, "~> 3.0.0"}]
 end
 ```
 
-Then **start** `table_rex` by adding it to `application/0` in `mix.exs`:
+Then run `mix deps.get`. That's it for modern Elixir.
+
+**If** you are on Elixir 1.3 or lower, then **start** `table_rex` by adding it to `application/0` in `mix.exs`:
 
 ```elixir
 def application do
@@ -329,6 +331,8 @@ MIX_ENV=docs mix hex.publish
 
 ## Roadmap/Contributing
 
+First off, welcome & thanks!
+
 We use the Github Issues tracker.
 
 If you have found something wrong, please raise an issue.
@@ -349,3 +353,5 @@ MIT. See the [full license](LICENSE).
   [original T-Rex image](https://commons.wikimedia.org/wiki/File:Trex_Roar.jpg).
 
 * Everyone in #elixir-lang on freenode, for answering the endless questions.
+
+* All of our contributors.

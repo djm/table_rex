@@ -3,12 +3,12 @@ language: elixir
 #  - should run on 3 latest minor Elixir releases.
 #  - should run on 2 latest major OTP releases.
 elixir:
-  - 1.6.4
-  - 1.5.3
-  - 1.4.5
+  - 1.8
+  - 1.9
+  - 1.10
 otp_release:
-  - 19.3
-  - 20.3
+  - 21
+  - 22
 
 # Certain older Elixir releases do not fair well with newer
 # OTP releases, when that is the case they can be exluded
@@ -21,12 +21,13 @@ otp_release:
 sudo: false # To use faster container based build environment
 script:
   - mix compile --warnings-as-errors
-  - if [[ `elixir -v` = *"1.6"* ]]; then mix format --check-formatted; fi
+  - mix format --check-formatted
   - mix test
 
 after_script:
   - mix deps.get --only docs
   - MIX_ENV=docs mix inch.report
+
 notifications:
   recipients:
     - mail@djm.org.uk
