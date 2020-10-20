@@ -33,6 +33,12 @@ Currently supports output:
 <sup>1</sup> The text renderer supports these features, others may not or might
 not need to.
 
+#### What is it missing?
+
+* Most notably, cells cannot stretch over multiple lines. If you'd like to
+implement this, see Issue #7.
+
+
 #### Documenation
 
 See the quick start below or check out the
