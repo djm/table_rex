@@ -36,7 +36,7 @@ not need to.
 #### What is it missing?
 
 * Most notably, cells cannot stretch over multiple lines. If you'd like to
-implement this, see Issue #7.
+implement this, see Issue [#7](https://github.com/djm/table_rex/issues/7).
 
 
 #### Documenation
