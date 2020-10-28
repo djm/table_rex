@@ -14,6 +14,9 @@ defmodule TableRex.Cell do
 
     * `rendered_value`: The stringified value for rendering
 
+    * `wrapped_lines`: A list of 1 or more string values representing
+      the line(s) within the cell to be rendered
+
     * `align`:
       * `:left`: left align text in the cell.
       * `:center`: center text in the cell.
@@ -28,7 +31,7 @@ defmodule TableRex.Cell do
   """
   alias TableRex.Cell
 
-  defstruct raw_value: nil, rendered_value: "", align: nil, color: nil
+  defstruct raw_value: nil, rendered_value: "", align: nil, color: nil, wrapped_lines: [""]
 
   @type t :: %__MODULE__{}
 
@@ -51,17 +54,34 @@ defmodule TableRex.Cell do
   hindered.
   """
   @spec to_cell(Cell.t()) :: Cell.t()
-  def to_cell(%Cell{rendered_value: rendered_value} = cell) when rendered_value != "", do: cell
+  def to_cell(%Cell{rendered_value: rendered_value} = cell)
+      when is_binary(rendered_value) and rendered_value != "" do
+    %Cell{cell | wrapped_lines: wrapped_lines(rendered_value)}
+  end
 
   def to_cell(%Cell{raw_value: raw_value} = cell) do
-    %Cell{cell | rendered_value: to_string(raw_value)}
+    rendered_value = to_string(raw_value)
+    %Cell{cell | rendered_value: rendered_value, wrapped_lines: wrapped_lines(rendered_value)}
   end
 
   @spec to_cell(any, list) :: Cell.t()
   def to_cell(value, opts \\ []) do
     opts = Enum.into(opts, %{})
 
-    %Cell{rendered_value: to_string(value), raw_value: value}
+    rendered_value = to_string(value)
+
+    %Cell{
+      raw_value: value,
+      rendered_value: rendered_value,
+      wrapped_lines: wrapped_lines(rendered_value)
+    }
     |> Map.merge(opts)
+  end
+
+  @spec height(Cell.t()) :: integer
+  def height(%Cell{wrapped_lines: lines}), do: length(lines)
+
+  defp wrapped_lines(value) when is_binary(value) do
+    String.split(value, "\n")
   end
 end

@@ -1198,6 +1198,114 @@ defmodule TableRex.Renderer.TextTest do
            """
   end
 
+  test "multiline cell rendering with center alignment", _ do
+    header = ["Artist", "Track", "Details", "Year"]
+
+    rows = [
+      ["Konflict", "Cyanide", "Label: Renegade Hardware\nCat#: RH020", 1999],
+      [
+        "Keaton & Hive",
+        "The Plague",
+        "Label: Renegade Hardware\nCat#: RH45\nBarcode: 5 029651 001759",
+        2003
+      ],
+      ["Vicious Circle", "Welcome To Shanktown", "Label: Renegade Hardware\nCat#: HWARE02", 2007]
+    ]
+
+    {:ok, rendered} =
+      Table.new(rows, header)
+      |> Table.put_column_meta(:all, align: :center)
+      |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
+
+    assert rendered == """
+           +----------------+----------------------+--------------------------+------+
+           |     Artist     |        Track         |         Details          | Year |
+           +================+======================+==========================+======+
+           |    Konflict    |       Cyanide        | Label: Renegade Hardware | 1999 |
+           |                |                      |       Cat#: RH020        |      |
+           +----------------+----------------------+--------------------------+------+
+           | Keaton & Hive  |      The Plague      | Label: Renegade Hardware | 2003 |
+           |                |                      |        Cat#: RH45        |      |
+           |                |                      | Barcode: 5 029651 001759 |      |
+           +----------------+----------------------+--------------------------+------+
+           | Vicious Circle | Welcome To Shanktown | Label: Renegade Hardware | 2007 |
+           |                |                      |      Cat#: HWARE02       |      |
+           +----------------+----------------------+--------------------------+------+
+           """
+  end
+
+  test "multiline cell rendering with left alignment", _ do
+    header = ["Artist", "Track", "Details", "Year"]
+
+    rows = [
+      ["Konflict", "Cyanide", "Label: Renegade Hardware\nCat#: RH020", 1999],
+      [
+        "Keaton & Hive",
+        "The Plague",
+        "Label: Renegade Hardware\nCat#: RH45\nBarcode: 5 029651 001759",
+        2003
+      ],
+      ["Vicious Circle", "Welcome To Shanktown", "Label: Renegade Hardware\nCat#: HWARE02", 2007]
+    ]
+
+    {:ok, rendered} =
+      Table.new(rows, header)
+      |> Table.put_column_meta(:all, align: :left)
+      |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
+
+    assert rendered == """
+           +----------------+----------------------+--------------------------+------+
+           | Artist         | Track                | Details                  | Year |
+           +================+======================+==========================+======+
+           | Konflict       | Cyanide              | Label: Renegade Hardware | 1999 |
+           |                |                      | Cat#: RH020              |      |
+           +----------------+----------------------+--------------------------+------+
+           | Keaton & Hive  | The Plague           | Label: Renegade Hardware | 2003 |
+           |                |                      | Cat#: RH45               |      |
+           |                |                      | Barcode: 5 029651 001759 |      |
+           +----------------+----------------------+--------------------------+------+
+           | Vicious Circle | Welcome To Shanktown | Label: Renegade Hardware | 2007 |
+           |                |                      | Cat#: HWARE02            |      |
+           +----------------+----------------------+--------------------------+------+
+           """
+  end
+
+  test "multiline cell rendering with right alignment", _ do
+    header = ["Artist", "Track", "Details", "Year"]
+
+    rows = [
+      ["Konflict", "Cyanide", "Label: Renegade Hardware\nCat#: RH020", 1999],
+      [
+        "Keaton & Hive",
+        "The Plague",
+        "Label: Renegade Hardware\nCat#: RH45\nBarcode: 5 029651 001759",
+        2003
+      ],
+      ["Vicious Circle", "Welcome To Shanktown", "Label: Renegade Hardware\nCat#: HWARE02", 2007]
+    ]
+
+    {:ok, rendered} =
+      Table.new(rows, header)
+      |> Table.put_column_meta(:all, align: :right)
+      |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
+
+    assert rendered == """
+           +----------------+----------------------+--------------------------+------+
+           |         Artist |                Track |                  Details | Year |
+           +================+======================+==========================+======+
+           |       Konflict |              Cyanide | Label: Renegade Hardware | 1999 |
+           |                |                      |              Cat#: RH020 |      |
+           +----------------+----------------------+--------------------------+------+
+           |  Keaton & Hive |           The Plague | Label: Renegade Hardware | 2003 |
+           |                |                      |               Cat#: RH45 |      |
+           |                |                      | Barcode: 5 029651 001759 |      |
+           +----------------+----------------------+--------------------------+------+
+           | Vicious Circle | Welcome To Shanktown | Label: Renegade Hardware | 2007 |
+           |                |                      |            Cat#: HWARE02 |      |
+           +----------------+----------------------+--------------------------+------+
+           """
+  end
+
   test "default render with header cell color", %{table: table} do
     {:ok, rendered} =
       table
