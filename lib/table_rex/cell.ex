@@ -65,7 +65,21 @@ defmodule TableRex.Cell do
   end
 
   @spec to_cell(any, list) :: Cell.t()
-  def to_cell(value, opts \\ []) do
+  def to_cell(value, opts \\ [])
+
+  def to_cell(list, opts) when is_list(list) do
+    if List.improper?(list) do
+      list
+      |> to_string()
+      |> to_cell(opts)
+    else
+      list
+      |> Enum.join("\n")
+      |> to_cell(opts)
+    end
+  end
+
+  def to_cell(value, opts) do
     opts = Enum.into(opts, %{})
 
     rendered_value = to_string(value)
