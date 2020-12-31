@@ -1,5 +1,16 @@
 # Changelog
 
+## v3.1.0 (2020-12-31)
+
+Multiline cell support 🎉
+
+Thanks to @rubysolo, TableRex's ASCII-style plain text renderer has gained the
+ability to render multiline strings without any extra effort on behalf of the
+calling clients, simply insert your line breaks into your strings and the
+feature will handle rendering with correct padding, coloring & alignment.
+
+No breaking changes.
+
 ## v3.0.0 (2020-04-19)
 
 **No external API changes**, but we are dropping support for Elixir v1.7 and below

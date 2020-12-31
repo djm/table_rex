@@ -8,36 +8,29 @@
 
 <img src="https://raw.githubusercontent.com/djm/table_rex/master/assets/examples.gif" width="500" alt="Layout Examples" />
 
-Currently supports output:
-
-* in customisable ASCII format.
-* with your own renderer module.
 
 #### Features
 
-* A one-liner for those that just want to render ASCII tables with sane
-  defaults.
-* Output of table titles & alignable column headers.
-* Basic sorting of rows in ascending/descending order.
-* Support for column & cell level alignment (center, left, right).
-* Column, header, & cell level
-  <img src="http://i.imgur.com/LCfvYYM.png" width="44" /> support.
-* Automatic cell padding but also the option to set padding per
-  column<sup>1</sup>.
-* Frame the table with various vertical & horizontal styles<sup>1</sup>.
-* Style the table how you wish with custom separators<sup>1</sup>.
-* Works well with the Agent module to allow for easy sharing of state.
-* Clients can supply their own rendering modules and still take advantage of the
-  table manipulation API.
+* A one-liner for rendering ASCII-style tables with sane defaults.
 
-<sup>1</sup> The text renderer supports these features, others may not or might
-not need to.
+* Rendering via:
+  * the built-in plain-text "ASCII-style" renderer.
+  * your own rendering module.
 
-#### What is it missing?
+The data structures support:
 
-* Most notably, cells cannot stretch over multiple lines. If you'd like to
-implement this, see Issue [#7](https://github.com/djm/table_rex/issues/7).
+* column & cell level text alignment: left, center, right.
+* table titles & column headers.
+* sorting based on raw input data (rather than just strings).
+* column, header & cell level <img src="http://i.imgur.com/LCfvYYM.png" width="44" /> support.
+* automatic but defineable column & cell level padding.
+* styling the table with various vertical & horizontal framing.
+* styling the table with custom separator symbols.
+* multi-line cell support.
 
+The built-in "ASCII-style" renderer supports all of these features
+out-of-the-box, but your custom renderers can support a subset if
+they wish.
 
 #### Documentation
 
@@ -68,7 +61,7 @@ The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
 
 ```elixir
 def deps do
-  [{:table_rex, "~> 3.0.0"}]
+  [{:table_rex, "~> 3.1.0"}]
 end
 ```
 
