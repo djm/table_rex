@@ -15,7 +15,7 @@ defmodule TableRex.Renderer.Text.Meta do
             render_row_separators?: false
 
   @doc """
-  Retreives the "inner width" of the table, which is the full width minus any frame.
+  Retrieves the "inner width" of the table, which is the full width minus any frame.
   """
   def inner_width(%Meta{table_width: table_width, render_vertical_frame?: true}) do
     table_width - 2
@@ -26,14 +26,14 @@ defmodule TableRex.Renderer.Text.Meta do
   end
 
   @doc """
-  Retreives the column width at the given column index.
+  Retrieves the column width at the given column index.
   """
   def col_width(meta, col_index) do
     Map.get(meta.col_widths, col_index)
   end
 
   @doc """
-  Retreives the row width at the given row index.
+  Retrieves the row width at the given row index.
   """
   def row_height(meta, row_index) do
     Map.get(meta.row_heights, row_index)

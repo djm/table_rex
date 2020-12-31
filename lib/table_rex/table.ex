@@ -233,7 +233,7 @@ defmodule TableRex.Table do
   end
 
   @doc """
-  Retreives the value of a column meta option at the specified col_index.
+  Retrieves the value of a column meta option at the specified col_index.
   If no value has been set, default values are returned.
   """
   @spec get_column_meta(Table.t(), integer, atom) :: any
