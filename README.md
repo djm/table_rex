@@ -39,7 +39,7 @@ not need to.
 implement this, see Issue [#7](https://github.com/djm/table_rex/issues/7).
 
 
-#### Documenation
+#### Documentation
 
 See the quick start below or check out the
 [full API docs at HexDocs](https://hexdocs.pm/table_rex/).
