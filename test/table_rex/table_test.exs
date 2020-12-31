@@ -21,18 +21,9 @@ defmodule TableRex.TableTest do
     assert Table.new(rows) == %Table{
              rows: [
                [
-                 %Cell{
-                   rendered_value: "Dom & Roland",
-                   raw_value: "Dom & Roland"
-                 },
-                 %Cell{
-                   rendered_value: "Thunder",
-                   raw_value: "Thunder"
-                 },
-                 %Cell{
-                   rendered_value: "1998",
-                   raw_value: 1998
-                 }
+                 Cell.to_cell("Dom & Roland"),
+                 Cell.to_cell("Thunder"),
+                 Cell.to_cell(1998)
                ]
              ]
            }
@@ -44,33 +35,15 @@ defmodule TableRex.TableTest do
 
     assert Table.new(rows, header) == %Table{
              header_row: [
-               %Cell{
-                 raw_value: "Artist",
-                 rendered_value: "Artist"
-               },
-               %Cell{
-                 raw_value: "Track",
-                 rendered_value: "Track"
-               },
-               %Cell{
-                 raw_value: "Year",
-                 rendered_value: "Year"
-               }
+               Cell.to_cell("Artist"),
+               Cell.to_cell("Track"),
+               Cell.to_cell("Year")
              ],
              rows: [
                [
-                 %Cell{
-                   raw_value: "Dom & Roland",
-                   rendered_value: "Dom & Roland"
-                 },
-                 %Cell{
-                   raw_value: "Thunder",
-                   rendered_value: "Thunder"
-                 },
-                 %Cell{
-                   raw_value: 1998,
-                   rendered_value: "1998"
-                 }
+                 Cell.to_cell("Dom & Roland"),
+                 Cell.to_cell("Thunder"),
+                 Cell.to_cell(1998)
                ]
              ]
            }
@@ -84,33 +57,15 @@ defmodule TableRex.TableTest do
     assert Table.new(rows, header, title) == %Table{
              title: "Dom & Roland Releases",
              header_row: [
-               %Cell{
-                 raw_value: "Artist",
-                 rendered_value: "Artist"
-               },
-               %Cell{
-                 raw_value: "Track",
-                 rendered_value: "Track"
-               },
-               %Cell{
-                 raw_value: "Year",
-                 rendered_value: "Year"
-               }
+               Cell.to_cell("Artist"),
+               Cell.to_cell("Track"),
+               Cell.to_cell("Year")
              ],
              rows: [
                [
-                 %Cell{
-                   raw_value: "Dom & Roland",
-                   rendered_value: "Dom & Roland"
-                 },
-                 %Cell{
-                   raw_value: "Thunder",
-                   rendered_value: "Thunder"
-                 },
-                 %Cell{
-                   raw_value: 1998,
-                   rendered_value: "1998"
-                 }
+                 Cell.to_cell("Dom & Roland"),
+                 Cell.to_cell("Thunder"),
+                 Cell.to_cell(1998)
                ]
              ]
            }
@@ -122,18 +77,9 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{
-                 raw_value: "Dom & Roland",
-                 rendered_value: "Dom & Roland"
-               },
-               %Cell{
-                 raw_value: "Thunder",
-                 rendered_value: "Thunder"
-               },
-               %Cell{
-                 raw_value: 1998,
-                 rendered_value: "1998"
-               }
+               Cell.to_cell("Dom & Roland"),
+               Cell.to_cell("Thunder"),
+               Cell.to_cell(1998)
              ]
            ]
 
@@ -142,32 +88,14 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{
-                 raw_value: "Calyx",
-                 rendered_value: "Calyx"
-               },
-               %Cell{
-                 raw_value: "Downpour",
-                 rendered_value: "Downpour"
-               },
-               %Cell{
-                 raw_value: 2001,
-                 rendered_value: "2001"
-               }
+               Cell.to_cell("Calyx"),
+               Cell.to_cell("Downpour"),
+               Cell.to_cell(2001)
              ],
              [
-               %Cell{
-                 raw_value: "Dom & Roland",
-                 rendered_value: "Dom & Roland"
-               },
-               %Cell{
-                 raw_value: "Thunder",
-                 rendered_value: "Thunder"
-               },
-               %Cell{
-                 raw_value: 1998,
-                 rendered_value: "1998"
-               }
+               Cell.to_cell("Dom & Roland"),
+               Cell.to_cell("Thunder"),
+               Cell.to_cell(1998)
              ]
            ]
   end
@@ -183,14 +111,9 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{rendered_value: "Rascal & Klone", raw_value: "Rascal & Klone"},
-               %Cell{
-                 rendered_value: "The Grind",
-                 raw_value: "The Grind",
-                 align: :left,
-                 color: :red
-               },
-               %Cell{rendered_value: "2000", raw_value: 2000, align: :right}
+               Cell.to_cell("Rascal & Klone"),
+               Cell.to_cell("The Grind", align: :left, color: :red),
+               Cell.to_cell(2000, align: :right)
              ]
            ]
   end
@@ -211,65 +134,24 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{
-                 raw_value: "Dom & Roland",
-                 rendered_value: "Dom & Roland"
-               },
-               %Cell{
-                 raw_value: "Dance All Night",
-                 rendered_value: "Dance All Night"
-               },
-               %Cell{
-                 raw_value: 2004,
-                 rendered_value: "2004",
-                 align: :right,
-                 color: :red
-               }
+               Cell.to_cell("Dom & Roland"),
+               Cell.to_cell("Dance All Night"),
+               Cell.to_cell(2004, align: :right, color: :red)
              ],
              [
-               %Cell{
-                 raw_value: "Aquasky",
-                 rendered_value: "Aquasky"
-               },
-               %Cell{
-                 raw_value: "Uptight",
-                 rendered_value: "Uptight"
-               },
-               %Cell{
-                 raw_value: 2000,
-                 rendered_value: "2000",
-                 align: :right
-               }
+               Cell.to_cell("Aquasky"),
+               Cell.to_cell("Uptight"),
+               Cell.to_cell(2000, align: :right)
              ],
              [
-               %Cell{
-                 raw_value: "nCode",
-                 rendered_value: "nCode"
-               },
-               %Cell{
-                 raw_value: "Spasm",
-                 rendered_value: "Spasm"
-               },
-               %Cell{
-                 raw_value: 1999,
-                 rendered_value: "1999",
-                 align: :right
-               }
+               Cell.to_cell("nCode"),
+               Cell.to_cell("Spasm"),
+               Cell.to_cell(1999, align: :right)
              ],
              [
-               %Cell{
-                 raw_value: "E-Z Rollers",
-                 rendered_value: "E-Z Rollers"
-               },
-               %Cell{
-                 raw_value: "Tough At The Top",
-                 rendered_value: "Tough At The Top"
-               },
-               %Cell{
-                 raw_value: 1998,
-                 rendered_value: "1998",
-                 align: :right
-               }
+               Cell.to_cell("E-Z Rollers"),
+               Cell.to_cell("Tough At The Top"),
+               Cell.to_cell(1998, align: :right)
              ]
            ]
   end
@@ -289,60 +171,24 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{
-                 raw_value: "Omni Trio",
-                 rendered_value: "Omni Trio"
-               },
-               %Cell{
-                 raw_value: "Lucid",
-                 rendered_value: "Lucid"
-               },
-               %Cell{
-                 raw_value: 2001,
-                 rendered_value: "2001"
-               }
+               Cell.to_cell("Omni Trio"),
+               Cell.to_cell("Lucid"),
+               Cell.to_cell(2001)
              ],
              [
-               %Cell{
-                 raw_value: "Dom & Roland",
-                 rendered_value: "Dom & Roland"
-               },
-               %Cell{
-                 raw_value: "Killa Bullet",
-                 rendered_value: "Killa Bullet"
-               },
-               %Cell{
-                 raw_value: 1999,
-                 rendered_value: "1999"
-               }
+               Cell.to_cell("Dom & Roland"),
+               Cell.to_cell("Killa Bullet"),
+               Cell.to_cell(1999)
              ],
              [
-               %Cell{
-                 raw_value: "Deep Blue",
-                 rendered_value: "Deep Blue"
-               },
-               %Cell{
-                 raw_value: "The Helicopter Tune",
-                 rendered_value: "The Helicopter Tune"
-               },
-               %Cell{
-                 raw_value: 1993,
-                 rendered_value: "1993"
-               }
+               Cell.to_cell("Deep Blue"),
+               Cell.to_cell("The Helicopter Tune"),
+               Cell.to_cell(1993)
              ],
              [
-               %Cell{
-                 raw_value: "Blame",
-                 rendered_value: "Blame"
-               },
-               %Cell{
-                 raw_value: "Music Takes You",
-                 rendered_value: "Music Takes You"
-               },
-               %Cell{
-                 raw_value: 1992,
-                 rendered_value: "1992"
-               }
+               Cell.to_cell("Blame"),
+               Cell.to_cell("Music Takes You"),
+               Cell.to_cell(1992)
              ]
            ]
   end
@@ -371,16 +217,16 @@ defmodule TableRex.TableTest do
     table = Table.put_header(table, header_row)
 
     assert table.header_row == [
-             %Cell{raw_value: "Artist", rendered_value: "Artist"}
+             Cell.to_cell("Artist")
            ]
 
     header_row = ["Artist", "Track", "Year"]
     table = Table.put_header(table, header_row)
 
     assert table.header_row == [
-             %Cell{raw_value: "Artist", rendered_value: "Artist"},
-             %Cell{raw_value: "Track", rendered_value: "Track"},
-             %Cell{raw_value: "Year", rendered_value: "Year"}
+             Cell.to_cell("Artist"),
+             Cell.to_cell("Track"),
+             Cell.to_cell("Year")
            ]
   end
 
@@ -394,21 +240,9 @@ defmodule TableRex.TableTest do
     table = Table.put_header(table, header_row)
 
     assert table.header_row == [
-             %Cell{
-               raw_value: "Artist",
-               rendered_value: "Artist"
-             },
-             %Cell{
-               raw_value: "Track",
-               rendered_value: "Track",
-               align: :left,
-               color: :red
-             },
-             %Cell{
-               raw_value: "Year",
-               rendered_value: "Year",
-               align: :right
-             }
+             Cell.to_cell("Artist"),
+             Cell.to_cell("Track", align: :left, color: :red),
+             Cell.to_cell("Year", align: :right)
            ]
   end
 
@@ -521,19 +355,14 @@ defmodule TableRex.TableTest do
 
     assert table.rows == [
              [
-               %Cell{raw_value: "Calyx", rendered_value: "Calyx", align: nil, color: :red},
-               %Cell{raw_value: "Downpour", rendered_value: "Downpour", align: :left, color: nil},
-               %Cell{raw_value: 2001, rendered_value: "2001", align: nil, color: nil}
+               Cell.to_cell("Calyx", color: :red),
+               Cell.to_cell("Downpour", align: :left),
+               Cell.to_cell(2001)
              ],
              [
-               %Cell{
-                 raw_value: "Dom & Roland",
-                 rendered_value: "Dom & Roland",
-                 align: :right,
-                 color: nil
-               },
-               %Cell{raw_value: "Thunder", rendered_value: "Thunder", align: nil, color: :red},
-               %Cell{raw_value: 1998, rendered_value: "1998", align: nil, color: nil}
+               Cell.to_cell("Dom & Roland", align: :right),
+               Cell.to_cell("Thunder", color: :red),
+               Cell.to_cell(1998)
              ]
            ]
   end
@@ -549,9 +378,9 @@ defmodule TableRex.TableTest do
       |> Table.put_header_meta(2, color: :red)
 
     assert table.header_row == [
-             %Cell{raw_value: "Artist", rendered_value: "Artist", align: :left, color: nil},
-             %Cell{raw_value: "Track", rendered_value: "Track", align: :right, color: nil},
-             %Cell{raw_value: "Year", rendered_value: "Year", align: nil, color: :red}
+             Cell.to_cell("Artist", align: :left),
+             Cell.to_cell("Track", align: :right),
+             Cell.to_cell("Year", color: :red)
            ]
   end
 
@@ -564,17 +393,17 @@ defmodule TableRex.TableTest do
       |> Table.put_header_meta(0..2, align: :center)
 
     assert table.header_row == [
-             %Cell{raw_value: "Artist", rendered_value: "Artist", align: :center},
-             %Cell{raw_value: "Track", rendered_value: "Track", align: :center},
-             %Cell{raw_value: "Year", rendered_value: "Year", align: :center}
+             Cell.to_cell("Artist", align: :center),
+             Cell.to_cell("Track", align: :center),
+             Cell.to_cell("Year", align: :center)
            ]
 
     table = Table.put_header_meta(table, [1, 2], align: :right)
 
     assert table.header_row == [
-             %Cell{raw_value: "Artist", rendered_value: "Artist", align: :center},
-             %Cell{raw_value: "Track", rendered_value: "Track", align: :right},
-             %Cell{raw_value: "Year", rendered_value: "Year", align: :right}
+             Cell.to_cell("Artist", align: :center),
+             Cell.to_cell("Track", align: :right),
+             Cell.to_cell("Year", align: :right)
            ]
   end
 
@@ -597,9 +426,9 @@ defmodule TableRex.TableTest do
     assert table.title == title
 
     assert table.header_row == [
-             %Cell{raw_value: "Artist", rendered_value: "Artist"},
-             %Cell{raw_value: "Track", rendered_value: "Track"},
-             %Cell{raw_value: "Year", rendered_value: "Year"}
+             Cell.to_cell("Artist"),
+             Cell.to_cell("Track"),
+             Cell.to_cell("Year")
            ]
 
     assert table.rows == []
@@ -612,9 +441,9 @@ defmodule TableRex.TableTest do
 
     assert new_table.rows == [
              [
-               %Cell{raw_value: "Calyx", rendered_value: "Calyx"},
-               %Cell{raw_value: "Get Myself To You", rendered_value: "Get Myself To You"},
-               %Cell{raw_value: 2005, rendered_value: "2005"}
+               Cell.to_cell("Calyx"),
+               Cell.to_cell("Get Myself To You"),
+               Cell.to_cell(2005)
              ]
            ]
 
@@ -623,22 +452,22 @@ defmodule TableRex.TableTest do
 
     assert existing_table.rows == [
              [
-               %Cell{raw_value: "Calyx", rendered_value: "Calyx"},
-               %Cell{raw_value: "Get Myself To You", rendered_value: "Get Myself To You"},
-               %Cell{raw_value: 2005, rendered_value: "2005"}
+               Cell.to_cell("Calyx"),
+               Cell.to_cell("Get Myself To You"),
+               Cell.to_cell(2005)
              ]
            ]
 
     assert new_table.rows == [
              [
-               %Cell{raw_value: "E-Z Rollers", rendered_value: "E-Z Rollers"},
-               %Cell{raw_value: "Back To Love", rendered_value: "Back To Love"},
-               %Cell{raw_value: 2002, rendered_value: "2002"}
+               Cell.to_cell("E-Z Rollers"),
+               Cell.to_cell("Back To Love"),
+               Cell.to_cell(2002)
              ],
              [
-               %Cell{raw_value: "Calyx", rendered_value: "Calyx"},
-               %Cell{raw_value: "Get Myself To You", rendered_value: "Get Myself To You"},
-               %Cell{raw_value: 2005, rendered_value: "2005"}
+               Cell.to_cell("Calyx"),
+               Cell.to_cell("Get Myself To You"),
+               Cell.to_cell(2005)
              ]
            ]
   end
@@ -760,20 +589,20 @@ defmodule TableRex.TableTest do
     # Remember: rows are stored in reverse internally.
     assert table.rows == [
              [
-               %Cell{raw_value: 1, rendered_value: "1"},
-               %Cell{raw_value: "a", rendered_value: "a"}
+               %Cell{raw_value: 1, rendered_value: "1", wrapped_lines: ["1"]},
+               %Cell{raw_value: "a", rendered_value: "a", wrapped_lines: ["a"]}
              ],
              [
-               %Cell{raw_value: 2, rendered_value: "2"},
-               %Cell{raw_value: "b", rendered_value: "b"}
+               %Cell{raw_value: 2, rendered_value: "2", wrapped_lines: ["2"]},
+               %Cell{raw_value: "b", rendered_value: "b", wrapped_lines: ["b"]}
              ],
              [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "c", rendered_value: "c"}
+               %Cell{raw_value: 3, rendered_value: "3", wrapped_lines: ["3"]},
+               %Cell{raw_value: "c", rendered_value: "c", wrapped_lines: ["c"]}
              ],
              [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "d", rendered_value: "d"}
+               %Cell{raw_value: 3, rendered_value: "3", wrapped_lines: ["3"]},
+               %Cell{raw_value: "d", rendered_value: "d", wrapped_lines: ["d"]}
              ]
            ]
   end
@@ -790,20 +619,20 @@ defmodule TableRex.TableTest do
     # Remember: rows are stored in reverse internally.
     assert table.rows == [
              [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "c", rendered_value: "c"}
+               %Cell{raw_value: 3, rendered_value: "3", wrapped_lines: ["3"]},
+               %Cell{raw_value: "c", rendered_value: "c", wrapped_lines: ["c"]}
              ],
              [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "d", rendered_value: "d"}
+               %Cell{raw_value: 3, rendered_value: "3", wrapped_lines: ["3"]},
+               %Cell{raw_value: "d", rendered_value: "d", wrapped_lines: ["d"]}
              ],
              [
-               %Cell{raw_value: 2, rendered_value: "2"},
-               %Cell{raw_value: "b", rendered_value: "b"}
+               %Cell{raw_value: 2, rendered_value: "2", wrapped_lines: ["2"]},
+               %Cell{raw_value: "b", rendered_value: "b", wrapped_lines: ["b"]}
              ],
              [
-               %Cell{raw_value: 1, rendered_value: "1"},
-               %Cell{raw_value: "a", rendered_value: "a"}
+               %Cell{raw_value: 1, rendered_value: "1", wrapped_lines: ["1"]},
+               %Cell{raw_value: "a", rendered_value: "a", wrapped_lines: ["a"]}
              ]
            ]
   end
@@ -820,20 +649,20 @@ defmodule TableRex.TableTest do
     # Remember: rows are stored in reverse internally.
     assert table.rows == [
              [
-               %Cell{raw_value: 1, rendered_value: "1"},
-               %Cell{raw_value: "a", rendered_value: "a"}
+               %Cell{raw_value: 1, rendered_value: "1", wrapped_lines: ["1"]},
+               %Cell{raw_value: "a", rendered_value: "a", wrapped_lines: ["a"]}
              ],
              [
-               %Cell{raw_value: 2, rendered_value: "2"},
-               %Cell{raw_value: "b", rendered_value: "b"}
+               %Cell{raw_value: 2, rendered_value: "2", wrapped_lines: ["2"]},
+               %Cell{raw_value: "b", rendered_value: "b", wrapped_lines: ["b"]}
              ],
              [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "c", rendered_value: "c"}
+               %Cell{raw_value: 3, rendered_value: "3", wrapped_lines: ["3"]},
+               %Cell{raw_value: "c", rendered_value: "c", wrapped_lines: ["c"]}
              ],
              [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "d", rendered_value: "d"}
+               %Cell{raw_value: 3, rendered_value: "3", wrapped_lines: ["3"]},
+               %Cell{raw_value: "d", rendered_value: "d", wrapped_lines: ["d"]}
              ]
            ]
   end
@@ -850,20 +679,20 @@ defmodule TableRex.TableTest do
     # Remember: rows are stored in reverse internally.
     assert table.rows == [
              [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "d", rendered_value: "d"}
+               %Cell{raw_value: 3, rendered_value: "3", wrapped_lines: ["3"]},
+               %Cell{raw_value: "d", rendered_value: "d", wrapped_lines: ["d"]}
              ],
              [
-               %Cell{raw_value: 3, rendered_value: "3"},
-               %Cell{raw_value: "c", rendered_value: "c"}
+               %Cell{raw_value: 3, rendered_value: "3", wrapped_lines: ["3"]},
+               %Cell{raw_value: "c", rendered_value: "c", wrapped_lines: ["c"]}
              ],
              [
-               %Cell{raw_value: 2, rendered_value: "2"},
-               %Cell{raw_value: "b", rendered_value: "b"}
+               %Cell{raw_value: 2, rendered_value: "2", wrapped_lines: ["2"]},
+               %Cell{raw_value: "b", rendered_value: "b", wrapped_lines: ["b"]}
              ],
              [
-               %Cell{raw_value: 1, rendered_value: "1"},
-               %Cell{raw_value: "a", rendered_value: "a"}
+               %Cell{raw_value: 1, rendered_value: "1", wrapped_lines: ["1"]},
+               %Cell{raw_value: "a", rendered_value: "a", wrapped_lines: ["a"]}
              ]
            ]
   end
