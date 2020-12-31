@@ -1,12 +1,12 @@
 # Changelog
 
-## v3.0.0
+## v3.0.0 (2020-04-19)
 
 **No external API changes**, but we are dropping support for Elixir v1.7 and below
 along with Erlang OTP v20 and below and as such the major version number is
 bumping to appreciate that.
 
-## v2.0.0
+## v2.0.0 (2018-04-30)
 
 Version 2 has no external API breaking changes but we are bumping the major version
 number as the internal data structure of the %Cell{} struct has changed. See
@@ -42,14 +42,14 @@ To migrate:
   which is now what the removed `Cell.value` used to be.
 
 
-## v1.0.0
+## v1.0.0 (2017-12-11)
 
 The API seems stable enough, sans major complaints, and has no major open bugs
 so here is our version 1 release!
 
 This release brings only new feature:
 
-* TableRex has gained the ability to stretch the table width to accomodate long
+* TableRex has gained the ability to stretch the table width to accommodate long
 titles, thanks to @matt-harvey.
 
 And one breaking change:
@@ -62,7 +62,7 @@ From now on - as per semver, new breaking changes will increment the major relea
 number, new non-breaking features will increment the minor release number and
 bug fixes will update the patch number.
 
-## v0.10.0
+## v0.10.0 (2017-01-14)
 
 **Breaking changes**
 
@@ -73,24 +73,24 @@ Other changes:
 
 Fixed all compiler warnings resulting from Elixir 1.3 and 1.4 releases.
 
-## v0.9.0
+## v0.9.0 (2017-01-14)
 
 Justin G (@theredcoder) has added support for header, column and cell level
 foreground & background ANSI colouring. Many thanks to Justin.
 
-## v0.8.3
+## v0.8.3 (2016-08-12)
 
 Fixed warnings caused by Elixir 1.3's unsafe variable checker.
 
-## v0.8.2
+## v0.8.2 (2016-08-12)
 
 Updated some locked development dependencies to reduce warning output during usage.
 
-## v0.8.1
+## v0.8.1 (2016-06-30)
 
 Fixed a compilation bug in the new Elixir 1.3. No other changes.
 
-## v0.8.0
+## v0.8.0 (2016-01-19)
 
 **Breaking changes**
 
@@ -98,7 +98,7 @@ All `Table.set_*` functions have been changed to `Table.put_*` to better
 reflect their functionality and mimic convention used elsewhere in the
 Elixir ecosphere.
 
-## v0.7.0
+## v0.7.0 (2016-01-09)
 
 **Breaking changes**
 
@@ -139,7 +139,7 @@ Table.set_header_meta(table, 0..4, align: :right) # aligns header cells 0 throug
 Table.set_header_meta(table, [0, 3, 5], align: :right) # aligns header cells 0, 3 & 5 to the right.
 ```
 
-## v0.6.0
+## v0.6.0 (2016-01-07)
 
 **No breaking changes**
 
@@ -193,7 +193,7 @@ See issue [#3](https://github.com/djm/table_rex/issues/3).
 **No breaking changes**
 
 Simply an update to bump the version due to an oversight as the generated
-docs for older version contained documentation for uncommited files which
+docs for older version contained documentation for uncommitted files which
 were not part of the package. This has been remedied as of this version.
 
 ## v0.2.0
