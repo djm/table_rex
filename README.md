@@ -12,7 +12,6 @@
 #### Features
 
 * A one-liner for rendering ASCII-style tables with sane defaults.
-
 * Rendering via:
   * the built-in plain-text "ASCII-style" renderer.
   * your own rendering module.
