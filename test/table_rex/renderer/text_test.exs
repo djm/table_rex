@@ -13,7 +13,23 @@ defmodule TableRex.Renderer.TextTest do
     ]
 
     table = Table.new(rows, header, title)
-    {:ok, table: table}
+
+    multi_header = ["Artist", "Track", "Details", "Year"]
+
+    multi_rows = [
+      ["Konflict", "Cyanide", "Label: Renegade Hardware\nCat#: RH020", 1999],
+      [
+        "Keaton & Hive",
+        "The Plague",
+        "Label: Renegade Hardware\nCat#: RH45\nBarcode: 5 029651 001759",
+        2003
+      ],
+      ["Vicious Circle", "Welcome To Shanktown", "Label: Renegade Hardware\nCat#: HWARE02", 2007]
+    ]
+
+    multiline = Table.new(multi_rows, multi_header)
+
+    {:ok, table: table, multiline: multiline}
   end
 
   test "default render", %{table: table} do
@@ -1196,6 +1212,144 @@ defmodule TableRex.Renderer.TextTest do
            | Vicious Circle | Welcome To Shanktown | 2007 |
            +----------------+----------------------+------+
            """
+  end
+
+  describe "multiline cells" do
+    test "rendering with center alignment", %{multiline: table} do
+      {:ok, rendered} =
+        table
+        |> Table.put_column_meta(:all, align: :center)
+        |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
+
+      assert rendered == """
+             +----------------+----------------------+--------------------------+------+
+             |     Artist     |        Track         |         Details          | Year |
+             +================+======================+==========================+======+
+             |    Konflict    |       Cyanide        | Label: Renegade Hardware | 1999 |
+             |                |                      |       Cat#: RH020        |      |
+             +----------------+----------------------+--------------------------+------+
+             | Keaton & Hive  |      The Plague      | Label: Renegade Hardware | 2003 |
+             |                |                      |        Cat#: RH45        |      |
+             |                |                      | Barcode: 5 029651 001759 |      |
+             +----------------+----------------------+--------------------------+------+
+             | Vicious Circle | Welcome To Shanktown | Label: Renegade Hardware | 2007 |
+             |                |                      |      Cat#: HWARE02       |      |
+             +----------------+----------------------+--------------------------+------+
+             """
+    end
+
+    test "rendering with left alignment", %{multiline: table} do
+      {:ok, rendered} =
+        table
+        |> Table.put_column_meta(:all, align: :left)
+        |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
+
+      assert rendered == """
+             +----------------+----------------------+--------------------------+------+
+             | Artist         | Track                | Details                  | Year |
+             +================+======================+==========================+======+
+             | Konflict       | Cyanide              | Label: Renegade Hardware | 1999 |
+             |                |                      | Cat#: RH020              |      |
+             +----------------+----------------------+--------------------------+------+
+             | Keaton & Hive  | The Plague           | Label: Renegade Hardware | 2003 |
+             |                |                      | Cat#: RH45               |      |
+             |                |                      | Barcode: 5 029651 001759 |      |
+             +----------------+----------------------+--------------------------+------+
+             | Vicious Circle | Welcome To Shanktown | Label: Renegade Hardware | 2007 |
+             |                |                      | Cat#: HWARE02            |      |
+             +----------------+----------------------+--------------------------+------+
+             """
+    end
+
+    test "rendering with right alignment", %{multiline: table} do
+      {:ok, rendered} =
+        table
+        |> Table.put_column_meta(:all, align: :right)
+        |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
+
+      assert rendered == """
+             +----------------+----------------------+--------------------------+------+
+             |         Artist |                Track |                  Details | Year |
+             +================+======================+==========================+======+
+             |       Konflict |              Cyanide | Label: Renegade Hardware | 1999 |
+             |                |                      |              Cat#: RH020 |      |
+             +----------------+----------------------+--------------------------+------+
+             |  Keaton & Hive |           The Plague | Label: Renegade Hardware | 2003 |
+             |                |                      |               Cat#: RH45 |      |
+             |                |                      | Barcode: 5 029651 001759 |      |
+             +----------------+----------------------+--------------------------+------+
+             | Vicious Circle | Welcome To Shanktown | Label: Renegade Hardware | 2007 |
+             |                |                      |            Cat#: HWARE02 |      |
+             +----------------+----------------------+--------------------------+------+
+             """
+    end
+
+    test "can be specified using list literals" do
+      header = ["Artist", "Track", "Details", "Year"]
+
+      rows = [
+        ["Konflict", "Cyanide", ["Label: Renegade Hardware", "Cat#: RH020"], 1999],
+        [
+          "Keaton & Hive",
+          "The Plague",
+          ["Label: Renegade Hardware", "Cat#: RH45", "Barcode: 5 029651 001759"],
+          2003
+        ],
+        [
+          "Vicious Circle",
+          "Welcome To Shanktown",
+          ["Label: Renegade Hardware", "Cat#: HWARE02"],
+          2007
+        ]
+      ]
+
+      {:ok, rendered} =
+        Table.new(rows, header)
+        |> Table.render(horizontal_style: :all, vertical_style: :off)
+
+      assert rendered ==
+               [
+                 "-------------------------------------------------------------------------",
+                 " Artist           Track                  Details                    Year",
+                 "-------------------------------------------------------------------------",
+                 " Konflict         Cyanide                Label: Renegade Hardware   1999 ",
+                 "                                         Cat#: RH020",
+                 "-------------------------------------------------------------------------",
+                 " Keaton & Hive    The Plague             Label: Renegade Hardware   2003 ",
+                 "                                         Cat#: RH45                      ",
+                 "                                         Barcode: 5 029651 001759",
+                 "-------------------------------------------------------------------------",
+                 " Vicious Circle   Welcome To Shanktown   Label: Renegade Hardware   2007 ",
+                 "                                         Cat#: HWARE02",
+                 "-------------------------------------------------------------------------",
+                 ""
+               ]
+               |> Enum.join("\n")
+    end
+
+    test "support formatting with color", %{multiline: table} do
+      {:ok, rendered} =
+        table
+        |> Table.put_cell_meta(2, 1, color: "\e[31m")
+        |> Table.put_column_meta(:all, align: :right)
+        |> Table.render(horizontal_style: :all, header_separator_symbol: "=")
+
+      assert rendered == """
+             +----------------+----------------------+--------------------------+------+
+             |         Artist |                Track |                  Details | Year |
+             +================+======================+==========================+======+
+             |       Konflict |              Cyanide | Label: Renegade Hardware | 1999 |
+             |                |                      |              Cat#: RH020 |      |
+             +----------------+----------------------+--------------------------+------+
+             |  Keaton & Hive |           The Plague |\e[31m Label: Renegade Hardware \e[0m| 2003 |
+             |                |                      |\e[31m               Cat#: RH45 \e[0m|      |
+             |                |                      |\e[31m Barcode: 5 029651 001759 \e[0m|      |
+             +----------------+----------------------+--------------------------+------+
+             | Vicious Circle | Welcome To Shanktown | Label: Renegade Hardware | 2007 |
+             |                |                      |            Cat#: HWARE02 |      |
+             +----------------+----------------------+--------------------------+------+
+             """
+    end
   end
 
   test "default render with header cell color", %{table: table} do
