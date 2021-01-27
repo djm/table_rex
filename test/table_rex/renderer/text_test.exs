@@ -1350,6 +1350,20 @@ defmodule TableRex.Renderer.TextTest do
              +----------------+----------------------+--------------------------+------+
              """
     end
+
+    test "rendering lines with different lengths" do
+      {:ok, rendered} =
+        [["aaa\nb", "a\nbbb"]]
+        |> Table.new()
+        |> Table.render()
+
+      assert rendered == """
+             +-----+-----+
+             | aaa | a   |
+             | b   | bbb |
+             +-----+-----+
+             """
+    end
   end
 
   test "default render with header cell color", %{table: table} do
