@@ -316,7 +316,18 @@ To run the test suite, from the project directory, do:
 mix test
 ```
 
-## Publish to Hex
+## Release package to Hex
+
+First, bump the semver version & write the changelog.
+
+Then, tag HEAD with the version:
+
+```bash
+git tag -a vx.x.x -m "vx.x.x"
+git push --tags
+```
+
+Then login & publish to Hex:
 
 ```bash
 # Login to hex to retrieve API Key
