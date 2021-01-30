@@ -402,7 +402,7 @@ defmodule TableRex.Renderer.Text do
       |> String.split("\n")
 
     height = Enum.count(lines)
-    width = Enum.max(lines) |> String.length()
+    width = lines |> Enum.map(&String.length/1) |> Enum.max()
     {width + padding * 2, height}
   end
 
