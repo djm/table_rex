@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.1.1 (2021-01-30)
+
+Bugfix: Fixes a multiline text rendering crash when inputs had differing
+lengths. Thanks to @chulkilee for the fix.
+
+No breaking changes.
+
+
 ## v3.1.0 (2020-12-31)
 
 Multiline cell support 🎉
@@ -9,7 +17,7 @@ ability to render multiline strings without any extra effort on behalf of the
 calling clients, simply insert your line breaks into your strings and the
 feature will handle rendering with correct padding, coloring & alignment.
 
-No breaking changes.
+No (known) breaking changes.
 
 ## v3.0.0 (2020-04-19)
 

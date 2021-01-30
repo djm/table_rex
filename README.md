@@ -60,7 +60,7 @@ The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
 
 ```elixir
 def deps do
-  [{:table_rex, "~> 3.1.0"}]
+  [{:table_rex, "~> 3.1.1"}]
 end
 ```
 

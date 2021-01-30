@@ -2,7 +2,7 @@ defmodule TableRex.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/djm/table_rex"
-  @version "3.1.0"
+  @version "3.1.1"
 
   def project do
     [
