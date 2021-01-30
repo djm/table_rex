@@ -318,9 +318,9 @@ mix test
 
 ## Release package to Hex
 
-First, bump the semver version & write the changelog.
+First, bump the semver version & write the changelog, pushing that commit.
 
-Then, tag HEAD with the version:
+Then, tag HEAD with the version & push:
 
 ```bash
 git tag -a vx.x.x -m "vx.x.x"
