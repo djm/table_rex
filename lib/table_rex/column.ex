@@ -5,7 +5,7 @@ defmodule TableRex.Column do
   The align field can be one of :left, :center or :right.
   """
 
-  defstruct align: :left, padding: 1, color: nil
+  defstruct align: :left, padding: 1, color: nil, width_calc: &String.length/1
 
   @type t :: %__MODULE__{}
 end
