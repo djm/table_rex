@@ -25,7 +25,6 @@ defmodule TableRex do
   def quick_render!(rows, header \\ [], title \\ nil) when is_list(rows) and is_list(header) do
     case quick_render(rows, header, title) do
       {:ok, rendered} -> rendered
-      {:error, reason} -> raise TableRex.Error, message: reason
     end
   end
 end
