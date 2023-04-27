@@ -479,14 +479,6 @@ defmodule TableRex.TableTest do
     assert Table.get_column_meta(table, 2, :padding) == 1
   end
 
-  test "has_rows? returns correct response", _setup do
-    table = Table.new()
-    table = %Table{rows: [["Exile", "Silver Spirit", "2003"]]}
-    assert table |> Table.has_rows?() == true
-    table = %Table{rows: []}
-    assert table |> Table.has_rows?() == true
-  end
-
   test "has_header? returns correct response", _setup do
     table = Table.new()
     assert table |> Table.has_header?() == false

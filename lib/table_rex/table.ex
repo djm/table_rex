@@ -244,12 +244,6 @@ defmodule TableRex.Table do
   end
 
   @doc """
-  Returns a boolean detailing if the passed table has any row data set.
-  """
-  @spec has_rows?(Table.t()) :: boolean
-  def has_rows?(%Table{rows: rows}) when is_list(rows), do: true
-
-  @doc """
   Returns a boolean detailing if the passed table has a header row set.
   """
   @spec has_header?(Table.t()) :: boolean
@@ -271,10 +265,7 @@ defmodule TableRex.Table do
   def render(%Table{} = table, opts \\ []) when is_list(opts) do
     {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
     opts = opts |> Enum.into(renderer.default_options)
-
-    if Table.has_rows?(table) do
       renderer.render(table, opts)
-    end
   end
 
   @doc """
