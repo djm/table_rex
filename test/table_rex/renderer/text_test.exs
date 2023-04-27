@@ -1696,4 +1696,25 @@ defmodule TableRex.Renderer.TextTest do
            +--------------------+--------------------------+------------+
            """
   end
+
+  test "Render a table with no rows, but title and headers" do
+    title = "Renegade Hardware Releases Shown Here!"
+    header = ["Artist", "Track"]
+
+    rows = [
+    ]
+
+    {:ok, rendered} =
+      Table.new(rows, header, title)
+      |> Table.render()
+
+    assert rendered === """
+           +----------------------------------------+
+           | Renegade Hardware Releases Shown Here! |
+           +--------------------+-------------------+
+           | Artist             | Track             |
+           +--------------------+-------------------+
+           +--------------------+-------------------+
+           """
+  end
 end

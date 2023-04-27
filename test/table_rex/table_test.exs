@@ -552,13 +552,6 @@ defmodule TableRex.TableTest do
     assert_received {:rendering, _table, ^expected_opts}
   end
 
-  #test "render/2 raises an error on failure" do
-  #  assert_raise TableRex.Error, fn ->
-  #    Table.new()
-  #    |> Table.render!()
-  #  end
-  #end
-
   test "sort/3 should sort the table using the first column (desc)" do
     table =
       Table.new()

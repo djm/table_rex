@@ -145,14 +145,14 @@ defmodule TableRex.Table do
   """
   @spec add_rows(Table.t(), list) :: Table.t()
   def add_rows(%Table{} = table, rows) when is_list(rows) do
-      rows =
-        rows
-        |> Enum.reverse()
-        |> Enum.map(fn row ->
-          Enum.map(row, &Cell.to_cell(&1))
-      end)
+    rows =
+      rows
+      |> Enum.reverse()
+      |> Enum.map(fn row ->
+        Enum.map(row, &Cell.to_cell(&1))
+    end)
 
-      %Table{table | rows: rows ++ table.rows}
+    %Table{table | rows: rows ++ table.rows}
   end
 
   @doc """
