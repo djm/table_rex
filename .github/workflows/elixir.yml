@@ -34,6 +34,7 @@ jobs:
       - name: Run the test suite
         run: mix test
 
+
   elixir_1_14:
     runs-on: ubuntu-latest
 
@@ -43,6 +44,38 @@ jobs:
       matrix:
         otp: [24.x, 25.x]
         elixir: [1.14.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Compile & error on warning
+        run: mix compile --warnings-as-errors
+
+      - name: Check code is formatted
+        run: mix format --check-formatted
+
+      - name: Run the test suite
+        run: mix test
+
+
+  elixir_1_13:
+    runs-on: ubuntu-latest
+
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+
+    strategy:
+      matrix:
+        otp: [24.x, 25.x]
+        elixir: [1.13.x]
 
     steps:
       - uses: actions/checkout@v3
