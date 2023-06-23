@@ -3,6 +3,8 @@ name: TableRex CI
 on: push
 
 jobs:
+  # Official support is for latest 3 minor Elixir
+  # versions & latest 2 major OTP releases.
   elixir_1_15:
     runs-on: ubuntu-latest
 
