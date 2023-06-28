@@ -22,5 +22,8 @@ Contributors
 * **Gerson Azevedo** ([@gersonazgo](https://github.com/gersonazgo))
 * **Sam Hilton** ([@samhilton](https://github.com/samhamilton))
 * **Trevor Keegan** ([@inquisitev](https://github.com/inquisitev))
+* **Michael Westbay** ([@westbaystars](https://github.com/westbaystars))
+* **Patrick Francis Omogbeme** ([@patfranciso](https://github.com/patfranciso))
+* **Trevor Keegan** ([@inquisitev](https://github.com/inquisitev))
 
 Please add yourself if making a contribution.
