@@ -67,10 +67,6 @@ defmodule TableRex.TableRexTest do
            """
   end
 
-  test "quick_render with no rows to test error return" do
-    {:error, _reason} = TableRex.quick_render([])
-  end
-
   test "quick_render! with title, header and rows" do
     rendered =
       TableRex.quick_render!(
@@ -135,9 +131,18 @@ defmodule TableRex.TableRexTest do
            """
   end
 
-  test "quick_render! with no rows to test error is raised" do
-    assert_raise TableRex.Error, fn ->
-      TableRex.quick_render!([])
-    end
+  test "Render even with empty rows" do
+    rendered =
+      TableRex.quick_render!(
+        [],
+        ["Artist", "Track", "Year"]
+      )
+
+    assert rendered == """
+           +--------+-------+------+
+           | Artist | Track | Year |
+           +--------+-------+------+
+           +--------+-------+------+
+           """
   end
 end

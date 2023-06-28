@@ -244,13 +244,6 @@ defmodule TableRex.Table do
   end
 
   @doc """
-  Returns a boolean detailing if the passed table has any row data set.
-  """
-  @spec has_rows?(Table.t()) :: boolean
-  def has_rows?(%Table{rows: []}), do: false
-  def has_rows?(%Table{rows: rows}) when is_list(rows), do: true
-
-  @doc """
   Returns a boolean detailing if the passed table has a header row set.
   """
   @spec has_header?(Table.t()) :: boolean
@@ -272,12 +265,7 @@ defmodule TableRex.Table do
   def render(%Table{} = table, opts \\ []) when is_list(opts) do
     {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
     opts = opts |> Enum.into(renderer.default_options)
-
-    if Table.has_rows?(table) do
-      renderer.render(table, opts)
-    else
-      {:error, "Table must have at least one row before being rendered"}
-    end
+    renderer.render(table, opts)
   end
 
   @doc """
@@ -293,5 +281,22 @@ defmodule TableRex.Table do
       {:ok, rendered_string} -> rendered_string
       {:error, reason} -> raise TableRex.Error, message: reason
     end
+  end
+
+  def row_colors(result, colors) do
+    %{result | rows: map_colors(Map.get(result, :rows), colors)}
+  end
+
+  defp map_colors(rows, colors) do
+    n = Enum.count(colors)
+
+    rows
+    |> Enum.with_index()
+    |> Enum.map(fn {list, i} ->
+      Enum.map(list, fn x ->
+        color = Enum.at(colors, rem(i, n))
+        %{x | color: color}
+      end)
+    end)
   end
 end
