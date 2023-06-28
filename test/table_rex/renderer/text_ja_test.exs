@@ -10,7 +10,6 @@ defmodule TableRex.Renderer.TextTestJa do
       |> Enum.map(&Width.east_asian_width_category(&1))
       |> Enum.reduce(0, fn width, acc -> if(width == :w, do: acc + 2, else: acc + 1) end)
 
-    # IO.inspect("#{string} -> #{width}")
     width
   end
 

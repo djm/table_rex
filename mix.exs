@@ -27,7 +27,7 @@ defmodule TableRex.Mixfile do
     [
       {:earmark, ">= 0.0.0", only: :docs},
       {:ex_doc, ">= 0.0.0", only: :docs},
-      {:unicode, "~> 1.13.1", only: :test}
+      {:unicode, ">= 0.0.0", only: :test}
     ]
   end
 
