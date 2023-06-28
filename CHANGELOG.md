@@ -1,5 +1,18 @@
 # Changelog
 
+## v3.2 (2023-06-28)
+
+New features:
+
+* CJK/Unicode character support at the cell level. Non-ascii characters
+  should no longer break rendering.
+
+* We now have row-level support for colored backgrounds and foregrounds,
+  see some [examples](https://github.com/djm/table_rex/pull/44).
+
+* Tables can now have no rows if they wish; that constraint has been relaxed
+  & tables will render fine without any rows (e.g if they just have a header).
+
 ## v3.1.1 (2021-01-30)
 
 Bugfix: Fixes a multiline text rendering crash when inputs had differing
