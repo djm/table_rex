@@ -9,6 +9,7 @@
 <img src="https://raw.githubusercontent.com/djm/table_rex/master/assets/examples.gif" width="500" alt="Layout Examples" />
 
 
+
 #### Features
 
 * A one-liner for rendering ASCII-style tables with sane defaults.
