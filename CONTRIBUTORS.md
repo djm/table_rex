@@ -21,5 +21,6 @@ Contributors
 * **Jefferson Stachelski** ([@jeffhsta](https://github.com/jeffhsta))
 * **Gerson Azevedo** ([@gersonazgo](https://github.com/gersonazgo))
 * **Sam Hilton** ([@samhilton](https://github.com/samhamilton))
+* **Trevor Keegan** ([@inquisitev](https://github.com/inquisitev))
 
 Please add yourself if making a contribution.
