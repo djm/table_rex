@@ -295,23 +295,29 @@ defmodule TableRex.Renderer.Text do
     cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
     cell_color = Map.get(cell, :color) || Table.get_column_meta(table, col_index, :color)
 
-    do_render_cell(cell.rendered_value, col_width, col_padding, align: cell_align)
+    cell_width_calc =
+      Map.get(cell, :width_calc, nil) || Table.get_column_meta(table, col_index, :width_calc)
+
+    do_render_cell(cell.rendered_value, col_width, col_padding,
+      align: cell_align,
+      width_calc: cell_width_calc
+    )
     |> format_with_color(cell.rendered_value, cell_color)
   end
 
   defp do_render_cell(value, inner_width) do
-    do_render_cell(value, inner_width, 0, align: :center)
+    do_render_cell(value, inner_width, 0, align: :center, width_calc: &String.length/1)
   end
 
-  defp do_render_cell(value, inner_width, _padding, align: :center) do
-    value_len = String.length(strip_ansi_color_codes(value))
+  defp do_render_cell(value, inner_width, _padding, align: :center, width_calc: width_calc) do
+    value_len = width_calc.(strip_ansi_color_codes(value))
     post_value = ((inner_width - value_len) / 2) |> round
     pre_value = inner_width - (post_value + value_len)
     String.duplicate(" ", pre_value) <> value <> String.duplicate(" ", post_value)
   end
 
-  defp do_render_cell(value, inner_width, padding, align: align) do
-    value_len = String.length(strip_ansi_color_codes(value))
+  defp do_render_cell(value, inner_width, padding, align: align, width_calc: width_calc) do
+    value_len = width_calc.(strip_ansi_color_codes(value))
     alt_side_padding = inner_width - value_len - padding
 
     {pre_value, post_value} =
@@ -389,20 +395,22 @@ defmodule TableRex.Renderer.Text do
          row_index
        ) do
     padding = Table.get_column_meta(table, col_index, :padding)
-    {width, height} = content_dimensions(cell.rendered_value, padding)
+    width_calc = Table.get_column_meta(table, col_index, :width_calc)
+    {width, height} = content_dimensions(cell.rendered_value, padding, width_calc)
     col_widths = Map.update(col_widths, col_index, width, &Enum.max([&1, width]))
     row_heights = Map.update(row_heights, row_index, height, &Enum.max([&1, height]))
     {col_widths, row_heights}
   end
 
-  defp content_dimensions(value, padding) when is_binary(value) and is_number(padding) do
+  defp content_dimensions(value, padding, width_calc)
+       when is_binary(value) and is_number(padding) do
     lines =
       value
       |> strip_ansi_color_codes()
       |> String.split("\n")
 
     height = Enum.count(lines)
-    width = lines |> Enum.map(&String.length/1) |> Enum.max()
+    width = lines |> Enum.map(width_calc) |> Enum.max()
     {width + padding * 2, height}
   end
 

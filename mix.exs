@@ -26,7 +26,8 @@ defmodule TableRex.Mixfile do
   defp deps do
     [
       {:earmark, ">= 0.0.0", only: :docs},
-      {:ex_doc, ">= 0.0.0", only: :docs}
+      {:ex_doc, ">= 0.0.0", only: :docs},
+      {:unicode, ">= 0.0.0", only: :test}
     ]
   end
 
