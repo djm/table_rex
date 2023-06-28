@@ -1701,8 +1701,7 @@ defmodule TableRex.Renderer.TextTest do
     title = "Renegade Hardware Releases Shown Here!"
     header = ["Artist", "Track"]
 
-    rows = [
-    ]
+    rows = []
 
     {:ok, rendered} =
       Table.new(rows, header, title)

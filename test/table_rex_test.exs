@@ -67,7 +67,6 @@ defmodule TableRex.TableRexTest do
            """
   end
 
-
   test "quick_render! with title, header and rows" do
     rendered =
       TableRex.quick_render!(
@@ -135,8 +134,7 @@ defmodule TableRex.TableRexTest do
   test "Render even with empty rows" do
     rendered =
       TableRex.quick_render!(
-        [
-        ],
+        [],
         ["Artist", "Track", "Year"]
       )
 
@@ -147,5 +145,4 @@ defmodule TableRex.TableRexTest do
            +--------+-------+------+
            """
   end
-
 end

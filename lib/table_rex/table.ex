@@ -150,7 +150,7 @@ defmodule TableRex.Table do
       |> Enum.reverse()
       |> Enum.map(fn row ->
         Enum.map(row, &Cell.to_cell(&1))
-    end)
+      end)
 
     %Table{table | rows: rows ++ table.rows}
   end
@@ -265,7 +265,7 @@ defmodule TableRex.Table do
   def render(%Table{} = table, opts \\ []) when is_list(opts) do
     {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
     opts = opts |> Enum.into(renderer.default_options)
-      renderer.render(table, opts)
+    renderer.render(table, opts)
   end
 
   @doc """
