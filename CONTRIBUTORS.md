@@ -11,7 +11,6 @@ Contributors
 * **Matt Harvey** ([@matt-harvey](https://github.com/matt-harvey))
 * **Geoffrey Lessel** ([@geolessel](https://github.com/geolessel))
 * **Pablo Margreth** ([@pmargreff](https://github.com/pmargreff))
-
 * **Diogo Azevedo** ([@diogoazevedos](https://github.com/diogoazevedos))
 * **Débora Duarte** ([@deboraduarte](https://github.com/deboraduarte))
 * **Davi Busanello** ([@davibusanello](https://github.com/davibusanello))
@@ -21,5 +20,6 @@ Contributors
 * **Pedro Guimarães** ([@0x7067](https://github.com/0x7067))
 * **Jefferson Stachelski** ([@jeffhsta](https://github.com/jeffhsta))
 * **Gerson Azevedo** ([@gersonazgo](https://github.com/gersonazgo))
+* **Sam Hilton** ([@samhilton](https://github.com/samhamilton))
 
 Please add yourself if making a contribution.
