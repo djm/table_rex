@@ -294,9 +294,14 @@ defmodule TableRex.Renderer.Text do
     col_padding = Table.get_column_meta(table, col_index, :padding)
     cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
     cell_color = Map.get(cell, :color) || Table.get_column_meta(table, col_index, :color)
-    cell_width_calc = Map.get(cell, :width_calc, nil) || Table.get_column_meta(table, col_index, :width_calc)
 
-    do_render_cell(cell.rendered_value, col_width, col_padding, align: cell_align, width_calc: cell_width_calc)
+    cell_width_calc =
+      Map.get(cell, :width_calc, nil) || Table.get_column_meta(table, col_index, :width_calc)
+
+    do_render_cell(cell.rendered_value, col_width, col_padding,
+      align: cell_align,
+      width_calc: cell_width_calc
+    )
     |> format_with_color(cell.rendered_value, cell_color)
   end
 
@@ -397,7 +402,8 @@ defmodule TableRex.Renderer.Text do
     {col_widths, row_heights}
   end
 
-  defp content_dimensions(value, padding, width_calc) when is_binary(value) and is_number(padding) do
+  defp content_dimensions(value, padding, width_calc)
+       when is_binary(value) and is_number(padding) do
     lines =
       value
       |> strip_ansi_color_codes()

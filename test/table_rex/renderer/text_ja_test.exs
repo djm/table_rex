@@ -4,12 +4,13 @@ defmodule TableRex.Renderer.TextTestJa do
   alias Unicode.EastAsianWidth, as: Width
 
   def string_width(string) do
-    width = string
-    |> String.to_charlist()
-    |> Enum.map(&Width.east_asian_width_category(&1))
-    |> Enum.reduce(0, fn width, acc -> if(width == :w, do: acc + 2, else: acc + 1) end)
+    width =
+      string
+      |> String.to_charlist()
+      |> Enum.map(&Width.east_asian_width_category(&1))
+      |> Enum.reduce(0, fn width, acc -> if(width == :w, do: acc + 2, else: acc + 1) end)
 
-    #IO.inspect("#{string} -> #{width}")
+    # IO.inspect("#{string} -> #{width}")
     width
   end
 
