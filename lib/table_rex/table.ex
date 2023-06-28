@@ -295,18 +295,20 @@ defmodule TableRex.Table do
     end
   end
 
-  def row_colors result, colors do
+  def row_colors(result, colors) do
     %{result | rows: map_colors(Map.get(result, :rows), colors)}
   end
 
-  defp map_colors rows, colors do
-      n = Enum.count colors
-      rows
-      |> Enum.with_index
-      |> Enum.map(fn {list,i} -> Enum.map(list, fn x ->
-          color = Enum.at(colors, rem(i,n))
-          %{x | color: color}
-        end)
+  defp map_colors(rows, colors) do
+    n = Enum.count(colors)
+
+    rows
+    |> Enum.with_index()
+    |> Enum.map(fn {list, i} ->
+      Enum.map(list, fn x ->
+        color = Enum.at(colors, rem(i, n))
+        %{x | color: color}
       end)
+    end)
   end
 end

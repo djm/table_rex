@@ -1698,25 +1698,26 @@ defmodule TableRex.Renderer.TextTest do
   end
 
   test "render with choice row colors" do
-
     title = "Drum & Bass Releases"
     header = ["Artist", "Track", "Label", "Year"]
+
     rows = [
       ["Konflict", "Cyanide", "Renegade Hardware", 1999],
       ["Marcus Intalex", "Temperance", "Soul:r", 2004],
       ["Kryptic Minds", "The Forgotten", "Defcom Records", 2007],
       ["Konflict", "Cyanide", "Renegade Hardware", 1999],
       ["Marcus Intalex", "Temperance", "Soul:r", 2004],
-      ["Kryptic Minds", "The Forgotten", "Defcom Records", 2007],
+      ["Kryptic Minds", "The Forgotten", "Defcom Records", 2007]
     ]
 
-    {:ok, rendered} = Table.new(rows, header,title)
-    |> Table.put_header_meta(0..4, color: :light_blue)
-    |> Table.row_colors([:light_yellow, [:black, :green_background], :light_magenta])
-    |> Table.render
+    {:ok, rendered} =
+      Table.new(rows, header, title)
+      |> Table.put_header_meta(0..4, color: :light_blue)
+      |> Table.row_colors([:light_yellow, [:black, :green_background], :light_magenta])
+      |> Table.render()
 
     assert rendered == """
-+-----------------------------------------------------------+\n|                   Drum & Bass Releases                    |\n+----------------+---------------+-------------------+------+\n|\e[94m Artist         \e[0m|\e[94m Track         \e[0m|\e[94m Label             \e[0m|\e[94m Year \e[0m|\n+----------------+---------------+-------------------+------+\n|\e[95m Konflict       \e[0m|\e[95m Cyanide       \e[0m|\e[95m Renegade Hardware \e[0m|\e[95m 1999 \e[0m|\n|\e[30m\e[42m Marcus Intalex \e[0m|\e[30m\e[42m Temperance    \e[0m|\e[30m\e[42m Soul:r            \e[0m|\e[30m\e[42m 2004 \e[0m|\n|\e[93m Kryptic Minds  \e[0m|\e[93m The Forgotten \e[0m|\e[93m Defcom Records    \e[0m|\e[93m 2007 \e[0m|\n|\e[95m Konflict       \e[0m|\e[95m Cyanide       \e[0m|\e[95m Renegade Hardware \e[0m|\e[95m 1999 \e[0m|\n|\e[30m\e[42m Marcus Intalex \e[0m|\e[30m\e[42m Temperance    \e[0m|\e[30m\e[42m Soul:r            \e[0m|\e[30m\e[42m 2004 \e[0m|\n|\e[93m Kryptic Minds  \e[0m|\e[93m The Forgotten \e[0m|\e[93m Defcom Records    \e[0m|\e[93m 2007 \e[0m|\n+----------------+---------------+-------------------+------+
-"""
+           +-----------------------------------------------------------+\n|                   Drum & Bass Releases                    |\n+----------------+---------------+-------------------+------+\n|\e[94m Artist         \e[0m|\e[94m Track         \e[0m|\e[94m Label             \e[0m|\e[94m Year \e[0m|\n+----------------+---------------+-------------------+------+\n|\e[95m Konflict       \e[0m|\e[95m Cyanide       \e[0m|\e[95m Renegade Hardware \e[0m|\e[95m 1999 \e[0m|\n|\e[30m\e[42m Marcus Intalex \e[0m|\e[30m\e[42m Temperance    \e[0m|\e[30m\e[42m Soul:r            \e[0m|\e[30m\e[42m 2004 \e[0m|\n|\e[93m Kryptic Minds  \e[0m|\e[93m The Forgotten \e[0m|\e[93m Defcom Records    \e[0m|\e[93m 2007 \e[0m|\n|\e[95m Konflict       \e[0m|\e[95m Cyanide       \e[0m|\e[95m Renegade Hardware \e[0m|\e[95m 1999 \e[0m|\n|\e[30m\e[42m Marcus Intalex \e[0m|\e[30m\e[42m Temperance    \e[0m|\e[30m\e[42m Soul:r            \e[0m|\e[30m\e[42m 2004 \e[0m|\n|\e[93m Kryptic Minds  \e[0m|\e[93m The Forgotten \e[0m|\e[93m Defcom Records    \e[0m|\e[93m 2007 \e[0m|\n+----------------+---------------+-------------------+------+
+           """
   end
 end
