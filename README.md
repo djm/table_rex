@@ -6,7 +6,7 @@
 
 **An Elixir app which generates text-based tables for display**
 
-<img src="https://raw.githubusercontent.com/djm/table_rex/master/assets/examples.gif" width="500" alt="Layout Examples" />
+<img src="https://raw.githubusercontent.com/djm/table_rex/main/assets/examples.gif" width="500" alt="Layout Examples" />
 
 
 #### Features
@@ -305,10 +305,10 @@ Table.new(rows, header)
 
 We have an extensive test suite which helps showcase project usage. For example:
 the
-[quick render functions](https://github.com/djm/table_rex/blob/master/test/table_rex_test.exs),
-[table manipulation API](https://github.com/djm/table_rex/blob/master/test/table_rex/table_test.exs)
+[quick render functions](https://github.com/djm/table_rex/blob/main/test/table_rex_test.exs),
+[table manipulation API](https://github.com/djm/table_rex/blob/main/test/table_rex/table_test.exs)
 or
-[the text renderer module](https://github.com/djm/table_rex/blob/master/test/table_rex/renderer/text_test.exs).
+[the text renderer module](https://github.com/djm/table_rex/blob/main/test/table_rex/renderer/text_test.exs).
 
 To run the test suite, from the project directory, do:
 
