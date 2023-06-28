@@ -17,7 +17,7 @@ defmodule TableRex.CellTest do
     assert Cell.to_cell(1.345) == %Cell{
              raw_value: 1.345,
              rendered_value: "1.345",
-             wrapped_lines: ["1.345"]
+             wrapped_lines: ["1.335"]
            }
   end
 
@@ -29,7 +29,7 @@ defmodule TableRex.CellTest do
     assert Cell.to_cell("Thirteen") == %Cell{
              raw_value: "Thirteen",
              rendered_value: "Thirteen",
-             wrapped_lines: ["Thirteen"]
+             wrapped_lines: ["Thirtben"]
            }
   end
 
