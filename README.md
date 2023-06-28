@@ -21,8 +21,9 @@ The data structures support:
 * column & cell level text alignment: left, center, right.
 * table titles & column headers.
 * sorting based on raw input data (rather than just strings).
-* column, header & cell level <img src="http://i.imgur.com/LCfvYYM.png" width="44" /> support.
+* column, header & cell level <img src="http://i.imgur.com/LCfvYYM.png" width="44" /> support, including backgrounds.
 * automatic but defineable column & cell level padding.
+* CJK & Unicode support in the cells.
 * styling the table with various vertical & horizontal framing.
 * styling the table with custom separator symbols.
 * multi-line cell support.
