@@ -48,10 +48,10 @@ The project officially will attempt to support the last 3 minor versions of
 Elixir, and the latest 2 majors for OTP. If you are looking for support for
 older version, then look at older releases.
 
-Current minimum requirements:
+Official version support:
 
-* Elixir: 1.8
-* OTP: 21
+* Elixir: 1.13 & up
+* OTP: 24 & up
 
 ## Installation
 
@@ -61,19 +61,11 @@ The package is [available on Hex](https://hex.pm/packages/table_rex), therefore:
 
 ```elixir
 def deps do
-  [{:table_rex, "~> 3.2.0"}]
+  [{:table_rex, "~> 4.0.0"}]
 end
 ```
 
 Then run `mix deps.get`. That's it for modern Elixir.
-
-**If** you are on Elixir 1.3 or lower, then **start** `table_rex` by adding it to `application/0` in `mix.exs`:
-
-```elixir
-def application do
-  [applications: [:logger, :table_rex]]
-end
-```
 
 ## Quick Start
 

@@ -2,7 +2,7 @@ defmodule TableRex.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/djm/table_rex"
-  @version "3.2.0"
+  @version "4.0.0"
 
   def project do
     [
@@ -11,7 +11,7 @@ defmodule TableRex.Mixfile do
       source_url: @source_url,
       description: "Generate configurable text-based tables for display (ASCII & more)",
       version: @version,
-      elixir: "~> 1.7",
+      elixir: "~> 1.13",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
