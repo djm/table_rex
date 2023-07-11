@@ -43,3 +43,6 @@ jobs:
 
       - name: Run the test suite
         run: mix test
+
+      - name: Run the test suite again
+        run: mix test
