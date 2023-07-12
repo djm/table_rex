@@ -1,5 +1,11 @@
 # Changelog
 
+## v4.0.0 (2023-06-28)
+
+Dropped official support for Elixir 1.7->1.12. Only 1.13 & up.
+
+No other changes.
+
 ## v3.2.0 (2023-06-28)
 
 New features:
@@ -12,6 +18,7 @@ New features:
 
 * Tables can now have no rows if they wish; that constraint has been relaxed
   & tables will render fine without any rows (e.g if they just have a header).
+
 
 ## v3.1.1 (2021-01-30)
 
