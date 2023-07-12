@@ -8,6 +8,7 @@ defmodule TableRex.Mixfile do
     [
       app: :table_rex,
       name: "table_rex",
+      source_url: @source_url,
       description: "Generate configurable text-based tables for display (ASCII & more)",
       version: @version,
       elixir: "~> 1.7",
