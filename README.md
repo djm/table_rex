@@ -8,7 +8,6 @@
 
 <img src="https://raw.githubusercontent.com/djm/table_rex/main/assets/examples.gif" width="500" alt="Layout Examples" />
 
-
 #### Features
 
 * A one-liner for rendering ASCII-style tables with sane defaults.
@@ -323,6 +322,9 @@ git push --tags
 Then login & publish to Hex:
 
 ```bash
+# Ensure Hex is installed & updated
+mix local.hex --force
+
 # Login to hex to retrieve API Key
 mix hex.user auth
 
