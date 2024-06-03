@@ -264,7 +264,7 @@ defmodule TableRex.Table do
   @spec render(Table.t(), list) :: Renderer.render_return()
   def render(%Table{} = table, opts \\ []) when is_list(opts) do
     {renderer, opts} = Keyword.pop(opts, :renderer, @default_renderer)
-    opts = opts |> Enum.into(renderer.default_options)
+    opts = opts |> Enum.into(renderer.default_options())
     renderer.render(table, opts)
   end
 
