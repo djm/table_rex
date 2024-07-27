@@ -12,7 +12,9 @@ defmodule TableRex.Renderer.Text.Meta do
             render_horizontal_frame?: false,
             render_vertical_frame?: false,
             render_column_separators?: false,
-            render_row_separators?: false
+            render_row_separators?: false,
+            render_frame_top?: true,
+            render_frame_bottom?: true
 
   @doc """
   Retrieves the "inner width" of the table, which is the full width minus any frame.

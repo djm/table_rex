@@ -525,6 +525,21 @@ defmodule TableRex.Renderer.TextTest do
            """
   end
 
+  test "render in github flavored markdown format", %{table: table} do
+    {:ok, rendered} =
+      table
+      |> Table.put_title("")
+      |> Table.render(horizontal_style: :gfm)
+
+    assert rendered == """
+           | Artist         | Track                | Year |
+           +----------------+----------------------+------+
+           | Konflict       | Cyanide              | 1999 |
+           | Keaton & Hive  | The Plague           | 2003 |
+           | Vicious Circle | Welcome To Shanktown | 2007 |
+           """
+  end
+
   test "render with not title or header & horizontal style: frame", %{table: table} do
     {:ok, rendered} =
       table
