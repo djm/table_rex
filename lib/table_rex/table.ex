@@ -54,7 +54,7 @@ defmodule TableRex.Table do
   def put_title(%Table{} = table, ""), do: put_title(table, nil)
 
   def put_title(%Table{} = table, title) when is_binary(title) or is_nil(title) do
-    %Table{table | title: title}
+    %{table | title: title}
   end
 
   @doc """
@@ -66,7 +66,7 @@ defmodule TableRex.Table do
 
   def put_header(%Table{} = table, header_row) when is_list(header_row) do
     new_header_row = Enum.map(header_row, &Cell.to_cell(&1))
-    %Table{table | header_row: new_header_row}
+    %{table | header_row: new_header_row}
   end
 
   @doc """
@@ -78,7 +78,7 @@ defmodule TableRex.Table do
     col_meta = col_meta |> Enum.into(%{})
     col = get_column(table, col_index) |> Map.merge(col_meta)
     new_columns = Map.put(table.columns, col_index, col)
-    %Table{table | columns: new_columns}
+    %{table | columns: new_columns}
   end
 
   def put_column_meta(%Table{} = table, :all, col_meta) when is_list(col_meta) do
@@ -92,7 +92,7 @@ defmodule TableRex.Table do
         Map.put(acc, col_index, new_col)
       end)
 
-    %Table{table | columns: new_columns}
+    %{table | columns: new_columns}
   end
 
   def put_column_meta(%Table{} = table, col_indexes, col_meta) when is_list(col_meta) do
@@ -113,7 +113,7 @@ defmodule TableRex.Table do
         List.update_at(row, col_index, &Map.merge(&1, cell_meta))
       end)
 
-    %Table{table | rows: rows}
+    %{table | rows: rows}
   end
 
   @doc """
@@ -124,7 +124,7 @@ defmodule TableRex.Table do
       when is_integer(col_index) and is_list(cell_meta) do
     cell_meta = cell_meta |> Enum.into(%{})
     header_row = List.update_at(table.header_row, col_index, &Map.merge(&1, cell_meta))
-    %Table{table | header_row: header_row}
+    %{table | header_row: header_row}
   end
 
   def put_header_meta(%Table{} = table, col_indexes, cell_meta) when is_list(cell_meta) do
@@ -137,7 +137,7 @@ defmodule TableRex.Table do
   @spec add_row(Table.t(), list) :: Table.t()
   def add_row(%Table{} = table, row) when is_list(row) do
     new_row = Enum.map(row, &Cell.to_cell(&1))
-    %Table{table | rows: [new_row | table.rows]}
+    %{table | rows: [new_row | table.rows]}
   end
 
   @doc """
@@ -152,7 +152,7 @@ defmodule TableRex.Table do
         Enum.map(row, &Cell.to_cell(&1))
       end)
 
-    %Table{table | rows: rows ++ table.rows}
+    %{table | rows: rows ++ table.rows}
   end
 
   @doc """
@@ -161,7 +161,7 @@ defmodule TableRex.Table do
   """
   @spec clear_all_column_meta(Table.t()) :: Table.t()
   def clear_all_column_meta(%Table{} = table) do
-    %Table{table | columns: %{}}
+    %{table | columns: %{}}
   end
 
   @doc """
@@ -169,7 +169,7 @@ defmodule TableRex.Table do
   """
   @spec clear_rows(Table.t()) :: Table.t()
   def clear_rows(%Table{} = table) do
-    %Table{table | rows: []}
+    %{table | rows: []}
   end
 
   @doc """
@@ -203,7 +203,7 @@ defmodule TableRex.Table do
   end
 
   def sort(table = %Table{rows: rows}, column_index, order) do
-    %Table{table | rows: Enum.sort(rows, build_sort_function(column_index, order))}
+    %{table | rows: Enum.sort(rows, build_sort_function(column_index, order))}
   end
 
   defp build_sort_function(column_index, order) when order in [:desc, :asc] do
