@@ -23,7 +23,7 @@ The data structures support:
 * column, header & cell level <img src="http://i.imgur.com/LCfvYYM.png" width="44" /> support, including backgrounds.
 * automatic but defineable column & cell level padding.
 * CJK & Unicode support in the cells.
-* styling the table with various vertical & horizontal framing.
+* styling the table with various vertical & horizontal framing (including GitHub flavoured markdown).
 * styling the table with custom separator symbols.
 * multi-line cell support.
 
@@ -200,7 +200,7 @@ Table.new(rows, header)
 
 _Available render options:_
 
-* `horizontal_style`: one of `:off`, `:frame`, `:header` or `:all`.
+* `horizontal_style`: one of `:off`, `:frame`, `:header`, `:gfm` (GitHub Flavoured Markdown) or `:all`.
 * `vertical_style`: one of `:off`, `:frame` or `:all`.
 * `horizontal_symbol`: draws horizontal row separators.
 * `vertical_symbol`: draws vertical separators.
