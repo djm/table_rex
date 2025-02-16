@@ -328,6 +328,9 @@ mix local.hex --force
 # Login to hex to retrieve API Key
 mix hex.user auth
 
+# Ensure you have docs deps
+MIX_ENV=docs mix deps.get
+
 # Then publish by first setting to docs env to allow building to hexdocs.
 MIX_ENV=docs mix hex.publish
 ```

@@ -27,7 +27,7 @@
 
 # TODO: Convert to a Nix Flake!
 
-{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/a565059a348422af5af9026b5174dc5c0dcefdae.tar.gz") {}
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/ba0939c506a03c60a765cd7f7c43794816540eec.tar.gz") {}
 , lib ? pkgs.lib
 , stdenv ? pkgs.stdenv
 , frameworks ? pkgs.darwin.apple_sdk.frameworks
@@ -42,7 +42,7 @@ pkgs.mkShell {
     pkgs.pre-commit
 
     # Elixir/BEAM deps
-    pkgs.elixir_1_15
+    pkgs.elixir_1_18
 
     # for many deps
     pkgs.pkg-config
