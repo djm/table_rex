@@ -1,5 +1,19 @@
 # Changelog
 
+## v4.1.0 (2025-02-16)
+
+Feature:
+
+* Adds GitHub Flavoured Markdown support to the `horizontal_style` parameter.
+  This allows TableRex to output tables while skipping the very top and bottom
+  of the frames, which happens to be exactly how GitHub Flavoured Markdown
+  renders tables.
+
+Bugfix:
+
+* Fixes Elixir 1.17 warnings about function call without parens.
+* Fixes Elixir 1.19 warnings about map update ops.
+
 ## v4.0.0 (2023-06-28)
 
 Dropped official support for Elixir 1.7->1.12. Only 1.13 & up.
