@@ -56,12 +56,12 @@ defmodule TableRex.Cell do
   @spec to_cell(Cell.t()) :: Cell.t()
   def to_cell(%Cell{rendered_value: rendered_value} = cell)
       when is_binary(rendered_value) and rendered_value != "" do
-    %Cell{cell | wrapped_lines: wrapped_lines(rendered_value)}
+    %{cell | wrapped_lines: wrapped_lines(rendered_value)}
   end
 
   def to_cell(%Cell{raw_value: raw_value} = cell) do
     rendered_value = to_string(raw_value)
-    %Cell{cell | rendered_value: rendered_value, wrapped_lines: wrapped_lines(rendered_value)}
+    %{cell | rendered_value: rendered_value, wrapped_lines: wrapped_lines(rendered_value)}
   end
 
   @spec to_cell(any, list) :: Cell.t()

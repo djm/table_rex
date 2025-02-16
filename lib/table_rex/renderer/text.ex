@@ -294,7 +294,7 @@ defmodule TableRex.Renderer.Text do
     row
     |> Enum.map(fn %Cell{wrapped_lines: lines} = cell ->
       line_value = Enum.at(lines, line_index - 1) || ""
-      %Cell{cell | rendered_value: line_value}
+      %{cell | rendered_value: line_value}
     end)
     |> Enum.with_index()
     |> Enum.map(&render_cell(table, meta, &1))
