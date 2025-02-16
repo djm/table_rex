@@ -12,7 +12,7 @@ defmodule TableRex.Renderer.Text do
   # vertical_styles: [:all, :frame, :off]
 
   # Which horizontal/vertical styles render a specific separator.
-  @render_horizontal_frame_styles [:all, :frame, :header]
+  @render_horizontal_frame_styles [:all, :frame, :header, :gfm]
   @render_vertical_frame_styles [:all, :frame]
   @render_column_separators_styles [:all]
   @render_row_separators_styles [:all]
@@ -44,6 +44,7 @@ defmodule TableRex.Renderer.Text do
     * `:all`: display separators between and around every row.
     * `:header`: display outer and header horizontal separators only.
     * `:frame`: display outer horizontal separators only.
+    * `:gfm`: display all separators except top and bottom to comply with github flavored markdown 
     * `:off`: display no horizontal separators.
 
   `vertical_styles` controls vertical separators and can be one of:
@@ -61,6 +62,8 @@ defmodule TableRex.Renderer.Text do
     render_vertical_frame? = opts[:vertical_style] in @render_vertical_frame_styles
     render_column_separators? = opts[:vertical_style] in @render_column_separators_styles
     render_row_separators? = opts[:horizontal_style] in @render_row_separators_styles
+    render_frame_top? = opts[:horizontal_style] != :gfm
+    render_frame_bottom? = opts[:horizontal_style] != :gfm
     table_width = table_width(col_widths, vertical_frame?: render_vertical_frame?)
     intersections = intersections(table_width, col_widths, vertical_style: opts[:vertical_style])
 
@@ -72,7 +75,9 @@ defmodule TableRex.Renderer.Text do
       render_horizontal_frame?: render_horizontal_frame?,
       render_vertical_frame?: render_vertical_frame?,
       render_column_separators?: render_column_separators?,
-      render_row_separators?: render_row_separators?
+      render_row_separators?: render_row_separators?,
+      render_frame_top?: render_frame_top?,
+      render_frame_bottom?: render_frame_bottom?
     }
 
     rendered =
@@ -87,6 +92,10 @@ defmodule TableRex.Renderer.Text do
       |> render_to_string
 
     {:ok, rendered}
+  end
+
+  defp render_top_frame({table, %Meta{render_frame_top?: false} = meta, opts, rendered}) do
+    {table, meta, opts, rendered}
   end
 
   defp render_top_frame({table, %Meta{render_horizontal_frame?: false} = meta, opts, rendered}) do
@@ -145,7 +154,7 @@ defmodule TableRex.Renderer.Text do
   defp render_title_separator(
          {table, meta, %{horizontal_style: horizontal_style} = opts, rendered}
        )
-       when horizontal_style in [:all, :header] do
+       when horizontal_style in [:all, :header, :gfm] do
     line =
       render_line(
         meta.table_width,
@@ -186,7 +195,7 @@ defmodule TableRex.Renderer.Text do
   defp render_header_separator(
          {table, meta, %{horizontal_style: horizontal_style} = opts, rendered}
        )
-       when horizontal_style in [:all, :header] do
+       when horizontal_style in [:all, :header, :gfm] do
     line =
       render_line(
         meta.table_width,
@@ -241,6 +250,10 @@ defmodule TableRex.Renderer.Text do
   end
 
   defp vertically_framed(lines, _, _), do: lines
+
+  defp render_bottom_frame({table, %Meta{render_frame_bottom?: false} = meta, opts, rendered}) do
+    {table, meta, opts, rendered}
+  end
 
   defp render_bottom_frame({table, %Meta{render_horizontal_frame?: false} = meta, opts, rendered}) do
     {table, meta, opts, rendered}
