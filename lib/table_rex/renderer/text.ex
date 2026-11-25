@@ -308,8 +308,7 @@ defmodule TableRex.Renderer.Text do
     cell_align = Map.get(cell, :align) || Table.get_column_meta(table, col_index, :align)
     cell_color = Map.get(cell, :color) || Table.get_column_meta(table, col_index, :color)
 
-    cell_width_calc =
-      Map.get(cell, :width_calc, nil) || Table.get_column_meta(table, col_index, :width_calc)
+    cell_width_calc = Table.get_column_meta(table, col_index, :width_calc)
 
     do_render_cell(cell.rendered_value, col_width, col_padding,
       align: cell_align,
